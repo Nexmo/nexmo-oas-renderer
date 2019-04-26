@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <body class="Nxd-template">
-    <%= yield %>
+    <div class="wrapper wrapper--tint" tabindex="2">
+      <%= erb :'partials/notices' %>
+      <main class="Nxd-landing-main">
+        <%= yield %>
+      </main>
+    </div>
   </body>
 </html>

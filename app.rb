@@ -1,6 +1,6 @@
 require 'sinatra'
 require './presenters/home'
-
+require './presenters/notices'
 
 get '/' do
   @presenter = Presenters::Home.new(
