@@ -1,4 +1,12 @@
 source 'https://rubygems.org'
 ruby '2.5.5'
 
+gem 'sinatra'
 gem 'shotgun'
+gem 'rouge', '~> 2.0.7'
+gem 'oas_parser', '0.18.1'
+gem 'neatjson'
+gem 'activesupport'
+gem 'banzai', '~> 0.1.2'
+gem 'octicons_helper'
+gem 'redcarpet', '~> 3.4.0'

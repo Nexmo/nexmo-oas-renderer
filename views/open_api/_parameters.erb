@@ -1,0 +1,159 @@
+<%
+  model = false if model.nil?
+  callback = false if callback.nil?
+  format = nil if format.nil?
+%>
+
+<div class="Vlt-table Vlt-section Vlt-table--data Vlt-table--bordered">
+  <table>
+    <thead>
+      <tr>
+        <th>Key</th>
+        <th>Description</th>
+        <% unless model %>
+          <th>Example</th>
+          <% unless callback %>
+            <th>Default</th>
+          <% end %>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% parameters.each do |parameter| %>
+        <tr class="<% if parameter.collection? %> Vlt-table__row--noline <% end %>">
+          <td class="Vlt-table__cell--nowrap">
+            <b><%= parameter.name %></b><br>
+            <small>
+              <% if parameter.required %>
+                <span class="flag flag--strong">Required</span>
+              <% end %>
+
+              <% if @specification.initialization_config && @specification.initialization_config['formats'] %>
+                <% if @specification.initialization_config['formats'].include? 'text/xml' %>
+                  <span class="js-format" data-format="text/xml">
+                    <% if parameter.is_xml_attribute? %>
+                      | <span class="flag">Attribute</span>
+                    <% end %>
+
+                    <% if parameter.is_xml_text? %>
+                      | <span class="flag">Value</span>
+                    <% end %>
+                  </span>
+                <% end %>
+              <% end %>
+
+              <i>
+                <% if parameter.required and parameter.type %>|<% end %> <%= parameter.type %>
+                <% if parameter.format %>
+                  | (<%= parameter.format %>)
+                <% end %>
+                <% if parameter.array? %>
+                  <br>
+                  <% if parameter.items && parameter.items['type'] %>
+                    of <%= (parameter.items['type']) %>s
+                  <% end %>
+                <% end %>
+              </i>
+            </small>
+          </td>
+
+          <td>
+            <% if parameter.collection? || parameter.oneOf? %>
+              <% if parameter.raw['x-nexmo-developer-collection-description-shown'] %>
+                <%= (parameter.description ? "#{parameter.description}" : '<i>None</i>').render_markdown %>
+              <% end %>
+            <% else %>
+              <%= (parameter.description ? "#{parameter.description}" : '<i>None</i>').render_markdown %>
+            <% end %>
+
+            <% if parameter.enum %>
+              <br>
+              <small class="Vlt-grey-dark">
+                <%= (callback || model) ? "One of:" : "Must be one of:" %>
+                <%= parameter_values(parameter.enum) %>
+              </small>
+            <% end %>
+
+            <% if parameter.raw['x-possible-values'] %>
+              <br>
+              <small class="Vlt-grey-dark">
+                Will be one of:
+                <%= parameter_values(parameter.raw['x-possible-values']) %>
+              </small>
+            <% end %>
+
+            <% if parameter.minimum || parameter.maximum %>
+              <br>
+              <small class="Vlt-grey-dark">
+                <% if parameter.minimum && parameter.maximum %>
+                  Must be between <%= "<code>#{parameter.minimum}</code>"%> and <%= "<code>#{parameter.maximum}</code>"%>
+                <% elsif parameter.minimum %>
+                  Must be at least <%= "<code>#{parameter.minimum}</code>"%>
+                <% else %>
+                  Must be at most <%= "<code>#{parameter.maximum}</code>"%>
+                <% end %>
+              </small>
+            <% end %>
+          </td>
+
+          <% unless model %>
+            <% if parameter.collection? || parameter.oneOf? %>
+              <% if parameter.raw['x-nexmo-developer-collection-description-shown'] %>
+                <td>
+                  <%= (parameter.example ? "<code><pre>#{parameter.example}</pre></code>" : '')%>
+                </td>
+              <% end %>
+            <% else %>
+              <td>
+                <%= (parameter.example ? "<code>#{parameter.example.to_s.gsub("\n", "<br />")}</code>" : '<i>None</i>')%>
+              </td>
+            <% end %>
+          <% end %>
+
+          <% unless model || callback %>
+            <td>
+              <% if parameter.raw['x-default-is-meta'] %>
+                <i><%= (parameter.default.nil? ? 'None' : parameter.default) %></i>
+              <% else %>
+                <% unless parameter.type == 'object' %>
+                  <%= (parameter.default.nil? ? '<i>None</i>' : "<code>#{parameter.default}</code>")%>
+                <% end %>
+              <% end %>
+            </td>
+          <% end %>
+
+          <% if parameter.oneOf? %>
+            <div style="margin-left: 20px;">
+              <h4>Any one of the following:</h4>
+              <% parameter.properties.each do |property| %>
+                <h5><%= property['description'] %></h5>
+                <%= erb :'open_api/_parameters', locals: { parameters: property['properties'], model: model, format: format, callback: callback } %>
+              <% end %>
+            </div>
+          <% end %>
+
+          <% if parameter.collection? %>
+            <tr class="Vlt-table__row--nohighlight">
+              <td colspan="4">
+                <% if parameter.subproperties_are_one_of_many? %>
+
+                  <div style="margin-left: 20px;">
+                    <h4>Any one of the following:</h4>
+                    <% parameter.properties.each do |property| %>
+                      <h5><%= property['description'] %></h5>
+                      <%= erb :'open_api/_parameters', locals: { parameters: property['properties'], model: model, format: format, callback: callback } %>
+                    <% end %>
+                  </div>
+                <% else %>
+                  <% if parameter.properties && parameter.object? %>
+                    <%= erb :'open_api/_parameters', locals: { parameters: parameter.properties, model: model, format: format, callback: callback } %>
+                  <% end %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
