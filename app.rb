@@ -44,7 +44,7 @@ get '/' do
   erb 'Hello World'
 end
 
-get '/open_api/:definition/?' do
+get '/api/:definition/?' do
   @presenter = Presenters::Home.new(
     title: 'Nexmo Developer',
     env: Sinatra::Application.environment,
@@ -53,5 +53,5 @@ get '/open_api/:definition/?' do
     definition_name: params.fetch(:definition, nil),
     expand_responses: params.fetch(:expandResponses, nil),
   )
-  erb :'open_api/show'
+  erb :'api/show'
 end

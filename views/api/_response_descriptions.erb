@@ -26,11 +26,11 @@
             <tbody>
               <% if response.exhibits_one_of_multiple_schemas?(format) %>
                 <% response.split_schemas(format).each_with_index do |schema, index| %>
-                  <%= erb :'open_api/_response_description_parameters', locals: { schema: schema, anchor_prefix: anchor_prefix } %>
+                  <%= erb :'api/_response_description_parameters', locals: { schema: schema, anchor_prefix: anchor_prefix } %>
                 <% end %>
               <% else %>
                 <% schema = response.schema(format) %>
-                <%= erb :'open_api/_response_description_parameters', locals: { schema: schema, anchor_prefix: anchor_prefix } %>
+                <%= erb :'api/_response_description_parameters', locals: { schema: schema, anchor_prefix: anchor_prefix } %>
               <% end %>
             </tbody>
           </table>
