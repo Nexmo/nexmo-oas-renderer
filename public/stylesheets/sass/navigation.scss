@@ -1,0 +1,106 @@
+@mixin highlighted-navigation($color) {
+  a, span {
+    color: $color;
+    opacity: 0.8;
+    transition: opacity 200ms ease-in-out;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.Vlt-sidenav {
+  flex: 0 0 300px;
+  width: 300px;
+}
+
+.Vlt-sidemenu--flat {
+  .Vlt-sidemenu__link {
+    padding: 4px 10px;
+  }
+
+  li {
+    a {
+      font-weight: 900;
+    }
+
+    li {
+      a {
+        font-weight: 600;
+      }
+
+      li {
+        a {
+          font-weight: 400;
+        }
+      }
+    }
+  }
+}
+
+.Vlt-sidemenu__title + ul > li {
+  margin-left: 0 !important;
+}
+
+@media #{$M-plus} {
+  .Vlt-sidenav {
+    height: calc(100vh - 111px);
+  }
+}
+
+.navigation--documentation {
+  .navigation-item--tutorials a {
+    color: $green-dark;
+  }
+
+  .navigation-item--api-reference a {
+    color: $blue-dark;
+  }
+
+  .navigation-item--sdk-documentation > a {
+    color: $green
+  }
+
+  .navigation-item--ncco-reference a {
+    color: $teal;
+
+    .navigation-item--ncco-reference a {
+      color: $teal;
+    }
+  }
+}
+
+#Vlt-sidenav-mobile-trigger {
+  display: inline-block;
+  margin-top: $unit0;
+  margin-right: $unit2;
+
+  svg {
+    height: 24px;
+    width: 24px;
+  }
+
+  @media #{$M-plus} {
+    display: none;
+  }
+}
+
+.Nxd-tutorial {
+  border-right: 1px solid silver;
+}
+.Nxd-tutorial-sidenav {
+  a {
+    color: black;
+  }
+  padding: 0px;
+
+  li li {
+    margin-left: 10px !important;
+  }
+}
+
+
+.Vlt-sidemenu__link_active {
+  color: white !important;
+}
