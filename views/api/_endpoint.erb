@@ -152,5 +152,5 @@
 </div>
 
 <% endpoint.callbacks.each do |callback| %>
-  <%= erb :'api/_callback', callback: callback %>
+  <%= erb :'api/_callback', locals: { callback: callback, webhook: false } %>
 <% end %>
