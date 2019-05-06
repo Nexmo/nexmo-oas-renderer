@@ -2,17 +2,17 @@
 
 <% if endpoint.parameters.select { |p| p.in == 'header'}.any? %>
   <h4>Header Parameters</h4>
-  <%= erb :'api/_parameters', locals: { parameters: endpoint.parameters.select { |p| p.in == 'header' }, callback: callback } %>
+  <%= erb :'open_api/_parameters', locals: { parameters: endpoint.parameters.select { |p| p.in == 'header' }, callback: callback } %>
 <% end %>
 
 <% if endpoint.path_parameters.any? %>
   <h4>Path Parameters</h4>
-  <%= erb :'api/_parameters', locals: { parameters: endpoint.path_parameters, callback: callback } %>
+  <%= erb :'open_api/_parameters', locals: { parameters: endpoint.path_parameters, callback: callback } %>
 <% end %>
 
 <% if endpoint.query_parameters.any? %>
   <h4>Query Parameter</h4>
-  <%= erb :'api/_parameters', locals: { parameters: endpoint.query_parameters, callback: callback } %>
+  <%= erb :'open_api/_parameters', locals: { parameters: endpoint.query_parameters, callback: callback } %>
 <% end %>
 
 <% if endpoint.request_body %>
@@ -39,12 +39,12 @@
         <span class="Vlt-badge Vlt-badge--blue"><%= format %></span>
       </h4>
 
-      <%= erb :'api/_parameters', locals: { parameters: params, callback: callback } %>
+      <%= erb :'open_api/_parameters', locals: { parameters: params, callback: callback } %>
     <% end %>
   <% else %>
     <% endpoint.request_body.split_properties_for_format(format).each_with_index do |parameters, index| %>
       <h4><%= parameters[0].schema['oneOf'][index]['description'] %></h4>
-      <%= erb :'api/_parameters', locals: { parameters: parameters, callback: callback } %>
+      <%= erb :'open_api/_parameters', locals: { parameters: parameters, callback: callback } %>
     <% end %>
   <% end %>
 <% end %>

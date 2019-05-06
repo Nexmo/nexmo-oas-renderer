@@ -86,14 +86,14 @@
         </div>
       <% end %>
 
-      <%= erb :'api/_parameter_groups', locals: { endpoint: endpoint } %>
-      <%= erb :'api/_response_descriptions', locals: { endpoint: endpoint, anchor_prefix: "response-#{endpoint.operationId}", auto_expand_responses: @auto_expand_responses } %>
+      <%= erb :'open_api/_parameter_groups', locals: { endpoint: endpoint } %>
+      <%= erb :'open_api/_response_descriptions', locals: { endpoint: endpoint, anchor_prefix: "response-#{endpoint.operationId}", auto_expand_responses: @auto_expand_responses } %>
 
     </div>
   </div>
 
   <div class="Vlt-col Vlt-col--1of3 Nxd-api__code">
-    <%= erb :'api/_code_examples', locals: { endpoint: endpoint } %>
+    <%= erb :'open_api/_code_examples', locals: { endpoint: endpoint } %>
 
     <% endpoint.responses.each do |response| %>
       <%
@@ -152,5 +152,5 @@
 </div>
 
 <% endpoint.callbacks.each do |callback| %>
-  <%= erb :'api/_callback', locals: { callback: callback, webhook: false } %>
+  <%= erb :'open_api/_callback', locals: { callback: callback, webhook: false } %>
 <% end %>

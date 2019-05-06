@@ -25,12 +25,12 @@
         </code>
       </div>
 
-      <%= erb :'api/_parameter_groups', locals: { endpoint: endpoint, callback: true } %>
+      <%= erb :'open_api/_parameter_groups', locals: { endpoint: endpoint, callback: true } %>
     </div>
   </div>
 
   <div class="Vlt-col Vlt-col--1of3 Nxd-api__code">
-    <%= erb :'api/_code_examples', locals: { endpoint: endpoint } %>
+    <%= erb :'open_api/_code_examples', locals: { endpoint: endpoint } %>
 
     <h5>Request model</h5>
 
@@ -44,5 +44,5 @@
 </div>
 
 <% endpoint.callbacks.each do |callback| %>
-  <%= erb 'api/callback', locals: { callback: callback } %>
+  <%= erb 'open_api/callback', locals: { callback: callback } %>
 <% end %>

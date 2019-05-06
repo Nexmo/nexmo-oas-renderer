@@ -36,22 +36,22 @@ helpers do
   end
 end
 
-get '/' do
-  @presenter = Presenters::Home.new(
-    title: 'Nexmo Developer',
-    env: Sinatra::Application.environment,
-  )
-  erb 'Hello World'
-end
+get '/api/*/?' do
+  # TODO: handle code_languages
+  definition = params[:splat].first
+  pass unless OpenApiConstraint.products_with_code_language[:definition].match(definition)
 
-get '/api/:definition/?' do
   @presenter = Presenters::Home.new(
     title: 'Nexmo Developer',
     env: Sinatra::Application.environment,
   )
   @specification = Presenters::Specification.new(
-    definition_name: params.fetch(:definition, nil),
+    definition_name: definition,
     expand_responses: params.fetch(:expandResponses, nil),
   )
-  erb :'api/show'
+  erb :'open_api/show'
+end
+
+get '/api/*/?' do
+  erb "api #{params[:splat].join("/")}"
 end

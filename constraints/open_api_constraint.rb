@@ -27,7 +27,7 @@ class OpenApiConstraint
   end
 
   def self.products
-    { definition: Regexp.new(OPEN_API_PRODUCTS.join('|')) }
+    { definition: Regexp.new("^(#{OPEN_API_PRODUCTS.join('|')})$") }
   end
 
   def self.errors_available

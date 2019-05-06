@@ -4,6 +4,20 @@ class CodeLanguage
   attr_accessor :key, :label, :type, :dependencies, :unindent, :icon, :run_command
   attr_writer :weight, :linkable, :languages, :lexer
 
+  def initialize(attributes = {})
+    @key          = attributes["key"]
+    @label        = attributes["label"]
+    @type         = attributes["type"]
+    @dependencies = attributes["dependencies"]
+    @unindent     = attributes["unindent"]
+    @icon         = attributes["icon"]
+    @run_command  = attributes["run_command"]
+    @lexer        = attributes["lexer"]
+    @languages    = attributes["languages"]
+    @weight       = attributes["weight"]
+    @linkable     = attributes["linkable"]
+  end
+
   def weight
     @weight || 999
   end
@@ -67,6 +81,6 @@ class CodeLanguage
   end
 
   private_class_method def self.config
-    @config ||= YAML.load_file("#{Rails.root}/config/code_languages.yml")
+    @config ||= YAML.load_file("#{::Sinatra::Application.root}/config/code_languages.yml")
   end
 end
