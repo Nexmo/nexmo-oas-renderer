@@ -1,29 +1,16 @@
 module Presenters
   class ApiSpecification
 
-    def initialize(params:, code_language:)
-      @params        = params
-      @code_language = code_language
-    end
-
-    def document_name
-      @document_name ||= begin
-                           if @code_language == 'templates'
-                             'verify/templates'
-                           elsif @code_language == 'ncco'
-                             'voice/ncco'
-                           else
-                             @params[:splat].first
-                           end
-                         end
+    def initialize(document_name:)
+      @document_name = document_name
     end
 
     def side_navigation
-      "api/#{document_name}"
+      "api/#{@document_name}"
     end
 
     def document_path
-      "_api/#{document_name}.md"
+      "_api/#{@document_name}.md"
     end
 
     def document
@@ -43,13 +30,7 @@ module Presenters
     end
 
     def content
-      @content ||= MarkdownPipeline.new({ code_language: code_language }).call(document)
-    end
-
-    def code_language
-      return if !@code_language || @code_language == 'templates'
-      # TODO: fix me
-      #CodeLanguage.find(@code_language)
+      @content ||= MarkdownPipeline.new.call(document)
     end
   end
 end

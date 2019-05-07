@@ -11,6 +11,8 @@ require './presenters/navigation'
 
 require './lib/core_ext/string'
 
+set :mustermann_opts, { type: :rails }
+
 helpers do
   def normalize_summary_title(summary, operation_id)
     # return summary early if provided
@@ -38,7 +40,7 @@ helpers do
   end
 end
 
-get '/api/:definition/?:code_language?' do
+get '/api/*definition(/:code_language)' do
   pass if !OpenApiConstraint.match?(params[:definition], params[:code_language])
 
   @presenter = Presenters::Home.new(
@@ -53,15 +55,8 @@ get '/api/:definition/?:code_language?' do
   erb :'open_api/show', layout: :'layouts/open_api'
 end
 
-get '/api/*/?' do
-  code_language = params[:splat].first.split('/').last
-  # TODO: fix me
-  #pass if !CodeLanguage.match?(code_language)
-
-  @specification = Presenters::ApiSpecification.new(
-    params: params,
-    code_language: code_language,
-  )
+get '/api/*document' do
+  @specification = Presenters::ApiSpecification.new(document_name: params[:document])
 
   @navigation = Presenters::Navigation.new(
     content: @specification.content,
