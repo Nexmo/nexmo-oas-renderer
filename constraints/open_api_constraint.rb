@@ -22,6 +22,16 @@ OPEN_API_PRODUCTS = %w[
 ].freeze
 
 class OpenApiConstraint
+
+  def self.match?(definition, code_language)
+    if code_language.nil?
+      products_with_code_language[:definition].match?(definition)
+    else
+      products_with_code_language[:definition].match?(definition) &&
+        products_with_code_language[:code_language].match?(code_language)
+    end
+  end
+
   def self.list
     OPEN_API_PRODUCTS
   end

@@ -5,7 +5,7 @@ require_relative '../services/open_api_definition_resolver'
 
 module Presenters
 
-  class Specification
+  class OpenApiSpecification
     extend Forwardable
 
     attr_reader :definition_name

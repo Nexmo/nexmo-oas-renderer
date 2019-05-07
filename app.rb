@@ -5,7 +5,9 @@ require 'active_support/core_ext/array/conversions'
 require './decorators/response_parser_decorator'
 require './pipelines/markdown_pipeline'
 require './presenters/home'
-require './presenters/specification'
+require './presenters/api_specification'
+require './presenters/open_api_specification'
+require './presenters/navigation'
 
 require './lib/core_ext/string'
 
@@ -36,22 +38,35 @@ helpers do
   end
 end
 
-get '/api/*/?' do
-  # TODO: handle code_languages
-  definition = params[:splat].first
-  pass unless OpenApiConstraint.products_with_code_language[:definition].match(definition)
+get '/api/:definition/?:code_language?' do
+  pass if !OpenApiConstraint.match?(params[:definition], params[:code_language])
 
   @presenter = Presenters::Home.new(
     title: 'Nexmo Developer',
     env: Sinatra::Application.environment,
   )
-  @specification = Presenters::Specification.new(
-    definition_name: definition,
+  @specification = Presenters::OpenApiSpecification.new(
+    definition_name: params.fetch(:definition, nil),
     expand_responses: params.fetch(:expandResponses, nil),
   )
-  erb :'open_api/show'
+
+  erb :'open_api/show', layout: :'layouts/open_api'
 end
 
 get '/api/*/?' do
-  erb "api #{params[:splat].join("/")}"
+  code_language = params[:splat].first.split('/').last
+  # TODO: fix me
+  #pass if !CodeLanguage.match?(code_language)
+
+  @specification = Presenters::ApiSpecification.new(
+    params: params,
+    code_language: code_language,
+  )
+
+  @navigation = Presenters::Navigation.new(
+    content: @specification.content,
+    title: @specification.side_navigation_title,
+  )
+
+  erb :'api/show', layout: :'layouts/api'
 end

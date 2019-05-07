@@ -70,13 +70,19 @@ class CodeLanguage
     all.select(&:linkable?)
   end
 
+  def self.match?(code_language)
+    return true if code_language.nil?
+
+    route_constraint[:code_language].match?(code_language)
+  end
+
   def self.route_constraint
-    { code_language: Regexp.new(linkable.map(&:key).compact.join('|')) }
+    { code_language: Regexp.new("^(#{linkable.map(&:key).compact.join('|')})$") }
   end
 
   private_class_method def self.where_type(type)
     config[type].map do |key, attributes|
-      new(attributes.merge({ key: key, type: type }))
+      new(attributes.merge({ "key" => key, "type" => type }))
     end
   end
 
