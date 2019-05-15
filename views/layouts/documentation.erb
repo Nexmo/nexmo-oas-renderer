@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%= erb :'layouts/_head' %>
+
+  <body class="Nxd-template">
+    <div id="Vlt-sidenav" class="Vlt-sidenav Vlt-sidenav--light">
+      <div class="Vlt-sidenav__scroll">
+        <nav class="sidenav">
+          <%= @sidenav %>
+        </nav>
+      </div>
+    </div>
+    <main class="Vlt-main Vlt-main--light Nxd-main" tabindex="0">
+      <div class="Vlt-card Vlt-article" id="primary-content">
+        <%= yield %>
+      </div>
+    </main>
+
+    <%= erb :"layouts/_javascripts" %>
+  </body>
+</html>

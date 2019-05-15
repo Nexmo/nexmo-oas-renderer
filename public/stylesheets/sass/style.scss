@@ -1,10 +1,16 @@
 @import "./variables";
 @import "./nexmo";
 @import "./mediaqueries";
+@import "./buttons";
 
+@import "./components/side_navigation/_side-nav--tabs";
+@import "./components/side_navigation/_side-nav--structure";
+@import "./components/side_navigation/_side-nav--rounded";
+@import "./components/side_navigation/_side-nav--light";
+
+@import "./volta-templates";
 @import "./api";
-@import "./core";
 @import "./navigation";
 @import "./syntax";
 @import "./typography";
-@import "./volta-templates";
+@import "./core";

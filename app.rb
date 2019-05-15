@@ -1,17 +1,29 @@
 require 'sinatra'
 require 'active_support'
 require 'active_support/core_ext/array/conversions'
+require 'i18n'
+require 'i18n/backend/fallbacks'
 
+require './constraints/documentation'
+require './constraints/open_api'
 require './decorators/response_parser_decorator'
 require './pipelines/markdown_pipeline'
 require './presenters/home'
 require './presenters/api_specification'
 require './presenters/open_api_specification'
+require './presenters/markdown'
 require './presenters/navigation'
+require './presenters/sidenav'
 
 require './lib/core_ext/string'
 
 set :mustermann_opts, { type: :rails }
+
+configure do
+  I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
+  I18n.load_path = Dir[File.join(settings.root, 'locales', '*.yml')]
+  I18n.backend.load_translations
+end
 
 helpers do
   def normalize_summary_title(summary, operation_id)
@@ -41,7 +53,7 @@ helpers do
 end
 
 get '/api/*definition(/:code_language)' do
-  pass if !OpenApiConstraint.match?(params[:definition], params[:code_language])
+  pass unless Constraints::OpenApi.match?(params[:definition], params[:code_language])
 
   @presenter = Presenters::Home.new(
     title: 'Nexmo Developer',
@@ -64,4 +76,18 @@ get '/api/*document' do
   )
 
   erb :'api/show', layout: :'layouts/api'
+end
+
+get '/*document' do
+  pass unless Constraints::Documentation.match?(params[:document])
+
+  @markdown = Presenters::Markdown.new(document_name: params[:document])
+  @sidenav = Presenters::Sidenav.new(request)
+  raise Errno::ENOENT if @markdown.redirect?
+
+  if @markdown.wip?
+    erb :'markdown/wip', layout: :'layouts/documentation'
+  else
+    erb :'markdown/show', layout: :'layouts/documentation'
+  end
 end
