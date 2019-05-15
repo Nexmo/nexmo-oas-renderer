@@ -1,3 +1,5 @@
+require_relative '../constraints/open_api_constraint'
+
 module Presenters
 
   class Versions
@@ -18,7 +20,7 @@ module Presenters
 
     def available_versions
       @available_versions ||= begin
-                                versions = Constraints::OpenApi.find_all_versions(base_name)
+                                versions = OpenApiConstraint.find_all_versions(base_name)
                                 # Add in anything in the old /_api folder
                                 if File.exist?("#{::Sinatra::Application.root}/_api/#{base_name}.md")
                                   versions.push({ 'version' => '1', 'name' => base_name })
