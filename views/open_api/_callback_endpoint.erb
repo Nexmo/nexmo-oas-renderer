@@ -3,7 +3,7 @@
     <div>
       <h3 id="<%= endpoint.operationId %>" class="Vlt-title--icon">
         <%= endpoint.summary %>
-        <% if local_assigns[:webhook] %>
+        <% if webhook %>
           <span class="Vlt-badge Vlt-badge--orange">
             <i class="icon icon-webhook"></i> Webhook
           </span>
@@ -44,5 +44,5 @@
 </div>
 
 <% endpoint.callbacks.each do |callback| %>
-  <%= erb 'open_api/callback', locals: { callback: callback } %>
+  <%= erb :'open_api/callback', locals: { callback: callback } %>
 <% end %>
