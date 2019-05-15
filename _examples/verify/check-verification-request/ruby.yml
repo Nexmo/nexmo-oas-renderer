@@ -1,0 +1,15 @@
+---
+title: Ruby
+language: ruby
+dependencies:
+    - nexmo
+client:
+    source: .repos/nexmo/nexmo-ruby-code-snippets/verify/check.rb
+    from_line: 19
+    to_line: 24
+code:
+    source: .repos/nexmo/nexmo-ruby-code-snippets/verify/check.rb
+    from_line: 26
+    to_line: 39
+file_name: check.rb
+run_command: 'ruby check.rb'

@@ -1,0 +1,49 @@
+{
+  "count": 1,
+  "page_size": 10,
+  "page_index": 1,
+  "_embedded": {
+    "applications": [
+      {
+        "id": "aaaaaaaa-bbbb-cccc-dddd-0123456789ab",
+        "name": "My Application",
+        "messages": {
+          "webhooks": [
+            {
+              "endpoint_type": "status_url",
+              "endpoint": "https://example.com/status",
+              "http_method": "POST"
+            },
+            {
+              "endpoint_type": "inbound_url",
+              "endpoint": "https://example.com/inbound",
+              "http_method": "POST"
+            }
+          ]
+        },
+        "keys": {
+          "public_key": "PUBLIC_KEY"
+        },
+        "_links": {
+          "self": {
+            "href": "/v1/applications/aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
+          }
+        }
+      }
+    ]
+  },
+  "_links": {
+    "self": {
+      "href": "/v1/applications?page_size=10&page_index=1"
+    },
+    "first": {
+      "href": "/v1/applications?page_size=10"
+    },
+    "last": {
+      "href": "/v1/applications?page_size=10&page_index=5"
+    },
+    "next": {
+      "href": "/v1/applications?page_size=10&page_index=2"
+    }
+  }
+}

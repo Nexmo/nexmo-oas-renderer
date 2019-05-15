@@ -1,0 +1,617 @@
+openapi: "3.0.2"
+info:
+  title: "Nexmo Account API"
+  version: "1.0.0"
+  description : >-
+    Enables users to manage their Nexmo Account by programmable means. More information is available here: <https://developer.nexmo.com/account/overview>.
+  contact:
+    name: Nexmo.com
+    url: "https://developer.nexmo.com"
+servers: 
+  - url: "https://api.nexmo.com"
+paths:
+  /account/get-balance:
+    servers: 
+      - url: "https://rest.nexmo.com"
+    get:
+      operationId: getAccountBalance
+      summary: Get Account Balance
+      description: Retrieve the current balance of your Nexmo account
+      parameters:
+        - $ref: '#/components/parameters/api_key_for_auth'
+        - $ref: '#/components/parameters/api_secret_for_auth'
+      tags:
+        - Balance
+      responses:
+        '200':
+          description: The current balance of your account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accountBalance'
+              example: {"value":10.17127500,"autoReload":false}
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/accountBalance'
+              example: >-
+                <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+                <accountBalance>
+                  <value>10.17127500</value>
+                  <autoReload>false</autoReload>
+                </accountBalance>
+        '401':
+          description: Not Authorised. You must supply your `api_key` and `api_secret` as query parameters to this request
+
+  /account/top-up:
+    servers: 
+      - url: "https://rest.nexmo.com"
+    post:
+      operationId: topUpAccountBalance
+      summary: Top Up Account Balance
+      description: >-
+        You can top up your account using this API when you have enabled auto-reload in the
+        dashboard. The amount added by the top-up operation will be the same amount as was
+        added in the payment when auto-reload was enabled.
+
+        Your account balance is checked every 5-10 minutes and if it falls below the threshold
+        and auto-reload is enabled, then it will be topped up automatically. Use this endpoint 
+        if you need to top up at times when your credit may be exhausted more quickly than the
+        auto-reload may occur.
+      externalDocs: 
+        url: "https://help.nexmo.com/hc/en-us/articles/205603248-How-do-I-set-up-automatic-payments-using-PayPal-or-credit-card-"
+        description: Read more about automatic payments on the Knowledgebase
+      parameters:
+        - $ref: '#/components/parameters/api_key_for_auth'
+        - $ref: '#/components/parameters/api_secret_for_auth'
+      tags:
+        - Balance
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - trx
+              properties:
+                trx:
+                  type: string
+                  description: The transaction reference of the transaction when balance was added and auto-reload was enabled on your account.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: string
+              example: "success"
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: string
+              example: <?xml version="1.0" encoding="UTF-8" standalone="yes"?><response>success</response>
+        '401':
+          description: Not Authorised. You must supply your `api_key` and `api_secret` as query parameters to this request
+
+  /account/settings:
+    servers: 
+      - url: "https://rest.nexmo.com"
+    post:
+      operationId: changeAccountSettings
+      summary: Change Account Settings
+      description: >-
+        Update the default callback URLs (where the webhooks are sent to) associated with your account:
+          * Callback URL for incoming SMS messages
+          * Callback URL for delivery receipts
+
+        Note that the URLs you provide must be valid and active. Nexmo will check that they
+        return a 200 OK response before the setting is saved.
+      parameters:
+        - $ref: '#/components/parameters/api_key_for_auth'
+        - $ref: '#/components/parameters/api_secret_for_auth'
+      tags:
+        - Configuration
+      requestBody:
+        required: false
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                moCallBackUrl:
+                  description: >-
+                    The URL where Nexmo will send a webhook when an SMS is received
+                    to a Nexmo number that does not have SMS handling configured.
+
+                    Send an empty string to unset this value.
+                  type: string
+                  format: url
+                  example: https://example.com/webhooks/inbound-sms
+                drCallBackUrl:
+                  description: >-
+                    The URL where Nexmo will send a webhook when an delivery
+                    receipt is received without a specific callback URL configured.
+
+                    Send an empty string to unset this value.
+                  type: string
+                  format: url
+                  example: https://example.com/webhooks/delivery-receipt
+      responses:
+        '200':
+          description: OK. Settings were updated if supplied, the details of the current settings are included in the response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accountSettings'
+              example: >-
+                {
+                  "mo-callback-url": "https:\/\/example.com\/webhooks\/inbound-sms",
+                  "dr-callback-url": "https:\/\/example.com\/webhooks\/delivery-receipt",
+                  "max-outbound-request": 30,
+                  "max-inbound-request": 30,
+                  "max-calls-per-second": 30
+                }
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/accountSettings'          
+              example: >-
+                <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+                <account-settings>
+                  <mo-callback-url>https://example.com/webhooks/inbound-sms</mo-callback-url>
+                  <dr-callback-url>https://example.com/webhooks/delivery-receipt</dr-callback-url>
+                  <max-outbound-request>30</max-outbound-request>
+                  <max-inbound-request>30</max-inbound-request>
+                  <max-calls-per-second>30</max-calls-per-second>
+                </account-settings>
+        '401':
+          description: Not Authorised. You must supply your `api_key` and `api_secret` as query parameters to this request
+
+  /accounts/{api_key}/secrets:
+    get:
+      summary: Retrieve API Secrets
+      operationId: retrieveAPISecrets
+      tags:
+        - Secret Management
+      security: 
+        - basicAuth: []
+      parameters:
+        - $ref: '#/components/parameters/APIKey'
+      responses:
+        '200':
+          description: The list of your current API secrets
+          content:
+            application/json:
+              schema:
+                properties:
+                  _links:
+                    $ref: '#/components/schemas/secretMgmtLinks'
+                  _embedded:
+                    type: object
+                    description: The single `secrets` key returns an array of API secrets
+                    properties:
+                      secrets:
+                        type: array
+                        description: Array of API secrets
+                        items:
+                            $ref: '#/components/schemas/secretInfo'
+              example: >-
+                {
+                  "_links": {
+                    "self": {
+                      "href": "/accounts/abcd1234/secrets"
+                    }
+                  },
+                  "_embedded": {
+                    "secrets": [
+                      {
+                        "_links": {
+                          "self": {
+                            "href": "/accounts/abcd1234/secrets/01234567-aaaa-bbbb-cccc-defdefdefdef"
+                          }
+                        },
+                        "id": "01234567-aaaa-bbbb-cccc-defdefdefdef",
+                        "created_at": "2018-12-03T10:07:23Z"
+                      }
+                    ]
+                  }
+                }
+        '401':
+          $ref: '#/components/responses/BadCredentialsError'
+        '404':
+          description: "Item not found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorAPIKeyNotFound'
+    post:
+      summary: Create API Secret
+      operationId: createAPISecret
+      tags:
+        - Secret Management
+      security: 
+        - basicAuth: []
+      parameters:
+        - $ref: '#/components/parameters/APIKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - secret
+              properties:
+                secret:
+                  description: |
+                      The new secret must follow these rules:
+
+                      * minimum 8 characters
+                      * maximum 25 characters
+                      * minimum 1 lower case character
+                      * minimum 1 upper case character
+                      * minimum 1 digit
+
+                  type: string
+                  example: 'example-4PI-secret'
+      responses:
+        '201':
+          description: Secret created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/secretInfo'
+              example: >-
+                {
+                  "_links": {
+                    "self": {
+                      "href": "/accounts/abcd1234/secrets/01234567-aaaa-bbbb-cccc-defdefdefdef"
+                    }
+                  },
+                  "id": "01234567-aaaa-bbbb-cccc-defdefdefdef",
+                  "created_at": "2018-12-03T10:07:23Z"
+                }
+        '400':
+          description: Bad request. This usually indicates valid data but can also occur when a user has exceeded the allowed number of secrets on their account.
+          content:
+            application/json:
+              schema:
+                properties:
+                  type:
+                    type: string
+                    description: URL for further information
+                    example: https://developer.nexmo.com/api-errors/account/secret-management#validation
+                  title:
+                    type: string
+                    description: Description of the error
+                    example: Bad Request
+                  detail:
+                    type: string
+                    description: More detail regarding this error, including the API key supplied
+                    example: The request failed due to secret validation errors
+                  instance:
+                    type: string
+                    description: Internal Trace ID
+                    example: bf0ca0bf927b3b52e3cb03217e1a1ddf
+                  invalid_parameters:
+                    type: array
+                    description: Array of the parameters that are considered invalid, and explanations of why
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: Field name
+                          example: secret
+                        reason:
+                          type: string
+                          description: Explanation of why parameter is considered invalid
+                          example: Does not meet complexity requirements
+        '401':
+          $ref: '#/components/responses/BadCredentialsError'
+        '404':
+          description: "Item not found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorAPIKeyNotFound'
+  
+  /accounts/{api_key}/secrets/{secret_id}:
+    get:
+      summary: Retrieve one API Secret
+      operationId: retrieveAPISecret
+      tags:
+        - Secret Management
+      security: 
+        - basicAuth: []
+      parameters:
+        - $ref: '#/components/parameters/APIKey'
+        - $ref: '#/components/parameters/secretId'
+      responses:
+        '200':
+          description: API secret response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/secretInfo'
+              example: >-
+                {
+                  "_links": {
+                    "self": {
+                      "href": "/accounts/abcd1234/secrets/01234567-aaaa-bbbb-cccc-defdefdefdef"
+                    }
+                  },
+                  "id": "01234567-aaaa-bbbb-cccc-defdefdefdef",
+                  "created_at": "2018-12-03T10:07:23Z"
+                }
+        '401':
+          $ref: '#/components/responses/BadCredentialsError'
+        '404':
+          description: "Item not found"
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ErrorAPIKeyNotFound'
+                  - $ref: '#/components/schemas/ErrorSecretIDNotFound'
+    delete:
+      summary: Revoke an API Secret
+      operationId: revokeAPISecret
+      tags:
+        - Secret Management
+      security: 
+        - basicAuth: []
+      parameters:
+        - $ref: '#/components/parameters/APIKey'
+        - $ref: '#/components/parameters/secretId'
+      responses:
+        '204':
+          description: Revoked secret response (without body content)
+        '401':
+          $ref: '#/components/responses/BadCredentialsError'
+        '403':
+          description: Operation forbidden by permissions or because this is the only API secret and you are required to have at least one.
+          content:
+            application/json:
+              schema:
+                properties:
+                  type:
+                    type: string
+                    description: URL for further information
+                    example: https://developer.nexmo.com/api-errors/account/secret-management#delete-last-secret
+                  title:
+                    type: string
+                    description: Description of the error
+                    example: Secret Deletion Forbidden
+                  detail:
+                    type: string
+                    description: More detail regarding this error
+                    example: Can not delete the last secret. The account must always have at least 1 secret active at any time
+                  instance:
+                    type: string
+                    description: Internal Trace ID
+                    example: bf0ca0bf927b3b52e3cb03217e1a1ddf
+        '404':
+          description: "Item not found"
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ErrorAPIKeyNotFound'
+                  - $ref: '#/components/schemas/ErrorSecretIDNotFound'
+
+tags:
+  - name: Balance
+    description: This section shows how you can query the current balance of your account, and if you have auto-reload enabled how to trigger a top-up to your account without waiting for the next balance check.
+  - name: Configuration
+    description: Manage the settings on your account
+  - name: Secret Management
+    description: >-
+      Many of Nexmo's APIs are accessed using an API key and secret. It is recommended that you change or "rotate" your secrets from time to time for security purposes. This section provides the API interface for achieving this.
+
+      Note: to work on secrets for your secondary accounts, you may authenticate with your primary credentials and supply the secondary API keys as URL parameters to these API endpoints.
+
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: >-
+        Provide an `Authorization` header, with a value of "Basic" followed by the result of base64-encoding your Nexmo API key and secret separated by a colon. You can find your API key and secret on the [dashboard](https://dashboard.nexmo.com) and more information is available [on the developer portal](https://developer.nexmo.com/concepts/guides/authentication#header-based-api-key-and-secret-authentication).
+
+        If your API key were aaa012 and your API secret were abc123456789 then your HTTP header would be: `Authorization: Basic YWFhMDEyOmFiYzEyMzQ1Njc4OQ==`
+
+
+  parameters:
+    api_key_for_auth:
+      name: api_key
+      description: Your Nexmo API key. You can find this in the [dashboard](https://dashboard.nexmo.com)
+      in: query
+      required: true
+      schema:
+        type: string
+        example: abcd1234
+    api_secret_for_auth:
+      name: api_secret
+      description: Your Nexmo API secret. You can find this in the [dashboard](https://dashboard.nexmo.com)
+      in: query
+      required: true
+      schema:
+        type: string
+        example: ABCDEFGH01234abc
+    APIKey:
+     name: api_key
+     in: path
+     description: The API key to manage secrets for
+     example: abcd1234
+     required: true
+     schema:
+       type: string
+    secretId:
+      name: secret_id
+      in: path
+      description: ID of the API Secret
+      example: 01234567-aaaa-bbbb-cccc-defdefdefdef
+      required: true
+      schema:
+        type: string
+  schemas:
+    accountBalance:
+      type: object
+      xml:
+        name: accountBalance
+      properties:
+        value:
+          type: number
+          description: The balance of the account, in EUR
+        autoReload:
+          type: boolean
+          enum: [true, false]
+          description: Whether the account has auto-reloading enabled
+    accountSettings:
+      type: object
+      properties:
+        mo-callback-url:
+          type: string
+          format: url
+          description: The current or updated inbound message URI
+          example: https://example.com/webhooks/inbound-sms
+        dr-callback-url:
+          type: string
+          format: url
+          description: The current or updated delivery receipt URI
+          example: https://example.com/webhooks/delivery-receipt
+        max-outbound-request:
+          type: integer
+          description: The maximum number of outbound messages per second.
+          example: 30
+        max-inbound-request:
+          type: integer
+          description: The maximum number of inbound messages per second.
+          example: 30
+        max-calls-per-second:
+          type: integer
+          description: The maximum number of API calls per second.
+          example: 30
+    secretInfo:
+      type: object
+      properties:
+        _links:
+          $ref: '#/components/schemas/secretMgmtLinks'
+        id:
+          type: string
+          description: Secret ID
+          example: ad6dc56f-07b5-46e1-a527-85530e625800
+        created_at:
+          type: string
+          description: Creation date/time for this secret
+          example: '2017-03-02T16:34:49Z'
+    secretMgmtLinks:
+      type: object
+      description: Links related to this resource
+      properties:
+        self:
+          type: object
+          description: This resource
+          properties:
+            href:
+              type: string
+              description: The URI for this resource
+    ErrorAPIKeyNotFound:
+      description: This API key was not recognised
+      type: object
+      required:
+        - type
+        - title
+        - detail
+        - instance
+      properties:
+        type:
+          type: string
+          description: URL for further information
+          # example: https://developer.nexmo.com/api-errors#invalid-id
+          example: https://developer.nexmo.com/api-errors#invalid-api-key
+        title:
+          type: string
+          description: Description of the error
+          example: Invalid API Key
+        detail:
+          type: string
+          description: More detail regarding this error, including the API key supplied
+          example: API key 'abc123' not found
+        instance:
+          type: string
+          description: Internal Trace ID
+          example: bf0ca0bf927b3b52e3cb03217e1a1ddf
+
+    ErrorSecretIDNotFound:
+      description: This secret ID was not recognised
+      type: object
+      required:
+        - type
+        - title
+        - detail
+        - instance
+      properties:
+        type:
+          type: string
+          description: URL for further information
+          example: https://developer.nexmo.com/api-errors#invalid-id
+        title:
+          type: string
+          description: Description of the error
+          example: Invalid ID
+        detail:
+          type: string
+          description: More detail regarding this error, including the secret ID supplied
+          example: ID '07239aeb-d756-4c32-a1de-cf64f8b21827' could not be found
+        instance:
+          type: string
+          description: Internal Trace ID
+          example: bf0ca0bf927b3b52e3cb03217e1a1ddf
+
+  responses: 
+    BadCredentialsError:
+      description: Credentials are missing or invalid
+      content:
+        application/json:
+          schema:
+            properties:
+              type:
+                type: string
+                description: URL for further information
+                example: https://developer.nexmo.com/
+              title:
+                type: string
+                description: Description of the error
+                example: Unauthorized
+              detail:
+                type: string
+                description: More detail regarding this error, including the expected value
+                example: "Invalid credentials format. Expected: \"Authorization: (Base64(UTF-8(apiKey:secret)))\""
+              instance:
+                type: string
+                description: Internal Trace ID
+                example: bf0ca0bf927b3b52e3cb03217e1a1ddf
+
+x-errors:
+  validation:
+    description: The provided payload is invalid
+    resolution: |
+        Modify your request to provide a valid payload.
+        * Minimum 8 characters
+        * Maximum 25 characters
+        * Minimum 1 lower case character
+        * Minimum 1 upper case character
+        * Minimum 1 digit
+    link:
+      text: View API reference
+      url: /api/account/api-secret-management#createSecret
+
+  delete-last-secret:
+    description: You can not delete your only API secret
+    resolution: Add another API secret before deleting this one

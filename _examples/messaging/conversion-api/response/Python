@@ -1,0 +1,2 @@
+if response.code == 200 :
+  print "success"

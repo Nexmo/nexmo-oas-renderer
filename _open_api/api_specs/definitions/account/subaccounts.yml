@@ -1,0 +1,328 @@
+openapi: 3.0.0
+servers:
+  - url: 'https://api.nexmo.com'
+info:
+  version: 1.0.0
+  title: Subaccounts API
+  description: |
+
+    <div class="Vlt-callout Vlt-callout--warning" >
+      <i></i>
+      <div class="Vlt-callout__content">
+        <h4>This API is in Early Access</h4>
+        <p>Access to the Subaccounts API is not available to everyone at this time. If you're interested in testing these features please email devrel@nexmo.com with your API key and use case</p>
+      </div>
+    </div>
+
+    The Nexmo Subaccounts API enables you to create subaccounts under your primary account. Subaccounts allow for separate product configuration, reporting, and billing.
+  contact:
+    name: Nexmo DevRel
+    email: devrel@nexmo.com
+    url: 'https://developer.nexmo.com/'
+security:
+  - basicAuth: []
+paths:
+  /accounts/{api_key}/subaccounts:
+    post:
+      operationId: createSubaccount
+      summary: Create subaccount
+      parameters:
+        - name: api_key
+          in: path
+          description: ID of the primary account
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewSubaccountRequest'
+      responses:
+        '200':
+          description: Subaccount response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubaccountInfo'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+    get:
+      operationId: listSubaccount
+      summary: Retrieve list of subaccounts
+      parameters:
+        - name: api_key
+          in: path
+          description: ID of the primary account
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Subaccounts response
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/SubaccountsAll'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    basicAuth:
+      type: http
+      scheme: basic
+  responses:
+    UnauthorizedError:
+      description: Credential is missing or invalid
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - type
+              - title
+              - detail
+              - instance
+            properties:
+              type:
+                type: 'string'
+                example: 'https://developer.nexmo.com/api-errors#unauthorized'
+              title:
+                type: 'string'
+                example: 'Invalid credentials supplied'
+              detail:
+                type: string
+                example: 'You did not provide correct credentials'
+              instance:
+                type: string
+                example: '798b8f199c45014ab7b08bfe9cc1c12c'
+    ForbiddenError:
+      description: Action is forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - type
+              - title
+              - detail
+              - instance
+            properties:
+              type:
+                type: 'string'
+                example: 'https://developer.nexmo.com/api-errors#unprovisioned'
+              title:
+                type: 'string'
+                example: 'Authorisation error'
+              detail:
+                type: string
+                example: 'Account acc6111f is not provisioned to access Subaccount Provisioning API'
+              instance:
+                type: string
+                example: '158b8f199c45014ab7b08bfe9cc1c12c'
+    NotFoundError:
+      description: The account ID provided does not exist in our system or you do not have access
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - type
+              - title
+              - detail
+              - instance
+            properties:
+              type:
+                type: 'string'
+                example: 'https://developer.nexmo.com/api-errors#invalid-api-key'
+              title:
+                type: 'string'
+                example: 'Invalid API Key'
+              detail:
+                type: string
+                example: "API key 'acc6111f' does not exist, or you do not have access"
+              instance:
+                type: string
+                example: '158b8f199c45014ab7b08bfe9cc1c12c'
+    BadRequestError:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - type
+              - title
+              - detail
+              - invalid_parameters
+              - instance
+            properties:
+              type:
+                type: 'string'
+                example: 'https://developer.nexmo.com/api-errors/account/management#validation'
+              title:
+                type: 'string'
+                example: 'Bad Request'
+              detail:
+                type: string
+                example: 'The request failed due to validation errors'
+              invalid_parameters:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: 'name'
+                    reason:
+                      type: string
+                      example: 'Does not meet length requirements'
+              instance:
+                type: string
+                example: '158b8f199c45014ab7b08bfe9cc1c12c'
+  schemas:
+    SubaccountsAll:
+      properties:
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: "/accounts/acc6111f/subaccounts"
+          example:
+            self:
+              href: '/accounts/acc6111f/subaccounts'
+        _embedded:
+          type: array
+          items:
+              type: object
+              properties:
+                _links:
+                  type: object
+                  properties:
+                    self:
+                      type: object
+                      properties:
+                        href:
+                          type: string
+                          example: "/accounts/acc6111f/subaccounts/bbe6222f"
+                  example:
+                    self:
+                      href: '/accounts/acc6111f/subaccounts/bbe6222f'
+                api_key:
+                  example: "bbe6222f"
+                  type: string
+                  description: >-
+                    Unique subaccount ID
+                name:
+                  type: string
+                  example: "Subaccount department A"
+                  description: >-
+                   Name of the subaccount
+                primary_account_api_key:
+                  example: "acc6111f"
+                  type: string
+                  description: >-
+                    Unique primary account ID
+                use_primary_account_balance:
+                  example: "true"
+                  type: string
+                  description: >-
+                    Flag showing if balance is shared with primary account
+                created_at:
+                  example: "2018-03-02T16:34:49Z"
+                  type: string
+                  description: >-
+                    Subaccount creation date and time
+                terminated:
+                  example: "false"
+                  type: string
+                  description: >-
+                    Subaccount status
+    SubaccountInfo:
+      properties:
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: "/accounts/acc6111f/subaccounts/bbe6222f"
+          example:
+            self:
+              href: '/accounts/acc6111f/subaccounts/bbe6222f'
+        api_key:
+          example: "bbe6222f"
+          type: string
+          description: >-
+            Unique subaccount ID
+        name:
+          type: string
+          example: "Subaccount department A"
+          description: >-
+           Name of the subaccount
+        secret:
+          type: string
+          example: "Pa(ss£w0rd!1928"
+          description: >-
+           API secret of the subaccount
+        primary_account_api_key:
+          example: "acc6111f"
+          type: string
+          description: >-
+            Unique primary account ID
+        use_primary_account_balance:
+          example: "true"
+          type: string
+          description: >-
+            Flag showing if balance is shared with primary account
+        created_at:
+          example: "2018-03-02T16:34:49Z"
+          type: string
+          description: >-
+            Subaccount creation date and time
+        terminated:
+          example: "false"
+          type: string
+          description: >-
+            Subaccount status
+      example:
+        _links:
+          self:
+            href: '/accounts/acc6111f/subaccounts/bbe6222f'
+        api_key: "bbe6222f"
+        name: "Subaccount department A"
+        secret: "Pasword123"
+        primary_account_api_key: "acc6111f"
+        use_primary_account_balance: "true"
+        created_at: "2018-03-02T16:34:49Z"
+        terminated: "false"
+    NewSubaccountRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 'Subaccount department A'
+        secret:
+          type: string
+          example: "Pa(ss£w0rd!1928"
+      required:
+        - name

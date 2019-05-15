@@ -1,0 +1,14 @@
+// Decode the json object you retrieved when you ran the request.
+
+var decodedResponse = JSON.parse(responseData);
+
+console.log('You sent ' + decodedResponse['message-count'] + ' messages.\n');
+
+decodedResponse['messages'].forEach(function(message) {
+    if (message['status'] === "0") {
+      console.log('Success ' + decodedResponse['message-id']);
+    }
+    else {
+      console.log('Error ' + decodedResponse['status']  + ' ' +  decodedResponse['error-text']);
+    }
+});

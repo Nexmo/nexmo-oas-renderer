@@ -1,0 +1,9 @@
+---
+client:
+    source: .repos/nexmo/nexmo-dotnet-code-snippets/NexmoDotNetQuickStarts/Controllers/NumberInsightController.cs
+    from_line: 12
+    to_line: 16
+code:
+    source: .repos/nexmo/nexmo-dotnet-code-snippets/NexmoDotNetQuickStarts/Controllers/NumberInsightController.cs
+    from_line: 34
+    to_line: 37

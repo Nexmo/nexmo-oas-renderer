@@ -1,0 +1,474 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "NCCO Schema",
+  "definitions": {
+    "endpoint": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/endpoint-phone"
+        },
+        {
+          "$ref": "#/definitions/endpoint-websocket"
+        },
+        {
+          "$ref": "#/definitions/endpoint-sip"
+        }
+      ]
+    },
+    "endpoint-base": {
+      "required": [
+        "type"
+      ]
+    },
+    "endpoint-phone": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/endpoint-base"
+        },
+        {
+          "properties": {
+            "type": {
+              "enum": [
+                "phone"
+              ]
+            },
+            "number": {
+              "type": "string",
+              "minLength": 10,
+              "maxLength": 15,
+              "pattern": "^[0-9]+$"
+            },
+            "dtmfAnswer": {
+              "type": "string",
+              "pattern": "^[0-9#\\*p]*$"
+            }
+          },
+          "required": [
+            "number"
+          ]
+        }
+      ]
+    },
+    "endpoint-websocket": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/endpoint-base"
+        },
+        {
+          "properties": {
+            "type": {
+              "enum": [
+                "websocket"
+              ]
+            },
+            "uri": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^wss?:"
+            },
+            "content-type": {
+              "type": "string"
+            },
+            "headers": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "uri"
+          ]
+        }
+      ]
+    },
+    "endpoint-sip": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/endpoint-base"
+        },
+        {
+          "properties": {
+            "type": {
+              "enum": [
+                "sip"
+              ]
+            },
+            "uri": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^sips?:"
+            }
+          },
+          "required": [
+            "uri"
+          ]
+        }
+      ]
+    },
+    "ncco": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/ncco-connect"
+        },
+        {
+          "$ref": "#/definitions/ncco-conversation"
+        },
+        {
+          "$ref": "#/definitions/ncco-input"
+        },
+        {
+          "$ref": "#/definitions/ncco-record"
+        },
+        {
+          "$ref": "#/definitions/ncco-stream"
+        },
+        {
+          "$ref": "#/definitions/ncco-talk"
+        }
+      ]
+    },
+    "ncco-base": {
+      "required": [
+        "action"
+      ]
+    },
+    "ncco-connect": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ncco-base"
+        },
+        {
+          "properties": {
+            "action": {
+              "enum": [
+                "connect"
+              ]
+            },
+            "endpoint": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/endpoint"
+              }
+            },
+            "from": {
+              "type": "string",
+              "pattern": "^[0-9]+$"
+            },
+            "eventType": {
+              "type": "string",
+              "enum": [
+                "synchronous"
+              ]
+            },
+            "timeout": {
+              "type": "number",
+              "minimum": 0
+            },
+            "limit": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 7200
+            },
+            "machineDetection": {
+              "type": "string",
+              "enum": [
+                "continue",
+                "hangup"
+              ]
+            },
+            "eventUrl": {
+              "type": "array",
+              "items": {
+                "format": "uri",
+                "pattern": "^https?://"
+              }
+            },
+            "eventMethod": {
+              "type": "string",
+              "enum": [
+                "GET",
+                "POST"
+              ]
+            }
+          },
+          "required": [
+            "endpoint"
+          ]
+        }
+      ]
+    },
+    "ncco-conversation": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ncco-base"
+        },
+        {
+          "properties": {
+            "action": {
+              "enum": [
+                "conversation"
+              ]
+            },
+            "musicOnHoldUrl": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^https?://"
+            },
+            "startOnEnter": {
+              "type": "boolean"
+            },
+            "endOnExit": {
+              "type": "boolean"
+            },
+            "record": {
+              "type": "boolean"
+            },
+            "eventUrl": {
+              "type": "array",
+              "items": {
+                "format": "uri",
+                "pattern": "^https?://"
+              }
+            },
+            "eventMethod": {
+              "type": "string",
+              "enum": [
+                "GET",
+                "POST"
+              ]
+            }
+          },
+          "required": [
+            "name"
+          ]
+        }
+      ]
+    },
+    "ncco-input": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ncco-base"
+        },
+        {
+          "properties": {
+            "action": {
+              "enum": [
+                "input"
+              ]
+            },
+            "timeOut": {
+              "type": "number",
+              "minimum": 0
+            },
+            "maxDigits": {
+              "minimum": 0,
+              "maximum": 20
+            },
+            "submitOnHash": {
+              "type": "boolean"
+            },
+            "eventUrl": {
+              "type": "array",
+              "items": {
+                "format": "uri",
+                "pattern": "^https?://"
+              }
+            },
+            "eventMethod": {
+              "type": "string",
+              "enum": [
+                "GET",
+                "POST"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "ncco-record": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ncco-base"
+        },
+        {
+          "properties": {
+            "action": {
+              "enum": [
+                "record"
+              ]
+            },
+            "format": {
+              "enum": [
+                "mp3",
+                "wav"
+              ]
+            },
+             "split": {
+              "enum" : [
+                  "conversation"                
+              ]
+            },
+            "endOnSilence": {
+              "type": "integer",
+              "minimum": 3,
+              "maximum": 10
+            },
+            "endOnKey": {
+              "type": "string",
+              "pattern": "^[0-9#\\*]$"
+            },
+            "timeOut": {
+              "type": "integer",
+              "minimum": 3,
+              "maximum": 7200
+            },
+            "beepStart": {
+              "type": "boolean"
+            },
+            "eventUrl": {
+              "type": "array",
+              "items": {
+                "format": "uri",
+                "pattern": "^https?://"
+              }
+            },
+            "eventMethod": {
+              "type": "string",
+              "enum": [
+                "POST",
+                "GET"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "ncco-stream": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ncco-base"
+        },
+        {
+          "properties": {
+            "action": {
+              "enum": [
+                "stream"
+              ]
+            },
+            "streamUrl": {
+              "type": "array",
+              "items": {
+                "format": "uri",
+                "pattern": "^https?://"
+              }
+            },
+            "level": {
+              "type": "number",
+              "minimum": -1,
+              "maximum": 1
+            },
+            "bargeIn": {
+              "type": "boolean"
+            },
+            "loop": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "streamUrl"
+          ]
+        }
+      ]
+    },
+    "ncco-talk": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ncco-base"
+        },
+        {
+          "properties": {
+            "action": {
+              "enum": [
+                "talk"
+              ]
+            },
+            "text": {
+              "type": "string",
+              "maxLength": 1500
+            },
+            "bargeIn": {
+              "type": "boolean"
+            },
+            "loop": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "voiceName": {
+              "$ref": "#/definitions/voices"
+            }
+          },
+          "required": [
+            "text"
+          ]
+        }
+      ]
+    },
+    "voices": {
+      "enum": [
+        "Agnieszka",
+        "Amy",
+        "Astrid",
+        "Brian",
+        "Carla",
+        "Carmen",
+        "Celine",
+        "Chantal",
+        "Chipmunk",
+        "Conchita",
+        "Cristiano",
+        "Dora",
+        "Emma",
+        "Enrique",
+        "Eric",
+        "Ewa",
+        "Filiz",
+        "Geraint",
+        "Giorgio",
+        "Gwyneth",
+        "Hans",
+        "Ines",
+        "Ivy",
+        "Jacek",
+        "Jan",
+        "Jennifer",
+        "Joey",
+        "Justin",
+        "Karl",
+        "Kendra",
+        "Kimberly",
+        "Liv",
+        "Lotte",
+        "Mads",
+        "Maja",
+        "Marlene",
+        "Mathieu",
+        "Maxim",
+        "Miguel",
+        "Naja",
+        "Nicole",
+        "Penelope",
+        "Raveena",
+        "Ricardo",
+        "Ruben",
+        "Russell",
+        "Salli",
+        "Tatyana",
+        "Vitoria"
+      ]
+    }
+  },
+  "type": "array",
+  "items": {
+    "$ref": "#/definitions/ncco"
+  },
+  "minItems": 1
+}

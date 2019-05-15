@@ -1,0 +1,16 @@
+---
+title: Node
+language: node
+dependencies:
+    - express
+    - body-parser
+code:
+    source: .repos/nexmo/nexmo-node-code-snippets/voice/dtmf.js
+    from_line: 32 
+    to_line: 36
+client:
+    source: .repos/nexmo/nexmo-node-code-snippets/voice/dtmf.js
+    from_line: 1
+    to_line: 5
+file_name: interesting.js
+run_command: 'node interesing.js'
