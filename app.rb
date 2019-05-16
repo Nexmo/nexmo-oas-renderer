@@ -2,14 +2,14 @@ require 'sinatra/base'
 require 'active_support'
 require 'active_support/core_ext/array/conversions'
 
-require './decorators/response_parser_decorator'
-require './pipelines/markdown_pipeline'
-require './presenters/home'
-require './presenters/api_specification'
-require './presenters/open_api_specification'
-require './presenters/navigation'
+require_relative'./decorators/response_parser_decorator'
+require_relative'./pipelines/markdown_pipeline'
+require_relative'./presenters/home'
+require_relative'./presenters/api_specification'
+require_relative'./presenters/open_api_specification'
+require_relative'./presenters/navigation'
 
-require './lib/core_ext/string'
+require_relative'./lib/core_ext/string'
 
 
 module NexmoOASRenderer
