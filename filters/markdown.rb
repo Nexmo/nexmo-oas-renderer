@@ -1,4 +1,4 @@
-require './lib/redcarpet'
+require_relative '../lib/redcarpet'
 
 module Filters
   class Markdown < Banzai::Filter

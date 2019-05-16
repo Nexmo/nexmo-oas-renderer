@@ -17,7 +17,7 @@ module Filters
     end
 
     def config_value(key)
-      @config_dynamic_content ||= YAML.load_file("#{::Sinatra::Application.root}/config/dynamic_content.yml")
+      @config_dynamic_content ||= YAML.load_file("#{::NexmoOASRenderer::API.root}/config/dynamic_content.yml")
       @config_dynamic_content[key]
     end
   end

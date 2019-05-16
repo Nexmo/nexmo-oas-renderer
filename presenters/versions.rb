@@ -22,7 +22,7 @@ module Presenters
       @available_versions ||= begin
                                 versions = OpenApiConstraint.find_all_versions(base_name)
                                 # Add in anything in the old /_api folder
-                                if File.exist?("#{::Sinatra::Application.root}/_api/#{base_name}.md")
+                                if File.exist?("#{::NexmoOASRenderer::API.root}/_api/#{base_name}.md")
                                   versions.push({ 'version' => '1', 'name' => base_name })
                                 end
 

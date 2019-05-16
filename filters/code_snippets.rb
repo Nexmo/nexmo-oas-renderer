@@ -81,7 +81,7 @@ module Filters
     end
 
     def content_from_source
-      source_path = "#{::Sinatra::Application.root}/#{@config['source']}/*.yml"
+      source_path = "#{::NexmoOASRenderer::API.root}/#{@config['source']}/*.yml"
 
       files = Dir[source_path]
       raise "No .yml files found for #{@config['source']} code snippets" if files.empty?

@@ -14,7 +14,7 @@ module Presenters
     end
 
     def document
-      @document ||= File.read("#{::Sinatra::Application.root}/#{document_path}")
+      @document ||= File.read("#{::NexmoOASRenderer::API.root}/#{document_path}")
     end
 
     def frontmatter

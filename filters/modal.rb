@@ -10,7 +10,7 @@ module Filters
       end
 
       modals = modals.map do |modal|
-        filename = "#{::Sinatra::Application.root}/#{modal[:document]}"
+        filename = "#{::NexmoOASRenderer::API.root}/#{modal[:document]}"
         raise "Could not find modal #{filename}" unless File.exist? filename
 
         document = File.read(filename)

@@ -87,6 +87,6 @@ class CodeLanguage
   end
 
   private_class_method def self.config
-    @config ||= YAML.load_file("#{::Sinatra::Application.root}/config/code_languages.yml")
+    @config ||= YAML.load_file("#{NexmoOASRenderer::API.root}/config/code_languages.yml")
   end
 end

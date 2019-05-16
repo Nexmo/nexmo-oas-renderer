@@ -123,7 +123,7 @@ module Filters
     end
 
     def content_from_source
-      source_path = "#{::Sinatra::Application.root}/#{@config['source']}"
+      source_path = "#{::NexmoOASRenderer::API.root}/#{@config['source']}"
       source_path += '/*' if tabbed_code_examples?
       source_path += '/*.md' if tabbed_content?
 
