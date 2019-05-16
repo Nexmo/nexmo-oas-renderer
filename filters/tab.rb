@@ -171,11 +171,11 @@ module Filters
     def resolve_language(contents)
       contents.map do |content|
         if content[:language_key]
-          content[:language] = CodeLanguage.find(content[:language_key])
+          content[:language] = CodeLanguageAPI.find(content[:language_key])
         end
 
         if content[:platform_key]
-          content[:platform] = CodeLanguage.find(content[:platform_key])
+          content[:platform] = CodeLanguageAPI.find(content[:platform_key])
         end
 
         content

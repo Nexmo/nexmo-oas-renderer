@@ -10,7 +10,7 @@ module Filters
 
         @renderer = get_renderer(config['language'])
 
-        lexer = CodeLanguage.find(config['language']).lexer
+        lexer = CodeLanguageAPI.find(config['language']).lexer
         lang = config['title'].delete('.')
 
         application_html = generate_application_block(config['application'])
@@ -72,7 +72,7 @@ module Filters
       raise "CodeSnippetFilter - Could not load #{filename} for language #{language}" unless File.exist?(filename)
 
       code = File.read(filename)
-      lexer = CodeLanguage.find(language).lexer
+      lexer = CodeLanguageAPI.find(language).lexer
 
       total_lines = code.lines.count
 

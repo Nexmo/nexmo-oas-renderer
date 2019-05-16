@@ -1,6 +1,6 @@
 require 'rouge'
 
-class CodeLanguage
+class CodeLanguageAPI
   attr_accessor :key, :label, :type, :dependencies, :unindent, :icon, :run_command
   attr_writer :weight, :linkable, :languages, :lexer
 

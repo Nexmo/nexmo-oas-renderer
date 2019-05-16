@@ -1,4 +1,4 @@
-require_relative '../constraints/open_api_constraint'
+require_relative '../constraints/open_api'
 
 module Presenters
 
@@ -20,7 +20,7 @@ module Presenters
 
     def available_versions
       @available_versions ||= begin
-                                versions = OpenApiConstraint.find_all_versions(base_name)
+                                versions = Constraints::OpenApi.find_all_versions(base_name)
                                 # Add in anything in the old /_api folder
                                 if File.exist?("#{::NexmoOASRenderer::API.root}/_api/#{base_name}.md")
                                   versions.push({ 'version' => '1', 'name' => base_name })

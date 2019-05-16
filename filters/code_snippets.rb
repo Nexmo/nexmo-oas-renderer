@@ -91,7 +91,7 @@ module Filters
 
         # Load the defaults for this language
         filename = File.basename(content_path, '.yml')
-        defaults = CodeLanguage.find(filename)
+        defaults = CodeLanguageAPI.find(filename)
 
         content = YAML.safe_load(source)
         content['source'] = source
