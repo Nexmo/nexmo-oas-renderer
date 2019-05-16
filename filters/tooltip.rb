@@ -5,7 +5,7 @@ module Filters
         tooltip = <<~HEREDOC
         <span class="Vlt-tooltip Vlt-tooltip--top" title="#{$2}" tabindex="0">
                 #{$1}&nbsp;
-                <svg class="Vlt-icon Vlt-icon--smaller Vlt-icon--text-bottom Vlt-blue" aria-hidden="true"><use xlink:href="/symbol/volta-icons.svg#Vlt-icon-help-negative"/></svg>
+                <svg class="Vlt-icon Vlt-icon--smaller Vlt-icon--text-bottom Vlt-blue" aria-hidden="true"><use xlink:href="/assets/symbol/volta-icons.svg#Vlt-icon-help-negative"/></svg>
         </span>
         HEREDOC
 

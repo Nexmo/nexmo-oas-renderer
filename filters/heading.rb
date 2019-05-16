@@ -18,7 +18,7 @@ module Filters
 
         heading.prepend_child <<~HEREDOC
         <a href="##{parameterized_heading}" class="heading-permalink">
-          <svg class="Vlt-grey"><use xlink:href=\"/symbol/volta-icons.svg#Vlt-icon-link\" /></svg>
+          <svg class="Vlt-grey"><use xlink:href=\"/assets/symbol/volta-icons.svg#Vlt-icon-link\" /></svg>
         </a>
         HEREDOC
       end

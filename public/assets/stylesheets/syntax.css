@@ -1,0 +1,79 @@
+/*
+Error: Undefined variable: "$grey-dark".
+        on line 1 of ./public/stylesheets/sass/syntax.scss
+
+1: .highlight .c { color: $grey-dark } /* Comment *\/
+2: .highlight .err { color: $red-lighter; background-color: rgba($red-light, 0.7) } /* Error *\/
+3: .highlight .k { color: $blue-light } /* Keyword *\/
+4: .highlight .l { color: $purple-light } /* Literal *\/
+5: .highlight .n { color: $grey } /* Name *\/
+6: .highlight .o { color: $red-light } /* Operator *\/
+
+Backtrace:
+./public/stylesheets/sass/syntax.scss:1
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/script/tree/variable.rb:49:in `_perform'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/script/tree/node.rb:50:in `perform'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/tree/visitors/perform.rb:398:in `visit_prop'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/stack.rb:79:in `block in with_base'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/stack.rb:135:in `with_frame'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/stack.rb:79:in `with_base'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/tree/visitors/perform.rb:158:in `visit'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/tree/visitors/perform.rb:440:in `block (2 levels) in visit_rule'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/tree/visitors/perform.rb:440:in `map'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/tree/visitors/perform.rb:440:in `block in visit_rule'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/tree/visitors/perform.rb:438:in `visit_rule'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/stack.rb:79:in `block in with_base'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/stack.rb:135:in `with_frame'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/stack.rb:79:in `with_base'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/tree/visitors/perform.rb:158:in `visit'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/tree/visitors/base.rb:52:in `map'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/tree/visitors/perform.rb:167:in `block in visit_children'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/tree/visitors/perform.rb:166:in `visit_children'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/tree/visitors/perform.rb:186:in `visit_root'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/tree/visitors/perform.rb:157:in `visit'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/tree/visitors/perform.rb:10:in `visit'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/tree/root_node.rb:36:in `css_tree'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/tree/root_node.rb:29:in `render_with_sourcemap'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/engine.rb:389:in `_render_with_sourcemap'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/engine.rb:307:in `render_with_sourcemap'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/plugin/compiler.rb:462:in `update_stylesheet'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/plugin/compiler.rb:209:in `each'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/plugin.rb:82:in `update_stylesheets'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/plugin.rb:54:in `check_for_updates'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sass-3.7.4/lib/sass/plugin/rack.rb:51:in `call'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/rack-2.0.7/lib/rack/lint.rb:49:in `_call'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/rack-2.0.7/lib/rack/lint.rb:37:in `call'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/rack-2.0.7/lib/rack/show_exceptions.rb:23:in `call'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/rack-2.0.7/lib/rack/common_logger.rb:33:in `call'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/sinatra-2.0.5/lib/sinatra/base.rb:231:in `call'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/shotgun-0.9.2/lib/shotgun/loader.rb:86:in `proceed_as_child'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/shotgun-0.9.2/lib/shotgun/loader.rb:31:in `call!'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/shotgun-0.9.2/lib/shotgun/loader.rb:18:in `call'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/shotgun-0.9.2/lib/shotgun/favicon.rb:12:in `call'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/shotgun-0.9.2/lib/shotgun/static.rb:14:in `call'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/rack-2.0.7/lib/rack/urlmap.rb:68:in `block in call'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/rack-2.0.7/lib/rack/urlmap.rb:53:in `each'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/rack-2.0.7/lib/rack/urlmap.rb:53:in `call'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/rack-2.0.7/lib/rack/builder.rb:153:in `call'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/puma-3.12.1/lib/puma/configuration.rb:227:in `call'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/puma-3.12.1/lib/puma/server.rb:660:in `handle_request'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/puma-3.12.1/lib/puma/server.rb:474:in `process_client'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/puma-3.12.1/lib/puma/server.rb:334:in `block in run'
+/Users/frodriguez/.rbenv/versions/2.5.5/lib/ruby/gems/2.5.0/gems/puma-3.12.1/lib/puma/thread_pool.rb:135:in `block in spawn_thread'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Undefined variable: \"$grey-dark\".\A         on line 1 of ./public/stylesheets/sass/syntax.scss\A \A 1: .highlight .c { color: $grey-dark } /* Comment */\A 2: .highlight .err { color: $red-lighter; background-color: rgba($red-light, 0.7) } /* Error */\A 3: .highlight .k { color: $blue-light } /* Keyword */\A 4: .highlight .l { color: $purple-light } /* Literal */\A 5: .highlight .n { color: $grey } /* Name */\A 6: .highlight .o { color: $red-light } /* Operator */"; }
