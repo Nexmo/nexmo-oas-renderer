@@ -43,8 +43,8 @@ module NexmoOASRenderer
       end
     end
 
-    get '/api/*definition(/:code_language)' do
-      pass if !OpenApiConstraint.match?(params[:definition], params[:code_language])
+    get '(/api)/*definition(/:code_language)' do
+      pass if !Constraints::OpenApi.match?(params[:definition], params[:code_language])
 
       @presenter = Presenters::Home.new(
         title: 'Nexmo Developer',
@@ -58,7 +58,7 @@ module NexmoOASRenderer
       erb :'open_api/show', layout: :'layouts/open_api'
     end
 
-    get '/api/*document' do
+    get '(/api)/*document' do
       @specification = Presenters::ApiSpecification.new(document_name: params[:document])
 
       @navigation = Presenters::Navigation.new(
