@@ -3,7 +3,7 @@ module Filters
     def call(input)
       input.gsub(/```partial(.+?)```/m) do |_s|
         config = YAML.safe_load($1)
-        content = File.read(config['source'])
+        content = File.read("#{::NexmoOASRenderer::API.root}/#{config['source']}")
 
         active = options[:code_language] ? options[:code_language].key == config['platform'] : false
 

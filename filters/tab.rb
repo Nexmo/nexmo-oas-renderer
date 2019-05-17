@@ -157,8 +157,9 @@ module Filters
 
     def content_from_tabs
       @config['tabs'].map do |title, config|
-        raise "Could not find content_from_tabs file: #{config['source']}" unless File.exist? config['source']
-        source = File.read(config['source'])
+        file_path = "#{::NexmoOASRenderer::API.root}/#{config['source']}"
+        raise "Could not find content_from_tabs file: #{config['source']}" unless File.exist? file_path
+        source = File.read(file_path)
 
         config.symbolize_keys.merge({
           id: SecureRandom.hex,

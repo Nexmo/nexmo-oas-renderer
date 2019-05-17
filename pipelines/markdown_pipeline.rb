@@ -1,6 +1,6 @@
 require 'banzai'
 
-Dir["./filters/*.rb"].each { |file| require file }
+Dir[File.join(__dir__, '../filters', '*.rb')].each { |f| require_relative f }
 
 class MarkdownPipeline < Banzai::Pipeline
   def initialize(options = {})
