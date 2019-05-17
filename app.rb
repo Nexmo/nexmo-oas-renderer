@@ -8,39 +8,31 @@ require_relative'./presenters/home'
 require_relative'./presenters/api_specification'
 require_relative'./presenters/open_api_specification'
 require_relative'./presenters/navigation'
+require_relative'./helpers/render'
+require_relative'./helpers/navigation'
+require_relative'./helpers/summary'
+require_relative'./helpers/url'
 
 require_relative'./lib/core_ext/string'
 
 
 module NexmoOASRenderer
   class API < Sinatra::Base
+
+    Tilt.register Tilt::ERBTemplate, 'html.erb'
+
+    if defined?(NexmoDeveloper::Application)
+      view_paths = [views, NexmoDeveloper::Application.root.join("app", "views")]
+      set :views, view_paths
+    end
+
     set :mustermann_opts, { type: :rails }
 
     helpers do
-      def normalize_summary_title(summary, operation_id)
-        # return summary early if provided
-        return summary unless summary.nil?
-
-        # If the operation ID is camelCase,
-        if operation_id.match?(/^[a-zA-Z]\w+(?:[A-Z]\w+){1,}/x)
-          # Use the rails `.underscore` method to convert someString to some_string
-          operation_id = operation_id.underscore
-        end
-
-        # Replace snake_case and kebab-case with spaces and titelize the string
-        operation_id = operation_id.gsub(/(_|-)/, ' ').titleize
-
-        # Some terms need to be capitalised all the time
-        uppercase_array = ['SMS', 'DTMF']
-        operation_id.split(' ').map do |c|
-          next c.upcase if uppercase_array.include?(c.upcase)
-          c
-        end.join(' ')
-      end
-
-      def parameter_values(enum)
-        enum.map { |value| "<code>#{value}</code>" }.to_sentence(last_word_connector: ' or ', two_words_connector: ' or ')
-      end
+      include Helpers::Render
+      include Helpers::Navigation
+      include Helpers::Summary
+      include Helpers::URL
     end
 
     get '(/api)/*definition(/:code_language)' do
@@ -55,7 +47,12 @@ module NexmoOASRenderer
         expand_responses: params.fetch(:expandResponses, nil),
       )
 
-      erb :'open_api/show', layout: :'layouts/open_api'
+
+      if defined?(NexmoDeveloper::Application)
+        erb :'open_api/show', layout: :'layouts/page-full.html'
+      else
+        erb :'open_api/show', layout: :'layouts/open_api'
+      end
     end
 
     get '(/api)/*document' do
@@ -66,7 +63,14 @@ module NexmoOASRenderer
         title: @specification.side_navigation_title,
       )
 
-      erb :'api/show', layout: :'layouts/api'
+      if defined?(NexmoDeveloper::Application)
+        @content = @navigation.content
+        @side_navigation_title = @navigation.title
+
+        erb :'api/show', layout: :'layouts/api.html'
+      else
+        erb :'api/show', layout: :'layouts/api'
+      end
     end
   end
 end
