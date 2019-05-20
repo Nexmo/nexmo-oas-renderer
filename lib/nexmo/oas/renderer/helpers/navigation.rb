@@ -47,7 +47,7 @@ module Helpers
         last_node = heading
       end
       nodes << '</li></ul>'
-      nodes.join("\n")
+      nodes.join("\n").html_safe
     end
 
     private

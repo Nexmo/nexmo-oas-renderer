@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require 'active_support'
 require 'active_support/core_ext/array/conversions'
+require 'active_support/core_ext/string/output_safety'
 
 require_relative'./decorators/response_parser_decorator'
 require_relative'./pipelines/markdown_pipeline'
