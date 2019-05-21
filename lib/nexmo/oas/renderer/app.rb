@@ -16,7 +16,6 @@ require_relative'./helpers/url'
 
 require_relative'./lib/core_ext/string'
 
-
 module NexmoOASRenderer
   class API < Sinatra::Base
 
@@ -36,23 +35,46 @@ module NexmoOASRenderer
       include Helpers::URL
     end
 
-    get '(/api)/*definition(/:code_language)' do
-      pass if !Constraints::OpenApi.match?(params[:definition], params[:code_language])
+    def parse_params(extension)
+      extensions = extension.split('.')
+      case extensions.size
+      when 1
+        { definition: extensions.first}
+      when 2
+        if extensions.second.match? /v\d+/
+          { definition: extensions.first, version: extensions.second }
+        else
+          { definition: extensions.first, format: extensions.second }
+        end
+      when 3
+        { definition: extensions.first, version: extensions.second, format: extensions.last }
+      else
+        {}
+      end
+    end
+
+    get '(/api)/*definition' do
+      parameters = parse_params(params[:definition])
+      definition = [parameters[:definition], parameters[:version]].compact.join('.')
+      pass if !Constraints::OpenApi.match?(definition)
 
       @presenter = Presenters::Home.new(
         title: 'Nexmo Developer',
         env: NexmoOASRenderer::API.environment,
       )
       @specification = Presenters::OpenApiSpecification.new(
-        definition_name: params.fetch(:definition, nil),
+        definition_name: definition,
         expand_responses: params.fetch(:expandResponses, nil),
       )
 
-
-      if defined?(NexmoDeveloper::Application)
-        erb :'open_api/show', layout: :'layouts/page-full.html'
+      if ['yml', 'json'].include?(parameters[:format])
+        send_file @specification.definition.path, disposition: :attachment
       else
-        erb :'open_api/show', layout: :'layouts/open_api'
+        if defined?(NexmoDeveloper::Application)
+          erb :'open_api/show', layout: :'layouts/page-full.html'
+        else
+          erb :'open_api/show', layout: :'layouts/open_api'
+        end
       end
     end
 

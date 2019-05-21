@@ -24,7 +24,7 @@ OPEN_API_PRODUCTS = %w[
 module Constraints
   class OpenApi
 
-    def self.match?(definition, code_language)
+    def self.match?(definition, code_language = nil)
       if code_language.nil?
         products_with_code_language[:definition].match?(definition)
       else
