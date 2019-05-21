@@ -25,28 +25,28 @@ module Presenters
     end
 
     def initialization?
-      File.file? "_open_api/initialization/#{@definition_name}.md"
+      File.file? File.expand_path("../_open_api/initialization/#{@definition_name}.md", __dir__)
     end
 
     def initialization_content
       @initialization_content ||= MarkdownPipeline.new.call(
-        File.read("_open_api/initialization/#{@definition_name}.md")
+        File.read(File.expand_path("../_open_api/initialization/#{@definition_name}.md", __dir__))
       ) if initialization?
     end
 
     def initialization_config
       @initialization_config ||= YAML.safe_load(
-        File.read("_open_api/initialization/#{@definition_name}.md")
+        File.read(File.expand_path("../_open_api/initialization/#{@definition_name}.md", __dir__))
       ) if initialization?
     end
 
     def errors?
-      File.file? "_open_api/errors/#{@definition_name}.md"
+      File.file? File.expand_path("../_open_api/errors/#{@definition_name}.md", __dir__)
     end
 
     def definition_errors
       @definition_errors ||= MarkdownPipeline.new.call(
-        File.read("_open_api/errors/#{@definition_name}.md")
+        File.read(File.expand_path("../_open_api/errors/#{@definition_name}.md", __dir__))
       ) if errors?
     end
 
