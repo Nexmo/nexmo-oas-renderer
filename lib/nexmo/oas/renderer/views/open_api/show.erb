@@ -21,7 +21,7 @@
 
           <div class="Vlt-grid">
             <div class="Vlt-col">
-              <a href=<%= url("/api/#{definition.format}", params: request.params) %> class='Vlt-btn Vlt-btn--secondary Vlt-btn--app'>
+              <a href=<%= url("#{request.url}.#{definition.format}", params: request.params) %> class='Vlt-btn Vlt-btn--secondary Vlt-btn--app'>
                 <svg><use xlink:href="/assets/symbol/volta-icons.svg#Vlt-icon-download" /></svg>
                 Download OpenAPI 3 Definition
               </a>
