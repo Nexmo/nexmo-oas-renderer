@@ -14,7 +14,7 @@ module Filters
           sort_array
         end
 
-        erb = File.read("#{::NexmoOASRenderer::API.root}/app/views/code_snippets/list/plain.html.erb")
+        erb = File.read("#{::NexmoOASRenderer::API.root}/views/code_snippets/list/plain.html.erb")
         html = ERB.new(erb).result(binding)
         "FREEZESTART#{Base64.urlsafe_encode64(html)}FREEZEEND"
       end

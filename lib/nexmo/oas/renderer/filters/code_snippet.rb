@@ -35,15 +35,15 @@ module Filters
           client_url = generate_source_url(config['client'])
           id = SecureRandom.hex
           create_instructions = @renderer.create_instructions(config['file_name']).render_markdown
-          erb = File.read("#{::NexmoOASRenderer::API.root}/app/views/code_snippets/_configure_client.html.erb")
+          erb = File.read("#{::NexmoOASRenderer::API.root}/views/code_snippets/_configure_client.html.erb")
           client_html = ERB.new(erb).result(binding)
         end
 
         add_instructions = @renderer.add_instructions(config['file_name']).render_markdown
         if config['code_only']
-          erb = File.read("#{::NexmoOASRenderer::API.root}/app/views/code_snippets/_code_only.html.erb")
+          erb = File.read("#{::NexmoOASRenderer::API.root}/views/code_snippets/_code_only.html.erb")
         else
-          erb = File.read("#{::NexmoOASRenderer::API.root}/app/views/code_snippets/_write_code.html.erb")
+          erb = File.read("#{::NexmoOASRenderer::API.root}/views/code_snippets/_write_code.html.erb")
         end
 
         code_html = ERB.new(erb).result(binding)
@@ -128,7 +128,7 @@ module Filters
       end
       deps = @renderer.dependencies(dependencies)
       id = SecureRandom.hex
-      erb = File.read("#{::NexmoOASRenderer::API.root}/app/views/code_snippets/_dependencies.html.erb")
+      erb = File.read("#{::NexmoOASRenderer::API.root}/views/code_snippets/_dependencies.html.erb")
       ERB.new(erb).result(binding)
     end
 
@@ -147,9 +147,9 @@ module Filters
       if ['voice', 'rtc'].include? app['type']
         app['event_url'] = "#{base_url}/webhooks/events" unless app['event_url']
         app['answer_url'] = "#{base_url}/webhooks/answer" unless app['answer_url']
-        erb = File.read("#{::NexmoOASRenderer::API.root}/app/views/code_snippets/_application_#{app['type']}.html.erb")
+        erb = File.read("#{::NexmoOASRenderer::API.root}/views/code_snippets/_application_#{app['type']}.html.erb")
       elsif ['messages', 'dispatch'].include? app['type']
-        erb = File.read("#{::NexmoOASRenderer::API.root}/app/views/code_snippets/_application_messages_dispatch.html.erb")
+        erb = File.read("#{::NexmoOASRenderer::API.root}/views/code_snippets/_application_messages_dispatch.html.erb")
       else
         raise "Invalid application type when creating code snippet: '#{app['type']}'"
       end

@@ -9,7 +9,7 @@ module Filters
         # Default to plain layout, but allow people to override it
         config['layout'] = 'list/plain' unless config['layout']
 
-        erb = File.read("#{::NexmoOASRenderer::API.root}/app/views/tutorials/#{config['layout']}.html.erb")
+        erb = File.read("#{::NexmoOASRenderer::API.root}/views/tutorials/#{config['layout']}.html.erb")
         html = ERB.new(erb).result(binding)
         "FREEZESTART#{Base64.urlsafe_encode64(html)}FREEZEEND"
       end
