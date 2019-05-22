@@ -1,3 +1,5 @@
+require 'yaml'
+
 module Constraints
   class Redirector
     REDIRECTS = YAML.load_file(File.expand_path("../config/redirects.yml", __dir__)) || {}
