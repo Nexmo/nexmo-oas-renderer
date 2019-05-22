@@ -28,6 +28,7 @@ module NexmoOASRenderer
     end
 
     set :mustermann_opts, { type: :rails }
+    set :show_exceptions, :after_handler
 
     helpers do
       include Helpers::Render
@@ -57,6 +58,11 @@ module NexmoOASRenderer
     def check_redirect!
       redirect_path = Constraints::Redirector.find(request)
       redirect(redirect_path) if redirect_path
+    end
+
+    error Errno::ENOENT do
+      layout = defined?(NexmoDeveloper::Application) ? :'layouts/api.html' : false
+      not_found erb :'static/404', layout: layout
     end
 
     get '(/api)/*definition' do
