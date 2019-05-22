@@ -3,6 +3,7 @@ require 'active_support'
 require 'active_support/core_ext/array/conversions'
 require 'active_support/core_ext/string/output_safety'
 
+require_relative'./constraints/redirector'
 require_relative'./decorators/response_parser_decorator'
 require_relative'./pipelines/markdown_pipeline'
 require_relative'./presenters/home'
@@ -53,7 +54,14 @@ module NexmoOASRenderer
       end
     end
 
+    def check_redirect!
+      redirect_path = Constraints::Redirector.find(request)
+      redirect(redirect_path) if redirect_path
+    end
+
     get '(/api)/*definition' do
+      check_redirect!
+
       parameters = parse_params(params[:definition])
       definition = [parameters[:definition], parameters[:version]].compact.join('.')
       pass if !Constraints::OpenApi.match?(definition)
