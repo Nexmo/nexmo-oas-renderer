@@ -4,7 +4,7 @@ module Filters
       input.gsub(/```code_snippet_list(.+?)```/m) do |_s|
         config = YAML.safe_load($1)
         @product = config['product']
-        @blocks = CodeSnippet.by_product(@product)
+        @blocks = ::CodeSnippet.by_product(@product)
 
         # Top level blocks come before subfolder
         @blocks.sort_by! do |b|
