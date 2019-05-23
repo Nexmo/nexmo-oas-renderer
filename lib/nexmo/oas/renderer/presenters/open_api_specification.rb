@@ -25,28 +25,28 @@ module Presenters
     end
 
     def initialization?
-      File.file? File.expand_path("../_open_api/initialization/#{@definition_name}.md", __dir__)
+      File.file? "#{::NexmoOASRenderer::API.oas_path}/_open_api/initialization/#{@definition_name}.md"
     end
 
     def initialization_content
       @initialization_content ||= MarkdownPipeline.new.call(
-        File.read(File.expand_path("../_open_api/initialization/#{@definition_name}.md", __dir__))
+                  File.read("#{::NexmoOASRenderer::API.oas_path}/_open_api/initialization/#{@definition_name}.md")
       ) if initialization?
     end
 
     def initialization_config
       @initialization_config ||= YAML.safe_load(
-        File.read(File.expand_path("../_open_api/initialization/#{@definition_name}.md", __dir__))
+        File.read("#{::NexmoOASRenderer::API.oas_path}/_open_api/initialization/#{@definition_name}.md")
       ) if initialization?
     end
 
     def errors?
-      File.file? File.expand_path("../_open_api/errors/#{@definition_name}.md", __dir__)
+      File.file? "#{::NexmoOASRenderer::API.oas_path}/_open_api/errors/#{@definition_name}.md"
     end
 
     def definition_errors
       @definition_errors ||= MarkdownPipeline.new.call(
-        File.read(File.expand_path("../_open_api/errors/#{@definition_name}.md", __dir__))
+        File.read("#{::NexmoOASRenderer::API.oas_path}/_open_api/errors/#{@definition_name}.md")
       ) if errors?
     end
 

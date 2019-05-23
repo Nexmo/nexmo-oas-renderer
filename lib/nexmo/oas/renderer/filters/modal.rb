@@ -10,7 +10,7 @@ module Filters
       end
 
       modals = modals.map do |modal|
-        filename = "#{::NexmoOASRenderer::API.root}/#{modal[:document]}"
+        filename = "#{::NexmoOASRenderer::API.oas_path}/#{modal[:document]}"
         raise "Could not find modal #{filename}" unless File.exist? filename
 
         document = File.read(filename)

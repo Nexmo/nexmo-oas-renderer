@@ -65,6 +65,7 @@ GEM
     concurrent-ruby (1.1.5)
     crass (1.0.4)
     deep_merge (1.2.1)
+    dotenv (2.7.2)
     erubi (1.8.0)
     ffi (1.10.0)
     globalid (0.4.2)
@@ -173,6 +174,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 2.0)
+  dotenv (~> 2.7)
   nexmo-oas-renderer!
   rake (~> 10.0)
 

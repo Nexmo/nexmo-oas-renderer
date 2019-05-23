@@ -18,7 +18,7 @@ class OpenApiDefinitionResolver
   end
 
   def self.path(name, format)
-    "#{::NexmoOASRenderer::API.root}/_open_api/api_specs/definitions/#{name}.#{format}"
+    "#{::NexmoOASRenderer::API.oas_path}/_open_api/api_specs/definitions/#{name}.#{format}"
   end
 
   def self.resolve(path)

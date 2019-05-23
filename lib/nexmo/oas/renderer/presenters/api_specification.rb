@@ -14,7 +14,7 @@ module Presenters
     end
 
     def document
-      @document ||= File.read("#{::NexmoOASRenderer::API.root}/#{document_path}")
+      @document ||= File.read("#{::NexmoOASRenderer::API.oas_path}/#{document_path}")
     end
 
     def frontmatter
