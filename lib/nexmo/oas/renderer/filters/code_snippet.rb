@@ -67,7 +67,7 @@ module Filters
     end
 
     def generate_code_block(language, input, unindent)
-      filename = "#{::NexmoOASRenderer::API.root}/#{input['source']}"
+      filename = "#{::NexmoOASRenderer::API.oas_path}/#{input['source']}"
       return '' unless input
       raise "CodeSnippetFilter - Could not load #{filename} for language #{language}" unless File.exist?(filename)
 
