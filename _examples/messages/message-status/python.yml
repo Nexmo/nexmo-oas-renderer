@@ -1,9 +1,0 @@
----
-title: Python
-language: python
-code:
-    source: .repos/nexmo/nexmo-python-code-snippets/messages/message-status.py
-    from_line: 1
-    to_line: 14
-file_name: app.py
-run_command: 'python3 app.py'

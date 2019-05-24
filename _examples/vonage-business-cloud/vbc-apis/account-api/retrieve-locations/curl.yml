@@ -1,9 +1,0 @@
----
-title: cURL
-language: curl
-code:
-    source: .repos/nexmo/nexmo-curl-code-snippets/vbc/account/get-locations.sh
-    from_line: 5
-    to_line: 6
-file_name: get-locations.sh
-run_command: bash get-locations.sh

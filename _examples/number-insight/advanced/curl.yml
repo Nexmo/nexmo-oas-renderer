@@ -1,9 +1,0 @@
----
-title: Curl
-language: curl
-code:
-    source: .repos/nexmo/nexmo-curl-code-snippets/number-insight/ni-advanced.sh
-    from_line: 3
-    to_line: 8
-file_name: ni-advanced.sh
-run_command: 'sh ni-advanced.sh'

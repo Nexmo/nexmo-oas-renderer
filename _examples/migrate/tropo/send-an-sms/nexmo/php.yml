@@ -1,5 +1,0 @@
----
-title: PHP
-language: php
-code:
-    source: _examples/migrate/tropo/send-an-sms/nexmo/php
