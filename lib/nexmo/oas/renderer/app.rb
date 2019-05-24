@@ -2,6 +2,7 @@ require 'sinatra/base'
 require 'active_support'
 require 'active_support/core_ext/array/conversions'
 require 'active_support/core_ext/string/output_safety'
+require 'active_model'
 
 require_relative'./constraints/redirector'
 require_relative'./decorators/response_parser_decorator'

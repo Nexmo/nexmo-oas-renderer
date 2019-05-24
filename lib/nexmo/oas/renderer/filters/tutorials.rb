@@ -1,3 +1,7 @@
+require_relative '../models/tutorial'
+require 'banzai'
+require 'yaml'
+
 module Nexmo
   module OAS
     module Renderer
@@ -7,7 +11,7 @@ module Nexmo
             input.gsub(/```tutorials(.+?)```/m) do |_s|
               config = YAML.safe_load($1)
               @product = config['product']
-              @tutorials = Tutorial.by_product(@product)
+              @tutorials = Models::Tutorial.by_product(@product)
 
               # Default to plain layout, but allow people to override it
               config['layout'] = 'list/plain' unless config['layout']

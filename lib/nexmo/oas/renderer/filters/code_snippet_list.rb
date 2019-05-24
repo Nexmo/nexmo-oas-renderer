@@ -1,3 +1,7 @@
+require 'yaml'
+require 'banzai'
+require_relative '../models/code_snippet'
+
 module Nexmo
   module OAS
     module Renderer
@@ -7,7 +11,7 @@ module Nexmo
             input.gsub(/```code_snippet_list(.+?)```/m) do |_s|
               config = YAML.safe_load($1)
               @product = config['product']
-              @blocks = ::CodeSnippet.by_product(@product)
+              @blocks = Models::CodeSnippet.by_product(@product)
 
               # Top level blocks come before subfolder
               @blocks.sort_by! do |b|
