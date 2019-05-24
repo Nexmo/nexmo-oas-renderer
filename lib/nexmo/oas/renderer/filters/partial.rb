@@ -1,20 +1,26 @@
-module Filters
-  class Partial < Banzai::Filter
-    def call(input)
-      input.gsub(/```partial(.+?)```/m) do |_s|
-        config = YAML.safe_load($1)
-        content = File.read("#{::NexmoOASRenderer::API.oas_path}/#{config['source']}")
+module Nexmo
+  module OAS
+    module Renderer
+      module Filters
+        class Partial < Banzai::Filter
+          def call(input)
+            input.gsub(/```partial(.+?)```/m) do |_s|
+              config = YAML.safe_load($1)
+              content = File.read("#{API.oas_path}/#{config['source']}")
 
-        active = options[:code_language] ? options[:code_language].key == config['platform'] : false
+              active = options[:code_language] ? options[:code_language].key == config['platform'] : false
 
-        if config['platform']
-          <<~HEREDOC
-          <div class="js-platform" data-platform="#{config['platform']}" data-active="#{active}">
-            #{content.render_markdown}
-          </div>
-          HEREDOC
-        else
-          content
+              if config['platform']
+                <<~HEREDOC
+                  <div class="js-platform" data-platform="#{config['platform']}" data-active="#{active}">
+                    #{content.render_markdown}
+                  </div>
+                HEREDOC
+              else
+                content
+              end
+            end
+          end
         end
       end
     end

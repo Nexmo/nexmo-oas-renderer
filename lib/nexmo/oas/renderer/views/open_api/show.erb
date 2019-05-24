@@ -96,7 +96,7 @@
         </div>
         <div class="Vlt-col Vlt-col--1of3 Nxd-api__code">
           <h5>Example response</h5>
-          <%= ResponseParserDecorator.new(definition.raw['components']['schemas']['Error']).html %>
+          <%= Nexmo::OAS::Renderer::ResponseParserDecorator.new(definition.raw['components']['schemas']['Error']).html %>
         </div>
       </div>
     <% end %>

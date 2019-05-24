@@ -2,4 +2,4 @@
 
 require 'nexmo/oas/renderer'
 
-NexmoOASRenderer::API.run!
+Nexmo::OAS::Renderer::API.run!

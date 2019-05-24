@@ -130,14 +130,14 @@
                   <div class="Vlt-tabs__content">
                     <% response.split_schemas(format).each_with_index do |schema, index| %>
                       <div class="Vlt-tabs__panel <% if index.zero? %>Vlt-tabs__panel_active<% end %>">
-                        <%= ResponseParserDecorator.new(schema).html(format, xml_options: schema['xml']) %>
+                        <%= Nexmo::OAS::Renderer::ResponseParserDecorator.new(schema).html(format, xml_options: schema['xml']) %>
                       </div>
                     <% end %>
                   </div>
                 </div>
               <% else %>
                 <% schema = response.schema(format) %>
-                <%= ResponseParserDecorator.new(schema).html(format, xml_options: schema['xml']) %>
+                <%= Nexmo::OAS::Renderer::ResponseParserDecorator.new(schema).html(format, xml_options: schema['xml']) %>
               <% end %>
             </div>
           <% end %>
