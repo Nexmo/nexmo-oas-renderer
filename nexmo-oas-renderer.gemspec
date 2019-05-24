@@ -41,6 +41,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'octicons_helper', '~> 8.2'
   spec.add_runtime_dependency 'redcarpet', '3.4.0'
   spec.add_runtime_dependency 'sass', '~> 3.1'
+  spec.add_runtime_dependency 'activemodel', '~> 5.2'
 
   spec.add_development_dependency "bundler", "~> 2.0"
   spec.add_development_dependency "rake", "~> 10.0"
