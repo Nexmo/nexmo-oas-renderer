@@ -1,3 +1,0 @@
-For devices running Android 6.0 (API level 23) and higher, creation and operation of calls requires requesting runtime permissions. To simplify the implementation in this tutorial, `BaseActivity` checks the permissions in every Activity's `onStart()` and `onStop()`.
-
-To read more about the permissions required, [see the setup tutorial](/tutorials/client-sdk-android-add-sdk-to-your-app#add-permissions).

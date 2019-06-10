@@ -1,8 +1,0 @@
-
-<?php
-  //Check if the conversion data was delivered successfully
-  $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-  $header = substr($response, 0, $header_size);
-  if (strpos($header, '201')){
-    echo ("Success");
-  }

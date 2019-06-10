@@ -1,0 +1,104 @@
+<% definition = @specification.definition %>
+<%= erb :'open_api/_navigation', locals: { definition: definition } %>
+
+<div class="Vlt-main Vlt-main--light Nxd-main" tabindex="2">
+  <div class="Vlt-card Vlt-article Nxd-api">
+    <div id="overview" class="Vlt-grid">
+      <div class="Vlt-col Vlt-col--2of3 Nxd-api__docs">
+        <div>
+          <h1>
+            <%= definition.info['title'] %>
+            <% if definition.info['x-label'] %>
+              <span class="Vlt-badge Vlt-badge--<%= definition.info['x-label'].parameterize %>">
+                <%= definition.info['x-label'] %>
+              </span>
+            <% end %>
+          </h1>
+
+          <% if definition.info['description'] %>
+            <p><%= definition.info['description'].render_markdown %></p>
+          <% end %>
+
+          <div class="Vlt-grid">
+            <div class="Vlt-col">
+              <a href=<%= url("#{request.url}.#{definition.format}", params: request.params) %> class='Vlt-btn Vlt-btn--secondary Vlt-btn--app'>
+                <svg><use xlink:href="/assets/symbol/volta-icons.svg#Vlt-icon-download" /></svg>
+                Download OpenAPI 3 Definition
+              </a>
+            </div>
+            <div class="Vlt-col Vlt-right">
+              <a href="https://github.com/Nexmo/api-specification/blob/master/definitions/<%= @specification.definition_name %>.yml" class='Vlt-btn Vlt-btn--tertiary Vlt-btn--app Vlt-right'>
+                <svg className="Vlt-icon Vlt-black">
+                  <use xlink:href="/assets/symbol/volta-icons.svg#Vlt-icon-github" />
+                </svg>
+                Improve this specification
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="Vlt-col Vlt-col--1of3 Nxd-api__code Nxd-api__code--install">
+
+        <% if @specification.display_initialization? %>
+          <div class="Nxd-api__code__header">
+            <% if @specification.initialization_config && @specification.initialization_config['formats'] %>
+              <div class="Vlt-native-dropdown">
+                <select class="js-format-selector">
+                  <% @specification.initialization_config['formats'].each do |value, name| %>
+                    <option value="<%= value %>"><%= name %></option>
+                  <% end %>
+                </select>
+              </div>
+            <% end %>
+          </div>
+          <%= @specification.initialization_content %>
+        <% end %>
+
+        <% if @specification.available_versions && @specification.available_versions.count > 1 %>
+          <div class="Vlt-callout Vlt-callout--shoutout Nxd-version">
+            <i></i>
+            <div class="Vlt-callout__content">
+              <h4>There are multiple versions of this API available</h4>
+              <p>
+                <% @specification.available_versions.each do |v| %>
+                  <a href="/api/<%= v['name'] %>" <%= v['version'] == @specification.current_version ? 'class=active':'' %>>Version <%= v['version'] %></a> <%= '|' unless v == @specification.available_versions.last %>
+                <% end %>
+              </p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <% @specification.groups.each do |name, endpoints| %>
+      <% if name %>
+        <% group = definition.raw['tags'].select { |tag| tag['name'].capitalize == name.capitalize }.first %>
+        <%= erb :'open_api/_model', locals: { group: group } %>
+      <% end %>
+
+      <% endpoints.each do |endpoint| %>
+        <%= erb :'open_api/_endpoint', locals: { endpoint: endpoint } %>
+      <% end %>
+    <% end %>
+
+    <% if @specification.definition.raw['x-webhooks'] %>
+      <% @specification.definition.raw['x-webhooks'].each do |name, definition| %>
+        <%= erb :'open_api/_callback', locals: { callback: OasParser::Callback.new(self, name, definition), webhook: true } %>
+      <% end %>
+    <% end %>
+
+    <% if @specification.definition_errors %>
+      <div class="Vlt-grid" id="errors">
+        <div class="Vlt-col Vlt-col--2of3 Nxd-api__docs">
+          <div>
+            <%= @specification.definition_errors %>
+          </div>
+        </div>
+        <div class="Vlt-col Vlt-col--1of3 Nxd-api__code">
+          <h5>Example response</h5>
+          <%= Nexmo::OAS::Renderer::ResponseParserDecorator.new(definition.raw['components']['schemas']['Error']).html %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -2,3 +2,4 @@
 .sass-cache/
 .byebug_history
 public/stylesheets/*.css*
+.env

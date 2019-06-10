@@ -1,8 +1,0 @@
----
-dependencies:
-    - nexmo
-    - pprint
-code:
-    source: .repos/nexmo/nexmo-python-code-snippets/number-insight/ni-basic.py
-    from_line: 15
-    to_line: 18

@@ -1,5 +1,0 @@
----
-title: Ruby
-language: ruby
-code:
-    source: _examples/migrate/tropo/make-an-outbound-call/tropo/ruby

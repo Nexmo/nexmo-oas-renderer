@@ -1,8 +1,0 @@
----
-client:
-    source: .repos/nexmo/nexmo-php-code-snippets/voice/trigger-notify-action/index.php
-    from_line: 2
-    to_line: 7
-code:
-    source: .repos/nexmo/nexmo-php-code-snippets/voice/trigger-notify-action/index.php
-    from_line: 8

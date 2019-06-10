@@ -1,9 +1,0 @@
----
-title: cURL
-language: curl
-code:
-    source: .repos/nexmo/nexmo-curl-code-snippets/account/secret-management/list-api-secrets.sh
-    from_line: 4
-    to_line: 5
-file_name: list-secrets.sh
-run_command: bash list-secrets.sh

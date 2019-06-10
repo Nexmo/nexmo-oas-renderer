@@ -1,9 +1,0 @@
----
-title: cURL
-language: curl
-code:
-    source: .repos/nexmo/nexmo-curl-code-snippets/vbc/authentication/password-grant.sh
-    from_line: 4
-    to_line: 6
-file_name: password-grant.sh
-run_command: bash password-grant.sh

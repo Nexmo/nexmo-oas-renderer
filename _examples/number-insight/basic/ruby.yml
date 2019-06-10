@@ -1,5 +1,0 @@
----
-code:
-    source: .repos/nexmo/nexmo-ruby-code-snippets/number-insight/ni-basic.rb
-    from_line: 8
-    to_line: 19

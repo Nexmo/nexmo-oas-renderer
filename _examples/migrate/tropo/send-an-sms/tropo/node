@@ -1,3 +1,0 @@
-call("+61491570157", {
-   network:"SMS"});
-say("Don't forget your meeting at 2 p.m. on Wednesday!");

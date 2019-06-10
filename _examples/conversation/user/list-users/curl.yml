@@ -1,9 +1,0 @@
----
-title: cURL
-language: curl
-code:
-    source: .repos/nexmo/nexmo-curl-code-snippets/conversation/user/list-users.sh
-    from_line: 6
-    to_line: 8
-file_name: list-users.sh
-run_command: bash list-users.sh

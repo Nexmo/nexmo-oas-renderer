@@ -1,3 +1,0 @@
-if response.kind_of? Net::HTTPOK
-  puts "Success"
-end

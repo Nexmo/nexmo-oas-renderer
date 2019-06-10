@@ -1,3 +1,19 @@
+PATH
+  remote: .
+  specs:
+    nexmo-oas-renderer (0.1.0)
+      activemodel (~> 5.2)
+      activesupport (~> 5.2)
+      banzai (~> 0.1.2)
+      neatjson (~> 0.8)
+      oas_parser (= 0.18.1)
+      octicons_helper (~> 8.2)
+      redcarpet (= 3.4.0)
+      rouge (= 2.0.7)
+      sass (~> 3.1)
+      shotgun (~> 0.9)
+      sinatra (~> 2.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -50,8 +66,9 @@ GEM
     concurrent-ruby (1.1.5)
     crass (1.0.4)
     deep_merge (1.2.1)
+    dotenv (2.7.2)
     erubi (1.8.0)
-    ffi (1.10.0)
+    ffi (1.11.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     hansi (0.2.0)
@@ -119,7 +136,7 @@ GEM
       method_source
       rake (>= 0.8.7)
       thor (>= 0.19.0, < 2.0)
-    rake (12.3.2)
+    rake (10.5.0)
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
@@ -157,19 +174,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activesupport
-  banzai (~> 0.1.2)
-  neatjson
-  oas_parser (= 0.18.1)
-  octicons_helper
-  redcarpet (~> 3.4.0)
-  rouge (~> 2.0.7)
-  sass
-  shotgun
-  sinatra
-
-RUBY VERSION
-   ruby 2.5.5p157
+  bundler (~> 2.0)
+  dotenv (~> 2.7)
+  nexmo-oas-renderer!
+  rake (~> 10.0)
 
 BUNDLED WITH
    2.0.1
