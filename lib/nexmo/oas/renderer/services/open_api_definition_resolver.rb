@@ -21,7 +21,7 @@ module Nexmo
         end
 
         def self.path(name, format)
-          "#{API.oas_path}/_open_api/api_specs/definitions/#{name}.#{format}"
+          "#{API.oas_path}/#{name}.#{format}"
         end
 
         def self.resolve(path)
