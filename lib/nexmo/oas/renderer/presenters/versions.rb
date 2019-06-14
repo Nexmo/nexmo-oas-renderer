@@ -25,7 +25,7 @@ module Nexmo
             @available_versions ||= begin
                                       versions = Constraints::OpenApi.find_all_versions(base_name)
                                       # Add in anything in the old /_api folder
-                                      if File.exist?("#{API.oas_path}/_api/#{base_name}.md")
+                                      if File.exist?("_api/#{base_name}.md")
                                         versions.push({ 'version' => '1', 'name' => base_name })
                                       end
 

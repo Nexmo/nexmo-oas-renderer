@@ -126,7 +126,7 @@ module Nexmo
           end
 
           def content_from_source
-            source_path = "#{API.oas_path}/#{@config['source']}"
+            source_path = @config['source']
             source_path += '/*' if tabbed_code_examples?
             source_path += '/*.md' if tabbed_content?
 
@@ -160,7 +160,7 @@ module Nexmo
 
           def content_from_tabs
             @config['tabs'].map do |title, config|
-              file_path = "#{API.oas_path}/#{config['source']}"
+              file_path = config['source']
               raise "Could not find content_from_tabs file: #{config['source']}" unless File.exist? file_path
               source = File.read(file_path)
 

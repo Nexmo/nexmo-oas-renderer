@@ -66,7 +66,7 @@ module Nexmo
           end
 
           def self.origin
-            "#{API.oas_path}/_documentation"
+            "_documentation"
           end
         end
       end

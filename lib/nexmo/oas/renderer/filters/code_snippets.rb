@@ -84,7 +84,7 @@ module Nexmo
           end
 
           def content_from_source
-            source_path = "#{API.oas_path}/#{@config['source']}/*.yml"
+            source_path = "#{@config['source']}/*.yml"
 
             files = Dir[source_path]
             raise "No .yml files found for #{@config['source']} code snippets" if files.empty?

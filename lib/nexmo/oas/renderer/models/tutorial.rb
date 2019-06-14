@@ -51,7 +51,7 @@ module Nexmo
           end
 
           def self.origin
-            Pathname.new("#{API.oas_path}/_tutorials")
+            Pathname.new("_tutorials")
           end
 
           def self.all
