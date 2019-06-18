@@ -42,8 +42,8 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'redcarpet', '3.4.0'
   spec.add_runtime_dependency 'sass', '~> 3.1'
   spec.add_runtime_dependency 'activemodel', '~> 5.2'
+  spec.add_runtime_dependency "dotenv", "~> 2.7"
 
   spec.add_development_dependency "bundler", "~> 2.0"
   spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "dotenv", "~> 2.7"
 end
