@@ -24,10 +24,10 @@ module Nexmo
             vonage-business-cloud/account
             vonage-business-cloud/extension
             vonage-business-cloud/user
-            application.v2
           ].freeze
 
           def self.match?(definition, code_language = nil)
+            return true if ENV['OAS_CI']
             if code_language.nil?
               products_with_code_language[:definition].match?(definition)
             else
