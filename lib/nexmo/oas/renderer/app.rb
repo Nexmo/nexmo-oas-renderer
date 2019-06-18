@@ -19,8 +19,6 @@ require_relative'./lib/core_ext/string'
 
 require 'dotenv/load'
 
-Dotenv.require_keys('OAS_PATH')
-
 module Nexmo
   module OAS
     module Renderer
@@ -35,7 +33,7 @@ module Nexmo
 
         set :mustermann_opts, { type: :rails }
         set :show_exceptions, :after_handler
-        set :oas_path, ENV['OAS_PATH']
+        set :oas_path, (ENV['OAS_PATH'] || '.')
 
         helpers do
           include Helpers::Render

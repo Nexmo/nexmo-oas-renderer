@@ -70,7 +70,7 @@ module Nexmo
           end
 
           def generate_code_block(language, input, unindent)
-            filename = "#{API.oas_path}/#{input['source']}"
+            filename = input['source']
             return '' unless input
             raise "CodeSnippetFilter - Could not load #{filename} for language #{language}" unless File.exist?(filename)
 

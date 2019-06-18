@@ -11,7 +11,7 @@ module Nexmo
 
           return resolve(path) if path
 
-          raise "Could not find definition '#{name}'"
+          raise "Could not find definition '#{name}' in '#{API.oas_path}'"
         end
 
         def self.paths(name)
@@ -21,7 +21,7 @@ module Nexmo
         end
 
         def self.path(name, format)
-          "#{API.oas_path}/_open_api/api_specs/definitions/#{name}.#{format}"
+          "#{API.oas_path}/definitions/#{name}.#{format}"
         end
 
         def self.resolve(path)

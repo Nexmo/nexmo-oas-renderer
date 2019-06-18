@@ -6,7 +6,7 @@ module Nexmo
           def call(input)
             input.gsub(/```partial(.+?)```/m) do |_s|
               config = YAML.safe_load($1)
-              content = File.read("#{API.oas_path}/#{config['source']}")
+              content = File.read(config['source'])
 
               active = options[:code_language] ? options[:code_language].key == config['platform'] : false
 

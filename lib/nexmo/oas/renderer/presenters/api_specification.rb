@@ -17,7 +17,7 @@ module Nexmo
           end
 
           def document
-            @document ||= File.read("#{API.oas_path}/#{document_path}")
+            @document ||= File.read(document_path)
           end
 
           def frontmatter

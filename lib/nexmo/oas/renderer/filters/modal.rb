@@ -13,7 +13,7 @@ module Nexmo
             end
 
             modals = modals.map do |modal|
-              filename = "#{API.oas_path}/#{modal[:document]}"
+              filename = modal[:document]
               raise "Could not find modal #{filename}" unless File.exist? filename
 
               document = File.read(filename)
