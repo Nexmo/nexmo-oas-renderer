@@ -70,6 +70,16 @@ module Nexmo
           not_found erb :'static/404', layout: layout
         end
 
+        unless defined?(NexmoDeveloper::Application)
+          get '/' do
+            prefix = "#{API.oas_path}definitions"
+            @definitions = Dir.glob("#{prefix}/**/*.yml").map do |d|
+              d.gsub("#{prefix}/", '').gsub('.yml', '')
+            end.sort.reject { |d| d.include? 'common/' }
+            erb :'api/index', layout: false
+          end
+        end
+
         get '(/api)/*definition' do
           check_redirect!
 

@@ -22,7 +22,7 @@ Install the gem:
 $ gem install nexmo-oas-renderer
 ```
 
-And simply run the executable:
+And simply run the executable with the corresponding env variables set (see [Note](#note)):
 ``` shell
 $ nexmo-oas-renderer
 ```
@@ -64,7 +64,8 @@ $ cp .env.example .env
 and assign values to the corresponding variables.
 
 #### Note
-The app won't boot if the env variable `OAS_PATH` is not set. This variable indicates the path to the documents that will be rendered.
+The env variable `OAS_PATH` indicates the path to the documents that will be rendered.
+Set `OAS_CI` to true to treat all the OAS docs under `OAS_PATH` as valid.
 
 ## Contributing
 We ❤️ contributions from everyone! [Bug reports](https://github.com/Nexmo/nexmo-oas-renderer/issues), [bug fixes](https://github.com/Nexmo/nexmo-oas-renderer/pulls) and feedback on the library is always appreciated. Look at the [Contributor Guidelines](https://github.com/Nexmo/nexmo-oas-renderer/blob/master/CONTRIBUTING.md) for more information and please follow the [GitHub Flow](https://guides.github.com/introduction/flow/index.html).
