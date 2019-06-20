@@ -24,6 +24,8 @@ module Nexmo
             vonage-business-cloud/account
             vonage-business-cloud/extension
             vonage-business-cloud/user
+            vonage-business-cloud/vgis
+            application.v2
           ].freeze
 
           def self.match?(definition, code_language = nil)
