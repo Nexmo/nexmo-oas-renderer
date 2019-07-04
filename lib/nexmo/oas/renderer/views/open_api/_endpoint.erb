@@ -141,11 +141,12 @@
               <% end %>
             </div>
           <% end %>
-        </div>
 
         <% if response.code == '204' || response.formats.empty? %>
-          <pre class="highlight"><code>No content</code></pre>
+          <% content = response.description ? response.description : 'No content' %>
+          <pre class="highlight"><code><%= content %></code></pre>
         <% end %>
+        </div>
       </div>
     <% end %>
   </div>
