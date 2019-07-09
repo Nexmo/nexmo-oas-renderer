@@ -22,14 +22,14 @@
           <div class="Vlt-grid">
             <div class="Vlt-col">
               <a href=<%= url("#{request.url}.#{definition.format}", params: request.params) %> class='Vlt-btn Vlt-btn--secondary Vlt-btn--app'>
-                <svg><use xlink:href="/assets/symbol/volta-icons.svg#Vlt-icon-download" /></svg>
+                <svg><use xlink:href="/symbol/volta-icons.svg#Vlt-icon-download" /></svg>
                 Download OpenAPI 3 Definition
               </a>
             </div>
             <div class="Vlt-col Vlt-right">
               <a href="https://github.com/Nexmo/api-specification/blob/master/definitions/<%= @specification.definition_name %>.yml" class='Vlt-btn Vlt-btn--tertiary Vlt-btn--app Vlt-right'>
                 <svg className="Vlt-icon Vlt-black">
-                  <use xlink:href="/assets/symbol/volta-icons.svg#Vlt-icon-github" />
+                  <use xlink:href="/symbol/volta-icons.svg#Vlt-icon-github" />
                 </svg>
                 Improve this specification
               </a>
