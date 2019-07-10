@@ -39,7 +39,7 @@
       </div>
       <div class="Vlt-col Vlt-col--1of3 Nxd-api__code Nxd-api__code--install">
 
-        <% if @specification.formats.any? %>
+        <% if @specification.formats.size > 1 %>
           <div class="Nxd-api__code__header">
             <div class="Vlt-native-dropdown">
               <select class="js-format-selector">
