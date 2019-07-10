@@ -1,5 +1,6 @@
 require 'forwardable'
-require_relative './formats'
+require_relative './endpoint'
+require_relative './response_format'
 require_relative './groups'
 require_relative './versions'
 require_relative '../services/open_api_definition_resolver'
@@ -43,7 +44,13 @@ module Nexmo
           end
 
           def formats
-            @formats ||= Formats.new(definition.endpoints.flat_map(&:responses)).extract
+            @formats ||= ResponseFormat.to_dropdown(endpoints.flat_map(&:formats).uniq)
+          end
+
+          private
+
+          def endpoints
+            @endpoints ||= definition.endpoints.map { |e| Endpoint.new(e) }
           end
         end
       end
