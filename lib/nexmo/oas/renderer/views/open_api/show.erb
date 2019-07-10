@@ -39,19 +39,16 @@
       </div>
       <div class="Vlt-col Vlt-col--1of3 Nxd-api__code Nxd-api__code--install">
 
-        <% if @specification.display_initialization? %>
+        <% if @specification.formats.any? %>
           <div class="Nxd-api__code__header">
-            <% if @specification.initialization_config && @specification.initialization_config['formats'] %>
-              <div class="Vlt-native-dropdown">
-                <select class="js-format-selector">
-                  <% @specification.initialization_config['formats'].each do |value, name| %>
-                    <option value="<%= value %>"><%= name %></option>
-                  <% end %>
-                </select>
-              </div>
-            <% end %>
+            <div class="Vlt-native-dropdown">
+              <select class="js-format-selector">
+                <% @specification.formats.each do |value, name| %>
+                  <option value="<%= value %>"><%= name %></option>
+                <% end %>
+              </select>
+            </div>
           </div>
-          <%= @specification.initialization_content %>
         <% end %>
 
         <% if @specification.available_versions && @specification.available_versions.count > 1 %>

@@ -1,4 +1,6 @@
 require 'forwardable'
+require_relative './endpoint'
+require_relative './response_format'
 require_relative './groups'
 require_relative './versions'
 require_relative '../services/open_api_definition_resolver'
@@ -23,28 +25,8 @@ module Nexmo
             @groups           = Groups.new(definition)
           end
 
-          def display_initialization?
-            initialization? && initialization_content && initialization_config
-          end
-
-          def initialization?
-            File.file? "#{API.oas_path}/../initialization/#{@definition_name}.md"
-          end
-
-          def initialization_content
-            @initialization_content ||= MarkdownPipeline.new.call(
-              File.read("#{API.oas_path}/../initialization/#{@definition_name}.md")
-            ) if initialization?
-          end
-
-          def initialization_config
-            @initialization_config ||= YAML.safe_load(
-              File.read("#{API.oas_path}/../initialization/#{@definition_name}.md")
-            ) if initialization?
-          end
-
           def errors?
-              File.exist?("#{API.oas_path}/../errors/#{@definition_name}.md")
+            File.exist?("#{API.oas_path}/../errors/#{@definition_name}.md")
           end
 
           def definition_errors
@@ -60,8 +42,17 @@ module Nexmo
           def auto_expand_responses
             @expand_responses
           end
-        end
 
+          def formats
+            @formats ||= ResponseFormat.to_dropdown(endpoints.flat_map(&:formats).uniq)
+          end
+
+          private
+
+          def endpoints
+            @endpoints ||= definition.endpoints.map { |e| Endpoint.new(e) }
+          end
+        end
       end
     end
   end
