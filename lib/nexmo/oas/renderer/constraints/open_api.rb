@@ -26,6 +26,7 @@ module Nexmo
             vonage-business-cloud/user
             vonage-business-cloud/vgis
             application.v2
+            conversion
           ].freeze
 
           def self.match?(definition, code_language = nil)
