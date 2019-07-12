@@ -9,7 +9,7 @@ module Nexmo
             input.gsub!(/@\[(.+?)\]\((.+?)\)/) do |_s|
               id = 'M' + SecureRandom.hex(12)
               modals << { document: $2, id: id }
-              "<a data-modal='#{id}' class='Vlt-modal-trigger'>#{$1}</a>"
+              "<a href='javascript:void(0)' data-modal='#{id}' class='Vlt-modal-trigger Vlt-text-link'>#{$1}</a>"
             end
 
             modals = modals.map do |modal|
