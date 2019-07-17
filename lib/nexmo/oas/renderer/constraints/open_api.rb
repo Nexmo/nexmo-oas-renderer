@@ -25,6 +25,7 @@ module Nexmo
             vonage-business-cloud/extension
             vonage-business-cloud/user
             vonage-business-cloud/vgis
+            application
             application.v2
             conversion
           ].freeze
