@@ -95,60 +95,62 @@
   <div class="Vlt-col Vlt-col--1of3 Nxd-api__code">
     <%= erb :'open_api/_code_examples', locals: { endpoint: endpoint } %>
 
-    <% endpoint.responses.each do |response| %>
-      <%
-        id = SecureRandom.hex
-        expand_response = response.code[0] == '2' && response.raw['x-expand-response'] != false
-        expand_response = true if response.raw['x-expand-response']
-      %>
+    <div class='Nxd-api__responses'>
+      <% endpoint.responses.each do |response| %>
+        <%
+          id = SecureRandom.hex
+          expand_response = response.code[0] == '2' && response.raw['x-expand-response'] != false
+          expand_response = true if response.raw['x-expand-response']
+        %>
 
-      <div class="Vlt-accordion">
-        <button tabindex="0" class="Vlt-accordion__trigger <%= expand_response ? 'Vlt-accordion__trigger_active' : '' %>">
-          <h5 class="Vlt-title--nomargin">HTTP response
-            <span class="Vlt-badge Vlt-badge--<%= response.code[0] == '2' ? 'green' : response.code[0] == '3' ? 'yellow' : 'red'  %>"><%= response.code %></span>
-          </h5>
-        </button>
+        <div class="Vlt-accordion">
+          <button tabindex="0" class="Vlt-accordion__trigger <%= expand_response ? 'Vlt-accordion__trigger_active' : '' %>">
+            <h5 class="Vlt-title--nomargin">HTTP response
+              <span class="Vlt-badge Vlt-badge--<%= response.code[0] == '2' ? 'green' : response.code[0] == '3' ? 'yellow' : 'red'  %>"><%= response.code %></span>
+            </h5>
+          </button>
 
-        <div class="Vlt-accordion__content <%= expand_response ? 'Vlt-accordion__content_open' : '' %>">
-          <% response.formats.each_with_index do |format, index| %>
-            <div class="js-format" data-format="<%= format %>">
-              <% if response.exhibits_one_of_multiple_schemas?(format) %>
-                <%
-                  schema_tab_ids = []
-                  id = SecureRandom.hex
-                  response.split_schemas(format).each { schema_tab_ids << SecureRandom.hex }
-                %>
+          <div class="Vlt-accordion__content <%= expand_response ? 'Vlt-accordion__content_open' : '' %>">
+            <% response.formats.each_with_index do |format, index| %>
+              <div class="js-format" data-format="<%= format %>">
+                <% if response.exhibits_one_of_multiple_schemas?(format) %>
+                  <%
+                    schema_tab_ids = []
+                    id = SecureRandom.hex
+                    response.split_schemas(format).each { schema_tab_ids << SecureRandom.hex }
+                  %>
 
-                <div class="Vlt-tabs">
-                  <div class="Vlt-tabs__header">
-                    <% response.split_schemas(format).each_with_index do |schema, index| %>
-                      <div tabindex="<%= schema_tab_ids[index] %>" <% if index.zero? %>class="Vlt-tabs__link Vlt-tabs__link_active" aria-selected="true"<% else %>class="Vlt-tabs__link"<% end %>>
-                        <%= schema['description'] || "Response #{index + 1}" %>
-                      </div>
-                    <% end %>
+                  <div class="Vlt-tabs">
+                    <div class="Vlt-tabs__header">
+                      <% response.split_schemas(format).each_with_index do |schema, index| %>
+                        <div tabindex="<%= schema_tab_ids[index] %>" <% if index.zero? %>class="Vlt-tabs__link Vlt-tabs__link_active" aria-selected="true"<% else %>class="Vlt-tabs__link"<% end %>>
+                          <%= schema['description'] || "Response #{index + 1}" %>
+                        </div>
+                      <% end %>
+                    </div>
+                    <div class="Vlt-tabs__content">
+                      <% response.split_schemas(format).each_with_index do |schema, index| %>
+                        <div class="Vlt-tabs__panel <% if index.zero? %>Vlt-tabs__panel_active<% end %>">
+                          <%= Nexmo::OAS::Renderer::ResponseParserDecorator.new(schema).html(format, xml_options: schema['xml']) %>
+                        </div>
+                      <% end %>
+                    </div>
                   </div>
-                  <div class="Vlt-tabs__content">
-                    <% response.split_schemas(format).each_with_index do |schema, index| %>
-                      <div class="Vlt-tabs__panel <% if index.zero? %>Vlt-tabs__panel_active<% end %>">
-                        <%= Nexmo::OAS::Renderer::ResponseParserDecorator.new(schema).html(format, xml_options: schema['xml']) %>
-                      </div>
-                    <% end %>
-                  </div>
-                </div>
-              <% else %>
-                <% schema = response.schema(format) %>
-                <%= Nexmo::OAS::Renderer::ResponseParserDecorator.new(schema).html(format, xml_options: schema['xml']) %>
-              <% end %>
-            </div>
+                <% else %>
+                  <% schema = response.schema(format) %>
+                  <%= Nexmo::OAS::Renderer::ResponseParserDecorator.new(schema).html(format, xml_options: schema['xml']) %>
+                <% end %>
+              </div>
+            <% end %>
+
+          <% if response.code == '204' || response.formats.empty? %>
+            <% content = response.description ? response.description : 'No content' %>
+            <pre class="highlight"><code><%= content %></code></pre>
           <% end %>
-
-        <% if response.code == '204' || response.formats.empty? %>
-          <% content = response.description ? response.description : 'No content' %>
-          <pre class="highlight"><code><%= content %></code></pre>
-        <% end %>
+          </div>
         </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
 </div>
 

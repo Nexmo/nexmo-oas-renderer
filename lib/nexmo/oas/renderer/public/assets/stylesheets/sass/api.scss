@@ -1,3 +1,6 @@
+@import "./variables";
+@import "./mediaqueries";
+
 .Nxd-content {
   display: flex;
 }
@@ -55,6 +58,11 @@
 
   @media #{$S-only} {
     padding-left: $unit2;
+  }
+
+  &__responses {
+    top: 0;
+    position: sticky;
   }
 
   &__code {
