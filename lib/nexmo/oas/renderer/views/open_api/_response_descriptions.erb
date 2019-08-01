@@ -11,7 +11,7 @@
     </a>
   </p>
 
-  <div id="acc<%= id %>" class="Vlt-js-accordion__content <%= auto_expand_responses ? 'Vlt-js-accordion__content_open' : '' %>">
+  <div id="acc<%= id %>" class="Vlt-js-accordion__content <%= auto_expand_responses ? 'Vlt-js-accordion__content_open' : '' %>" data-response-group='<%= anchor_prefix %>'>
     <h4 id="<%= anchor_prefix %>">Response Fields</h4>
     <% response.formats.each_with_index do |format, index| %>
       <% if response.exhibits_one_of_multiple_schemas?(format) %>
