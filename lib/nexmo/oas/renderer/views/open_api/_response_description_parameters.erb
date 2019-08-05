@@ -23,6 +23,11 @@
         <% if value['items'] %>
           <br />
           <small>array of <%= value['items']['type'] %>s</small>
+        <% else %>
+          <br />
+          <small>
+            <i><%= value['type'] %></i>
+          </small>
         <% end %>
       </td>
       <td>
