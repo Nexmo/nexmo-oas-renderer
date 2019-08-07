@@ -141,6 +141,35 @@ body {
   .Nxd-version a.active {
     font-weight: bold; }
 
+.Vlt-sidenav {
+  display: inline-flex; }
+
+body {
+  background: #f8fafc; }
+
+@media only screen and (min-width: 576px) {
+  .Vlt-S-only {
+    display: none !important; } }
+
+@media only screen and (max-width: 575px) {
+  .Vlt-M-only {
+    display: none !important; } }
+@media only screen and (min-width: 768px) {
+  .Vlt-M-only {
+    display: none !important; } }
+
+@media only screen and (max-width: 767px) {
+  .Vlt-L-plus {
+    display: none !important; } }
+
+@media only screen and (max-width: 575px) {
+  .Vlt-M-plus {
+    display: none !important; } }
+
+@media only screen and (min-width: 768px) {
+  .Vlt-M-less {
+    display: none !important; } }
+
 * {
   box-sizing: border-box;
   font-smoothing: antialiased;
@@ -304,7 +333,7 @@ table .Vlt-icon:not(.Vlt-icon--smaller) {
 
 /* Error */
 .highlight .k {
-  color: #85ccf5; }
+  color: #33aaee; }
 
 /* Keyword */
 .highlight .l {
@@ -348,11 +377,11 @@ table .Vlt-icon:not(.Vlt-icon--smaller) {
 
 /* Generic.Strong */
 .highlight .kc {
-  color: #85ccf5; }
+  color: #33aaee; }
 
 /* Keyword.Constant */
 .highlight .kd {
-  color: #85ccf5; }
+  color: #33aaee; }
 
 /* Keyword.Declaration */
 .highlight .kn {
@@ -360,15 +389,15 @@ table .Vlt-icon:not(.Vlt-icon--smaller) {
 
 /* Keyword.Namespace */
 .highlight .kp {
-  color: #85ccf5; }
+  color: #33aaee; }
 
 /* Keyword.Pseudo */
 .highlight .kr {
-  color: #85ccf5; }
+  color: #33aaee; }
 
 /* Keyword.Reserved */
 .highlight .kt {
-  color: #85ccf5; }
+  color: #33aaee; }
 
 /* Keyword.Type */
 .highlight .ld {
@@ -396,7 +425,7 @@ table .Vlt-icon:not(.Vlt-icon--smaller) {
 
 /* Name.Class */
 .highlight .no {
-  color: #85ccf5; }
+  color: #33aaee; }
 
 /* Name.Constant */
 .highlight .nd {
