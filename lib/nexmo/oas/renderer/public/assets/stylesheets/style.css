@@ -85,8 +85,10 @@ body {
     .Nxd-api {
       padding-left: 16px; } }
   .Nxd-api__responses {
-    top: 0;
-    position: sticky; }
+    top: 30px;
+    position: sticky;
+    display: block;
+    overflow: scroll; }
   .Nxd-api__code {
     background: #e7ebee;
     border-bottom: 1px solid #f8fafc;

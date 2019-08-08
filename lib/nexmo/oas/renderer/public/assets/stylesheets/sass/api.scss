@@ -61,8 +61,10 @@
   }
 
   &__responses {
-    top: 0;
+    top: 30px;
     position: sticky;
+    display: block;
+    overflow: scroll;
   }
 
   &__code {
