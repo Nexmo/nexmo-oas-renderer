@@ -103,7 +103,7 @@ body {
         float: right; }
       .Nxd-api__code__header--sticky {
         position: fixed;
-        top: 135px;
+        top: 30px;
         width: 27.5%;
         z-index: 1000; }
         @media only screen and (max-width: 575px) {
