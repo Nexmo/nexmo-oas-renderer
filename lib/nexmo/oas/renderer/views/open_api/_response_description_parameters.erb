@@ -16,9 +16,8 @@
   <% schema['properties'].each do |key, value| %>
     <% next if key == '_links' %>
     <% next if value['x-skip-response-description'] %>
-    <% anchor_value = "#{anchor_prefix}-#{key}" %>
     <tr<% if value['properties'] %> class=" Vlt-table__row--noline" <% end %>>
-      <td id="<%= anchor_value %>">
+      <td>
         <b><%= key %></b>
         <% if value['items'] %>
           <br />
@@ -55,7 +54,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <%= erb :'open_api/_response_description_parameters', locals: { schema: value, anchor_prefix: anchor_value } %>
+                    <%= erb :'open_api/_response_description_parameters', locals: { schema: value } %>
                   </tbody>
                 </table>
               </div>

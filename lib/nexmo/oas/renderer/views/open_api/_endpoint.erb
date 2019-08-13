@@ -87,7 +87,7 @@
       <% end %>
 
       <%= erb :'open_api/_parameter_groups', locals: { endpoint: endpoint } %>
-      <%= erb :'open_api/_response_descriptions', locals: { endpoint: endpoint, anchor_prefix: "response-#{endpoint.operationId}", auto_expand_responses: @auto_expand_responses } %>
+      <%= erb :'open_api/_response_descriptions', locals: { endpoint: endpoint, auto_expand_responses: @auto_expand_responses } %>
 
     </div>
   </div>
@@ -114,28 +114,7 @@
             <% response.formats.each_with_index do |format, index| %>
               <div class="js-format" data-format="<%= format %>">
                 <% if response.exhibits_one_of_multiple_schemas?(format) %>
-                  <%
-                    schema_tab_ids = []
-                    id = SecureRandom.hex
-                    response.split_schemas(format).each { schema_tab_ids << SecureRandom.hex }
-                  %>
-
-                  <div class="Vlt-tabs">
-                    <div class="Vlt-tabs__header">
-                      <% response.split_schemas(format).each_with_index do |schema, index| %>
-                        <div data-response-group='response-<%= "#{endpoint.operationId}" %>' data-target='<%= index %>' tabindex="<%= schema_tab_ids[index] %>" <% if index.zero? %>class="Vlt-tabs__link Vlt-tabs__link_active" aria-selected="true"<% else %>class="Vlt-tabs__link"<% end %>>
-                          <%= schema['description'] || "Response #{index + 1}" %>
-                        </div>
-                      <% end %>
-                    </div>
-                    <div class="Vlt-tabs__content">
-                      <% response.split_schemas(format).each_with_index do |schema, index| %>
-                        <div class="Vlt-tabs__panel <% if index.zero? %>Vlt-tabs__panel_active<% end %>">
-                          <%= Nexmo::OAS::Renderer::ResponseParserDecorator.new(schema).html(format, xml_options: schema['xml']) %>
-                        </div>
-                      <% end %>
-                    </div>
-                  </div>
+                  <%= erb :'open_api/_response_tabs', locals: { format: format, response: response, content: :responses } %>
                 <% else %>
                   <% schema = response.schema(format) %>
                   <%= Nexmo::OAS::Renderer::ResponseParserDecorator.new(schema).html(format, xml_options: schema['xml']) %>

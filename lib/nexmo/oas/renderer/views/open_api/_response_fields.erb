@@ -1,9 +1,9 @@
-<div class="js-format Nxd-api__response <%= locals[:index] && locals[:index] > 0 ? 'hide' : '' %>" data-format="<%= format %>" data-target='<%= locals[:index] || '' %>'>
+<div class="js-format Nxd-api__response" data-format="<%= format %>">
   <div class="Vlt-table Vlt-table--data Vlt-table--bordered">
     <table>
       <thead>
-        <% if locals[:index] %>
-          <tr><th colspan="2"><%= schema['description'] || "Response #{locals[:index] + 1}"%></th></tr>
+        <% if index %>
+          <tr><th colspan="2"><%= schema['description'] || "Response #{index + 1}"%></th></tr>
         <% end %>
         <tr>
           <th>Field</th>
@@ -11,7 +11,7 @@
         </tr>
       </thead>
       <tbody>
-        <%= erb :'open_api/_response_description_parameters', locals: { schema: schema, anchor_prefix: anchor_prefix } %>
+        <%= erb :'open_api/_response_description_parameters', locals: { schema: schema } %>
       </tbody>
     </table>
   </div>
