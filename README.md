@@ -27,6 +27,11 @@ And simply run the executable with the corresponding env variables set (see [Not
 $ nexmo-oas-renderer
 ```
 
+Or, if you want to make code changes, just run the following command which will start the web server on http://localhost:9393:
+``` shell
+OAS_PATH=... bundle exec shotgun lib/nexmo/oas/renderer/config.ru
+```
+
 ### Mounted into a Rails Application
 
 Add this to your application's `Gemfile`:
