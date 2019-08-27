@@ -1,7 +1,7 @@
 module Nexmo
   module OAS
     module Renderer
-      VERSION = "0.3.7"
+      VERSION = "0.4.0"
     end
   end
 end
