@@ -11,7 +11,7 @@ module Nexmo
                 link['target'] = '_blank'
                 if link.css('svg').empty?
                   link.add_child <<~HEREDOC
-                    &nbsp;<svg class="Vlt-icon Vlt-icon--smaller Vlt-icon--text-bottom Vlt-blue-dark"><use xlink:href="/symbol/volta-icons.svg#Vlt-icon-open"></use></svg>
+                    &nbsp;<svg class="Vlt-icon Vlt-icon--smaller Vlt-icon--text-bottom Vlt-blue-dark"><use xlink:href="/assets/symbol/volta-icons.svg#Vlt-icon-open"></use></svg>
                   HEREDOC
                 end
               end

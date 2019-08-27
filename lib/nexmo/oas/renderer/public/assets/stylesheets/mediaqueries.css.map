@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AAgBC,yCAAkB,CADnB,WAAY,CAEV,OAAO,CAAE,eAAe,EAKzB,yCAAkB,CADnB,WAAY,CAEV,OAAO,CAAE,eAAe,EAGzB,yCAAkB,CALnB,WAAY,CAMV,OAAO,CAAE,eAAe,EAKzB,yCAAkB,CADnB,WAAY,CAEV,OAAO,CAAE,eAAe,EAKzB,yCAAkB,CADnB,WAAY,CAEV,OAAO,CAAE,eAAe,EAKzB,yCAAkB,CADnB,WAAY,CAEV,OAAO,CAAE,eAAe",
-"sources": ["sass/mediaqueries.scss"],
-"names": [],
-"file": "mediaqueries.css"
-}

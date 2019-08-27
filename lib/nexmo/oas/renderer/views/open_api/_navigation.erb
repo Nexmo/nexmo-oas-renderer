@@ -22,7 +22,7 @@
         <% endpoints.each do |endpoint| %>
           <li>
             <a href="#<%= endpoint.operationId %>" class="Vlt-sidemenu__link">
-              <svg class="Vlt-green"><use xlink:href="/symbol/volta-icons.svg#Vlt-icon-code" /></svg>
+              <svg class="Vlt-green"><use xlink:href="/assets/symbol/volta-icons.svg#Vlt-icon-code" /></svg>
 
               <span class="Vlt-sidemenu__label">
                 <%= normalize_summary_title(endpoint.summary, endpoint.operationId) %>
@@ -37,7 +37,7 @@
                 <% path.endpoints.each do |endpoint| %>
                   <li class="Nxd-menu__indent">
                     <a href="#<%= endpoint.operationId %>" class="Vlt-sidemenu__link">
-                      <svg class="Vlt-blue"><use xlink:href="/symbol/volta-icons.svg#Vlt-icon-toggle" /></svg>
+                      <svg class="Vlt-blue"><use xlink:href="/assets/symbol/volta-icons.svg#Vlt-icon-toggle" /></svg>
                       <span class="Vlt-sidemenu__label"><%= endpoint.summary %></span>
                     </a>
                   </li>
@@ -55,7 +55,7 @@
               <% path.endpoints.each do |endpoint| %>
                 <li>
                   <a href="#<%= name %>" class="Vlt-sidemenu__link">
-                    <svg class="Vlt-orange"><use xlink:href="/symbol/volta-icons.svg#Vlt-icon-mind-map" /></svg>
+                    <svg class="Vlt-orange"><use xlink:href="/assets/symbol/volta-icons.svg#Vlt-icon-mind-map" /></svg>
                     <span class="Vlt-sidemenu__label"><%= endpoint.summary %></span>
                   </a>
                 </li>

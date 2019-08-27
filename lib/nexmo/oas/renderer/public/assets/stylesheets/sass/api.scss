@@ -1,3 +1,6 @@
+@import "./variables";
+@import "./mediaqueries";
+
 .Nxd-content {
   display: flex;
 }
@@ -57,6 +60,13 @@
     padding-left: $unit2;
   }
 
+  &__responses {
+    top: 30px;
+    position: sticky;
+    display: block;
+    overflow: scroll;
+  }
+
   &__code {
     background: $grey-light;
     border-bottom: 1px solid $grey-lighter;
@@ -77,7 +87,7 @@
 
       &--sticky {
         position: fixed;
-        top: 135px;
+        top: 30px;
         width: 27.5%;
         z-index: 1000;
 
