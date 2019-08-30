@@ -29,6 +29,7 @@ module Nexmo
             application.v2
             conversion
             subaccounts
+            developer/messages
           ].freeze
 
           def self.match?(definition, code_language = nil)
