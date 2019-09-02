@@ -8,7 +8,7 @@ module Nexmo
           end
 
           def canonical_path
-            request.path.chomp("/#{params[:code_language]}")
+            request.path.chomp("/#{@code_language}")
           end
         end
       end
