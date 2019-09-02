@@ -4,8 +4,9 @@ module Nexmo
       module Presenters
         class ApiSpecification
 
-          def initialize(document_name:)
+          def initialize(document_name:, code_language: nil)
             @document_name = document_name
+            @code_language = code_language
           end
 
           def side_navigation
@@ -33,7 +34,9 @@ module Nexmo
           end
 
           def content
-            @content ||= MarkdownPipeline.new.call(document)
+            options = {}
+            options.merge(code_language: @code_language) if @code_language
+            @content ||= MarkdownPipeline.new(options).call(document)
           end
         end
       end

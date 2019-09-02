@@ -81,6 +81,15 @@ module Nexmo
           end
         end
 
+        def set_code_language
+          return if params[:code_language] == 'templates'
+          @code_language = params[:code_language]
+        end
+
+        before do
+          set_code_language
+        end
+
         get '(/api)/*definition' do
           check_redirect!
 
@@ -104,8 +113,23 @@ module Nexmo
           end
         end
 
-        get '(/api)/*document' do
-          @specification = Presenters::ApiSpecification.new(document_name: params[:document])
+        def set_document
+          if params[:code_language] == 'templates'
+            @document = 'verify/templates'
+          elsif params[:code_language] == 'ncco'
+            @document = 'voice/ncco'
+          else
+            @document = params[:document]
+          end
+        end
+
+        get '(/api)/*document(/:code_language)' do
+          set_document
+
+          @specification = Presenters::ApiSpecification.new(
+            document_name: @document,
+            code_language: @code_language
+          )
 
           @navigation = Presenters::Navigation.new(
             content: @specification.content,
