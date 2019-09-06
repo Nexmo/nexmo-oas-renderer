@@ -42,9 +42,47 @@
       <%= erb :'open_api/_parameters', locals: { parameters: params, callback: callback } %>
     <% end %>
   <% else %>
-    <% endpoint.request_body.split_properties_for_format(format).each_with_index do |parameters, index| %>
-      <h4><%= parameters[0].schema['oneOf'][index]['description'] %></h4>
-      <%= erb :'open_api/_parameters', locals: { parameters: parameters, callback: callback } %>
-    <% end %>
+
+    <%
+      # This can likely be better done as a presenter, but it works for now
+      panels = []
+      endpoint.request_body.split_properties_for_format(format).each_with_index do |parameters, index|
+        description = 'Request body'
+        c = parameters[0].schema['oneOf'][index]
+        description = c['description'] if c['description']
+        if c['allOf']
+          c['allOf'].each_with_index do |current, index|
+            description = c[index]['description'] if c[index]['description']
+          end
+        end
+
+        panels.push({
+          'description' => description,
+          'parameters' => parameters,
+          'active' => index == 0
+        })
+      end
+    %>
+
+    <div class="Vlt-tabs js-format" data-format="<%= format %>">
+      <div class="Vlt-tabs__header" role="tablist" aria-label="Responses">
+        <% panels.each do |panel| %>
+        <div class="Vlt-tabs__link <%= panel['active'] ? 'Vlt-tabs__link_active' : '' %>">
+          <%= panel['description'] %>
+        </div>
+        <% end %>
+      </div>
+      <div class="Vlt-tabs__content">
+        <% panels.each do |panel| %>
+          <div class="Vlt-tabs__panel <%= panel['active'] ? 'Vlt-tabs__panel_active' : '' %>">
+            <h4>
+              <%= panel['description'] %>
+              <span class="Vlt-badge Vlt-badge--blue"><%= format %></span>
+            </h4>
+            <%= erb :'open_api/_parameters', locals: { parameters: panel['parameters'], callback: callback } %>
+          </div>
+        <% end %>
+      </div>
+    </div>
   <% end %>
 <% end %>
