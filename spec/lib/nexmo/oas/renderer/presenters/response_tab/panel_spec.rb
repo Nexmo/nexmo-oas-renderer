@@ -3,12 +3,13 @@ require 'nexmo/oas/renderer/decorators/response_parser_decorator'
 
 RSpec.describe Nexmo::OAS::Renderer::Presenters::ResponseTab::Panel do
   let(:format) { 'application/json' }
+  let(:endpoint) { instance_double(OasParser::Endpoint) }
 
   describe '#css_classes' do
     let(:schema) { {} }
     let(:content) { :responses }
 
-    subject { described_class.new(schema: schema, index: index, content: content, format: format) }
+    subject { described_class.new(schema: schema, index: index, content: content, format: format, endpoint: endpoint) }
 
     context 'when the index is 0' do
       let(:index) { 0 }
@@ -31,7 +32,7 @@ RSpec.describe Nexmo::OAS::Renderer::Presenters::ResponseTab::Panel do
     let(:index) { 0 }
     let(:schema) { {} }
 
-    subject { described_class.new(schema: schema, index: index, content: content, format: format) }
+    subject { described_class.new(schema: schema, index: index, content: content, format: format, endpoint: endpoint) }
 
     context ':responses' do
       let(:content) { :responses }
@@ -51,7 +52,7 @@ RSpec.describe Nexmo::OAS::Renderer::Presenters::ResponseTab::Panel do
       it 'returns the response fields' do
         expect(subject.content).to eq([
           :'open_api/_response_fields',
-          locals: { schema: schema, index: index, format: format }
+          locals: { schema: schema, index: index, format: format, endpoint: endpoint }
         ])
       end
     end
