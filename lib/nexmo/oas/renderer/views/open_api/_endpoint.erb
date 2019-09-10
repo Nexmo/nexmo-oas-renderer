@@ -114,7 +114,7 @@
             <% response.formats.each_with_index do |format, index| %>
               <div class="js-format" data-format="<%= format %>">
                 <% if response.exhibits_one_of_multiple_schemas?(format) %>
-                  <%= erb :'open_api/_response_tabs', locals: { format: format, response: response, content: :responses } %>
+                  <%= erb :'open_api/_response_tabs', locals: { format: format, endpoint: endpoint, response: response, content: :responses } %>
                 <% else %>
                   <% schema = response.schema(format) %>
                   <%= Nexmo::OAS::Renderer::ResponseParserDecorator.new(schema).html(format, xml_options: schema['xml']) %>

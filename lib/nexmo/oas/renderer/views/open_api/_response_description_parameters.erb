@@ -14,9 +14,13 @@
 
 <% if schema['properties'] %>
   <% schema['properties'].each do |key, value| %>
-    <% next if key == '_links' %>
-    <% next if value['x-skip-response-description'] %>
-    <tr<% if value['properties'] %> class=" Vlt-table__row--noline" <% end %>>
+    <%
+      next if key == '_links'
+      next if value['x-skip-response-description']
+      parent = "#{endpoint.method}_#{endpoint.path.path.gsub("/", "_")[1..-1]}" unless parent
+      responseFieldId = parent + "_" + key
+    %>
+    <tr id="<%= responseFieldId %>" <% if value['properties'] %> class=" Vlt-table__row--noline" <% end %>>
       <td>
         <b><%= key %></b>
         <% if value['items'] %>
@@ -37,29 +41,78 @@
           </small>
         <% end %>
 
+
+
+
+
         <% if value['items'] # If this is an array, we need to show the structure of the children %>
-          <% value['properties'] = value['items']['properties'] %>
-        <% end %>
-        <% if value['properties'] %>
+
+          <% if value['items']['oneOf'] # If it's a oneOf, we need tabs! %>
+            <%
+              schemas = value['items']['oneOf'].map do |item|
+                if item['allOf']
+                  item = item.deep_merge(item['allOf'].reduce { |a,b| a.deep_merge(b) })
+                  item.delete('allOf')
+                end
+                item
+              end
+            %>
+          <% else %>
+            <% value['properties'] = value['items']['properties'] %>
+            <% schemas = [value] %>
+          <% end %>
+
+          <% if schemas %>
+            <% needs_tabs = schemas.size > 1 %>
             </td>
-          </tr>
-          <tr class="Vlt-table__row--nohighlight">
-            <td colspan="2">
-              <div class="Vlt-table Vlt-table--data Vlt-table--bordered">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Field</th>
-                      <th>Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <%= erb :'open_api/_response_description_parameters', locals: { schema: value } %>
-                  </tbody>
-                </table>
-              </div>
+            </tr>
+
+            <tr class="Vlt-table__row--nohighlight">
+              <td colspan="2">
+
+                <% if needs_tabs %>
+                  <div class="Vlt-callout Vlt-callout--shoutout">
+                    <i></i>
+                    <div class="Vlt-callout__content">
+                      Any one of the following:
+                    </div>
+                  </div>
+                  <div class="Vlt-tabs js-format">
+                    <div class="Vlt-tabs__header" role="tablist" aria-label="Responses">
+                      <% schemas.each_with_index do |schema, index| %>
+                        <div class="Vlt-tabs__link <%= index == 0 ? 'Vlt-tabs__link_active' : '' %>">
+                          <%= schema['description'] %>
+                        </div>
+                      <% end %>
+                    </div>
+                    <div class="Vlt-tabs__content">
+                <% end %>
+
+                  <% schemas.each_with_index do |value, index| %>
+                    <div class="Vlt-tabs__panel <%= index == 0 ? 'Vlt-tabs__panel_active' : '' %>">
+                      <div class="Vlt-table Vlt-table--data Vlt-table--bordered">
+                        <table>
+                          <thead>
+                          <tr>
+                            <th>Field</th>
+                            <th>Description</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <%= erb :'open_api/_response_description_parameters', locals: { endpoint: endpoint, schema: value, parent: responseFieldId } %>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  <% end %>
+
+                <% if needs_tabs %>
+                  </div>
+                  </div>
+                <% end %>
+          <% end %>
         <% end %>
-      </td>
-    </tr>
+        </td>
+        </tr>
   <% end %>
 <% end %>

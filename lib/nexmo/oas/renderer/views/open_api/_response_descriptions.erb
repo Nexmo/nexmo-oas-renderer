@@ -6,19 +6,19 @@
   <p class="collapsible">
     <a class="Vlt-js-accordion__trigger Nxd-accordion-button" data-accordion="acc<%= id %>">
       <span class="response-description-toggle Vlt-btn Vlt-btn--tertiary Vlt-btn--block">
-        <%= auto_expand_responses ? 'Hide' : 'View' %> response field descriptions
+        <%= @specification.auto_expand_responses ? 'Hide' : 'View' %> response field descriptions
       </span>
     </a>
   </p>
 
-  <div id="acc<%= id %>" class="Vlt-js-accordion__content <%= auto_expand_responses ? 'Vlt-js-accordion__content_open' : '' %>">
+  <div id="acc<%= id %>" class="Vlt-js-accordion__content <%= @specification.auto_expand_responses ? 'Vlt-js-accordion__content_open' : '' %>">
     <h4>Response Fields</h4>
     <% response.formats.each_with_index do |format, index| %>
       <% if response.exhibits_one_of_multiple_schemas?(format) %>
-        <%= erb :'open_api/_response_tabs', locals: { format: format, response: response, content: :descriptions } %>
+        <%= erb :'open_api/_response_tabs', locals: { endpoint: endpoint, format: format, response: response, content: :descriptions } %>
       <% else %>
         <% schema = response.schema(format) %>
-        <%= erb :'open_api/_response_fields', locals: { schema: schema, format: format, index: nil } %>
+        <%= erb :'open_api/_response_fields', locals: { endpoint: endpoint, schema: schema, format: format, index: nil } %>
       <% end %>
     <% end %>
   </div>
