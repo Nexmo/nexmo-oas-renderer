@@ -11,7 +11,7 @@
         </tr>
       </thead>
       <tbody>
-        <%= erb :'open_api/_response_description_parameters', locals: { schema: schema } %>
+        <%= erb :'open_api/_response_description_parameters', locals: { response: response, endpoint: endpoint, schema: schema } %>
       </tbody>
     </table>
   </div>

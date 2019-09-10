@@ -6,11 +6,12 @@ module Nexmo
           class Panel
             attr_reader :index
 
-            def initialize(schema:, index:, format:, content:)
+            def initialize(schema:, index:, format:, content:, endpoint:)
               @schema  = schema
               @index   = index
               @format  = format
               @content = content
+              @endpoint = endpoint
             end
 
             def css_classes
@@ -29,6 +30,7 @@ module Nexmo
                   schema: @schema,
                   index: @index,
                   format: @format,
+                  endpoint: @endpoint
                 }]
               end
             end
