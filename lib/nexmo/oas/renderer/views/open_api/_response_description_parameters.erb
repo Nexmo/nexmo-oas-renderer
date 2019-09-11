@@ -47,9 +47,18 @@
 
         <% if value['items'] # If this is an array, we need to show the structure of the children %>
 
-          <% if value['items']['oneOf'] # If it's a oneOf, we need tabs! %>
+          <% if value['items']['oneOf'] || value['items']['anyOf'] # If it's a oneOf/anyOf, we need tabs! %>
             <%
-              schemas = value['items']['oneOf'].map do |item|
+
+              if value['items']['oneOf']
+                qualifier = 'one'
+                key = 'oneOf'
+              else
+                  qualifier = 'any'
+                  key = 'anyOf'
+              end
+
+              schemas = value['items'][key].map do |item|
                 if item['allOf']
                   item = item.deep_merge(item['allOf'].reduce { |a,b| a.deep_merge(b) })
                   item.delete('allOf')
@@ -74,7 +83,7 @@
                   <div class="Vlt-callout Vlt-callout--shoutout">
                     <i></i>
                     <div class="Vlt-callout__content">
-                      Any one of the following:
+                      This array contains <strong><%= qualifier %></strong> of the following objects:
                     </div>
                   </div>
                   <div class="Vlt-tabs js-format">
