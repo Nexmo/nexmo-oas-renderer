@@ -51,8 +51,8 @@
                 qualifier = 'one'
                 key = 'oneOf'
               else
-                  qualifier = 'any'
-                  key = 'anyOf'
+                qualifier = 'any'
+                key = 'anyOf'
               end
 
               schemas = value['items'][key].map do |item|
@@ -68,55 +68,58 @@
             <% schemas = [value] %>
           <% end %>
 
-          <% if schemas %>
-            <% needs_tabs = schemas.size > 1 %>
-            </td>
-            </tr>
+        <% else %>
+          <% schemas = [value] if value['properties'] %>
+        <% end %>
 
-            <tr class="Vlt-table__row--nohighlight">
-              <td colspan="2">
+        <% if schemas %>
+          <% needs_tabs = schemas.size > 1 %>
+          </td>
+          </tr>
 
-                <% if needs_tabs %>
-                  <div class="Vlt-callout Vlt-callout--shoutout">
-                    <i></i>
-                    <div class="Vlt-callout__content">
-                      This array contains <strong><%= qualifier %></strong> of the following objects:
-                    </div>
+          <tr class="Vlt-table__row--nohighlight">
+            <td colspan="2">
+
+              <% if needs_tabs %>
+                <div class="Vlt-callout Vlt-callout--shoutout">
+                  <i></i>
+                  <div class="Vlt-callout__content">
+                    This array contains <strong><%= qualifier %></strong> of the following objects:
                   </div>
-                  <div class="Vlt-tabs js-format">
-                    <div class="Vlt-tabs__header" role="tablist" aria-label="Responses">
-                      <% schemas.each_with_index do |schema, index| %>
-                        <div class="Vlt-tabs__link <%= index == 0 ? 'Vlt-tabs__link_active' : '' %>">
-                          <%= schema['description'] %>
-                        </div>
-                      <% end %>
-                    </div>
-                    <div class="Vlt-tabs__content">
-                <% end %>
-
-                  <% schemas.each_with_index do |value, index| %>
-                    <div class="Vlt-tabs__panel <%= index == 0 ? 'Vlt-tabs__panel_active' : '' %>">
-                      <div class="Vlt-table Vlt-table--data Vlt-table--bordered">
-                        <table>
-                          <thead>
-                          <tr>
-                            <th>Field</th>
-                            <th>Description</th>
-                          </tr>
-                          </thead>
-                          <tbody>
-                          <%= erb :'open_api/_response_description_parameters', locals: { endpoint: endpoint, schema: value, parent: responseFieldId } %>
-                          </tbody>
-                        </table>
+                </div>
+                <div class="Vlt-tabs js-format">
+                  <div class="Vlt-tabs__header" role="tablist" aria-label="Responses">
+                    <% schemas.each_with_index do |schema, index| %>
+                      <div class="Vlt-tabs__link <%= index == 0 ? 'Vlt-tabs__link_active' : '' %>">
+                        <%= schema['description'] %>
                       </div>
-                    </div>
-                  <% end %>
+                    <% end %>
+                  </div>
+                  <div class="Vlt-tabs__content">
+              <% end %>
 
-                <% if needs_tabs %>
+              <% schemas.each_with_index do |value, index| %>
+                <div class="Vlt-tabs__panel <%= index == 0 ? 'Vlt-tabs__panel_active' : '' %>">
+                  <div class="Vlt-table Vlt-table--data Vlt-table--bordered">
+                    <table>
+                      <thead>
+                      <tr>
+                        <th>Field</th>
+                        <th>Description</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <%= erb :'open_api/_response_description_parameters', locals: { endpoint: endpoint, schema: value, parent: responseFieldId } %>
+                      </tbody>
+                    </table>
                   </div>
-                  </div>
-                <% end %>
-          <% end %>
+                </div>
+              <% end %>
+
+              <% if needs_tabs %>
+                </div>
+                </div>
+              <% end %>
         <% end %>
         </td>
         </tr>
