@@ -20,6 +20,7 @@
         <% end %>
 
         <% endpoints.each do |endpoint| %>
+          <% raise "Missing `operationId` on #{endpoint.path.path} path" unless endpoint.operationId %>
           <li>
             <a href="#<%= endpoint.operationId %>" class="Vlt-sidemenu__link">
               <svg class="Vlt-green"><use xlink:href="/assets/symbol/volta-icons.svg#Vlt-icon-code" /></svg>
