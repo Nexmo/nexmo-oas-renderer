@@ -17,6 +17,7 @@ module Nexmo
 
           def tab_links
             @tab_links ||= @response.split_schemas(@format).map.with_index do |schema, index|
+              schema = handle_all_of(schema)
               ResponseTab::Link.new(
                 index: index,
                 schema: schema
@@ -26,6 +27,7 @@ module Nexmo
 
           def tab_panels
             @tab_panels ||= @response.split_schemas(@format).map.with_index do |schema, index|
+              schema = handle_all_of(schema)
               ResponseTab::Panel.new(
                 schema: schema,
                 index: index,
@@ -34,6 +36,16 @@ module Nexmo
                 endpoint: @endpoint
               )
             end
+          end
+
+          def handle_all_of(schema)
+            if schema['allOf']
+              schema['allOf'].each do |p|
+                schema.deep_merge!(p)
+              end
+              schema.delete('allOf')
+            end
+            schema
           end
         end
       end
