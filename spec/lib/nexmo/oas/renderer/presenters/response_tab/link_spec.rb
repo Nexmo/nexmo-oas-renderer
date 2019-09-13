@@ -10,7 +10,7 @@ RSpec.describe Nexmo::OAS::Renderer::Presenters::ResponseTab::Link do
       let(:index) { 0 }
 
       it 'includes the active class' do
-        expect(subject.css_classes).to eq('Vlt-tabs__link Vlt-tabs__link_active')
+        expect(subject.css_classes).to eq('tab-sync Vlt-tabs__link Vlt-tabs__link_active')
       end
     end
 
@@ -18,7 +18,7 @@ RSpec.describe Nexmo::OAS::Renderer::Presenters::ResponseTab::Link do
       let(:index) { 1 }
 
       it 'returns the basic class' do
-        expect(subject.css_classes).to eq('Vlt-tabs__link')
+        expect(subject.css_classes).to eq('tab-sync Vlt-tabs__link')
       end
     end
   end
