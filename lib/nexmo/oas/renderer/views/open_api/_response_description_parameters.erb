@@ -90,7 +90,12 @@
                 <div class="Vlt-tabs js-format">
                   <div class="Vlt-tabs__header" role="tablist" aria-label="Responses">
                     <% schemas.each_with_index do |schema, index| %>
-                      <div class="Vlt-tabs__link <%= index == 0 ? 'Vlt-tabs__link_active' : '' %>">
+                      <div
+                        class="Vlt-tabs__link <%= index == 0 ? 'Vlt-tabs__link_active' : '' %> <%= schema['x-tab-id'] ? "tab-sync" : '' %>"
+                        <% if schema['x-tab-id'] %>
+                          data-tab-link="<%= schema['x-tab-id'] %>"
+                          <% end %>
+                      >
                         <%= schema['description'] %>
                       </div>
                     <% end %>

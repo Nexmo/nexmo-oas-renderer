@@ -12,9 +12,14 @@ module Nexmo
             end
 
             def css_classes
-              classes = ['Vlt-tabs__link']
+              classes = ['tab-sync Vlt-tabs__link']
               classes << 'Vlt-tabs__link_active' if @index.zero?
               classes.join(' ')
+            end
+
+            def data_tab_link
+              return nil unless @schema['x-tab-id']
+              @schema['x-tab-id']
             end
 
             def content
