@@ -137,11 +137,16 @@
             </td>
           <% end %>
 
-          <% if parameter.collection? %>
+          <%
+            should_render_row = false
+            should_render_row = should_render_row || parameter.subproperties_are_one_of_many?
+            should_render_row = should_render_row || (parameter.properties && parameter.object? && parameter.properties.size.positive?)
+          %>
+          <% if parameter.collection? && should_render_row %>
+
             <tr class="Vlt-table__row--nohighlight">
               <td colspan="4">
                 <% if parameter.subproperties_are_one_of_many? %>
-
                   <div style="margin-left: 20px;">
                     <h4>Any one of the following:</h4>
                     <% parameter.properties.each do |property| %>
@@ -150,7 +155,7 @@
                     <% end %>
                   </div>
                 <% else %>
-                  <% if parameter.properties && parameter.object? %>
+                  <% if parameter.properties && parameter.object? && parameter.properties.size.positive? %>
                     <%= erb :'open_api/_parameters', locals: { parameters: parameter.properties, model: model, format: format, callback: callback } %>
                   <% end %>
                 <% end %>
