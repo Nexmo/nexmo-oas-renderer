@@ -118,8 +118,10 @@ module Nexmo
             @document = 'verify/templates'
           elsif params[:code_language] == 'ncco'
             @document = 'voice/ncco'
-          else
+          elsif CodeLanguage.exists?(params[:code_language])
             @document = params[:document]
+          else
+            @document = "#{params[:document]}/#{params[:code_language]}"
           end
         end
 
