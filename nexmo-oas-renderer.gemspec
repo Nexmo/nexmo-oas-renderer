@@ -36,12 +36,12 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'rouge', '2.0.7'
   spec.add_runtime_dependency 'oas_parser', '0.22.2'
   spec.add_runtime_dependency 'neatjson', '~> 0.8'
-  spec.add_runtime_dependency 'activesupport', '~> 5.2'
+  spec.add_runtime_dependency 'activesupport', '~> 6.0'
   spec.add_runtime_dependency 'banzai', '~> 0.1.2'
   spec.add_runtime_dependency 'octicons_helper', '~> 8.2'
   spec.add_runtime_dependency 'redcarpet', '3.4.0'
   spec.add_runtime_dependency 'sass', '~> 3.1'
-  spec.add_runtime_dependency 'activemodel', '~> 5.2'
+  spec.add_runtime_dependency 'activemodel', '~> 6.0'
   spec.add_runtime_dependency "dotenv", "~> 2.7"
 
   spec.add_development_dependency "bundler", "~> 2.0"
