@@ -290,8 +290,6 @@ table .Vlt-icon:not(.Vlt-icon--smaller) {
 @media only screen and (min-width: 576px) {
   .Vlt-sidenav {
     height: calc(100vh - 111px); } }
-.navigation--documentation .navigation-item--tutorials a {
-  color: #2d966f; }
 .navigation--documentation .navigation-item--api-reference a {
   color: #117bb8; }
 .navigation--documentation .navigation-item--sdk-documentation > a {
@@ -860,4 +858,4 @@ pre {
   .Vlt-template--header .Vlt-main {
     height: calc(100vh - 70px); } }
 
-/*# sourceMappingURL=style.css.map */
+/*# sourceMappingURL=nexmo-oas-renderer.css.map */
