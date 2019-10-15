@@ -1,3 +1,6 @@
+# 0.6.0
+* Upgraded to Rails 6
+
 # 0.5.6
 * Add `reports` to open_api docs' constraints
 * Make tab selection with `x-tab-id` trigger all tabs (support for request bodies)
