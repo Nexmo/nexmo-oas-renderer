@@ -11,7 +11,7 @@ module Nexmo
 
           return resolve(path) if path
 
-          raise "Could not find definition '#{name}' in '#{API.oas_path}'"
+          raise Errno::ENOENT, "Could not find definition '#{name}' in '#{API.oas_path}'"
         end
 
         def self.paths(name)
