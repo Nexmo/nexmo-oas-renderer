@@ -33,7 +33,6 @@ module Nexmo
         end
 
         set :mustermann_opts, { type: :rails }
-        set :show_exceptions, :after_handler
         set :oas_path, (ENV['OAS_PATH'] || '.')
 
         helpers do
@@ -69,6 +68,10 @@ module Nexmo
         error Errno::ENOENT do
           layout = defined?(NexmoDeveloper::Application) ? :'layouts/api.html' : false
           not_found erb :'static/404', layout: layout
+        end
+
+        error Exception do
+          File.read("#{API.root}/public/500.html")
         end
 
         unless defined?(NexmoDeveloper::Application)
