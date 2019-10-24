@@ -73,7 +73,7 @@ module Nexmo
 
         unless defined?(NexmoDeveloper::Application)
           get '/' do
-            prefix = "#{API.oas_path}/definitions"
+            prefix = "#{API.oas_path}"
             @definitions = Dir.glob("#{prefix}/**/*.yml").map do |d|
               d.gsub("#{prefix}/", '').gsub('.yml', '')
             end.sort.reject { |d| d.include? 'common/' }

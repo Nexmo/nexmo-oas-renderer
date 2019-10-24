@@ -26,12 +26,12 @@ module Nexmo
           end
 
           def errors?
-            File.exist?("#{API.oas_path}/../errors/#{@definition_name}.md")
+            File.exist?("#{API.oas_path}/../../errors/#{@definition_name}.md")
           end
 
           def definition_errors
             @definition_errors ||= MarkdownPipeline.new.call(
-              File.read("#{API.oas_path}/../errors/#{@definition_name}.md")
+              File.read("#{API.oas_path}/../../errors/#{@definition_name}.md")
             ) if errors?
           end
 
