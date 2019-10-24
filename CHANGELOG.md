@@ -1,3 +1,7 @@
+# 0.6.3
+* Remove the need to have a `definitions` folder, just specify the correct path in `OAS_PATH`
+* Remove OAS constraints, since they are not needed to run this standalone
+
 # 0.6.0
 * Upgraded to Rails 6
 
