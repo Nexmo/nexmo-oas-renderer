@@ -1,5 +1,3 @@
-require_relative '../constraints/open_api'
-
 module Nexmo
   module OAS
     module Renderer
@@ -23,14 +21,26 @@ module Nexmo
 
           def available_versions
             @available_versions ||= begin
-                                      versions = Constraints::OpenApi.find_all_versions(base_name)
-                                      # Add in anything in the old /_api folder
-                                      if File.exist?("_api/#{base_name}.md")
-                                        versions.push({ 'version' => '1', 'name' => base_name })
+                                      matches = definitions.select do |definition|
+                                        definition.starts_with?(base_name) && !definition.include?("#{base_name}/")
                                       end
 
-                                      versions.sort_by! { |v| v['version'] }
+                                      matches.map do |definition|
+                                        name = definition.chomp('.yml')
+                                        m = /\.v(\d+)/.match(name)
+                                        next { 'version' => '1', 'name' => name } unless m
+                                        { 'version' => m[1], 'name' => name }
+
+                                      end.sort_by { |v| v['version'] }
                                     end
+          end
+
+          def definitions
+            @definitions ||= begin
+                               Dir.glob("#{API.oas_path}/definitions/**/*.yml").map do |file|
+                                 definition = file.sub("#{API.oas_path}/definitions/", '').chomp('.yml')
+                               end
+                             end
           end
         end
 

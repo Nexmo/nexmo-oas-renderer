@@ -4,7 +4,6 @@ require 'active_support/core_ext/array/conversions'
 require 'active_support/core_ext/string/output_safety'
 require 'active_model'
 
-require_relative'./constraints/redirector'
 require_relative'./decorators/response_parser_decorator'
 require_relative'./pipelines/markdown_pipeline'
 require_relative'./presenters/api_specification'
@@ -15,7 +14,7 @@ require_relative'./helpers/render'
 require_relative'./helpers/navigation'
 require_relative'./helpers/summary'
 require_relative'./helpers/url'
-
+require_relative './services/code_language_api'
 require_relative'./lib/core_ext/string'
 
 require 'dotenv/load'
@@ -62,8 +61,16 @@ module Nexmo
         end
 
         def check_redirect!
-          redirect_path = Constraints::Redirector.find(request)
-          redirect(redirect_path) if redirect_path
+          if defined?(NexmoDeveloper::Application)
+            redirect_path = Redirector.find(request)
+            redirect(redirect_path) if redirect_path
+          end
+        end
+
+        def check_oas_constraints!(definition)
+          if defined?(NexmoDeveloper::Application)
+            pass unless OpenApiConstraint.match?(definition)
+          end
         end
 
         error Errno::ENOENT do
@@ -95,7 +102,7 @@ module Nexmo
 
           parameters = parse_params(params[:definition])
           definition = [parameters[:definition], parameters[:version]].compact.join('.')
-          pass if !Constraints::OpenApi.match?(definition)
+          check_oas_constraints!(definition)
 
           @specification = Presenters::OpenApiSpecification.new(
             definition_name: definition,
