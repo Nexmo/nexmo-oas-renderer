@@ -52,7 +52,7 @@
       panels = []
       endpoint.request_body.split_properties_for_format(format).each_with_index do |parameters, index|
         description = 'Request body'
-        c = parameters[0].schema['oneOf'][index]
+        c = parameters[0].schema
         description = c['description'] if c['description']
         if c['allOf']
           c['allOf'].each_with_index do |current, index|
