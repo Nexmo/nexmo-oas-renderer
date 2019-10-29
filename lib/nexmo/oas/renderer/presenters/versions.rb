@@ -37,8 +37,8 @@ module Nexmo
 
           def definitions
             @definitions ||= begin
-                               Dir.glob("#{API.oas_path}/definitions/**/*.yml").map do |file|
-                                 definition = file.sub("#{API.oas_path}/definitions/", '').chomp('.yml')
+                               Dir.glob("#{API.oas_path}/**/*.yml").map do |file|
+                                 definition = file.sub("#{API.oas_path}/", '').chomp('.yml')
                                end
                              end
           end
