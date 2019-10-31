@@ -3,7 +3,7 @@
 <div class='Vlt-tabs js-format' data-format='<%= tabs.format %>'>
   <div class='Vlt-tabs__header' role='tablist' aria-label='Responses'>
     <% tabs.tab_links.each do |link| %>
-      <div class='<%= link.css_classes %>' <% if link.data_tab_link %>data-tab-link="<%= link.data_tab_link %>"<% end %>>
+      <div role='tab' class='<%= link.css_classes %>' <% if link.data_tab_link %>data-tab-link="<%= link.data_tab_link %>"<% end %>>
         <%= link.content %>
       </div>
     <% end %>
