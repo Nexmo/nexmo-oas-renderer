@@ -1,3 +1,6 @@
+# 0.6.6
+* Make tabs clickable
+
 # 0.6.5
 * Fix rendering of different versions
 
