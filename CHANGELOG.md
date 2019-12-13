@@ -1,3 +1,7 @@
+# 0.7.0
+* Prevent sinatra from showing error traces, use custom 500 page instead
+* Bump oas_parser to version 0.23.0. Ensures interoperability between JSON and YAML formats by forcing keys to be strings
+
 # 0.6.6
 * Make tabs clickable
 
