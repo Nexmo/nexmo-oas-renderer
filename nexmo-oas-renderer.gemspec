@@ -34,7 +34,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'sinatra', '~> 2.0'
   spec.add_runtime_dependency 'shotgun', '~> 0.9'
   spec.add_runtime_dependency 'rouge', '2.0.7'
-  spec.add_runtime_dependency 'oas_parser', '0.22.4'
+  spec.add_runtime_dependency 'oas_parser', '~> 0.23'
   spec.add_runtime_dependency 'neatjson', '~> 0.8'
   spec.add_runtime_dependency 'activesupport', '~> 6.0'
   spec.add_runtime_dependency 'banzai', '~> 0.1.2'
