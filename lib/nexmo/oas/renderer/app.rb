@@ -32,7 +32,8 @@ module Nexmo
         end
 
         set :mustermann_opts, { type: :rails }
-        set :oas_path, (ENV['OAS_PATH'] || '.')
+        set :oas_path, (ENV['OAS_PATH'] || './')
+        set :bind, '0.0.0.0'
 
         helpers do
           include Helpers::Render

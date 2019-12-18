@@ -3,6 +3,7 @@ Sinatra application that provides a preview of how the OAS documents will be ren
 
 * [Dependencies](#requirements)
 * [Installation and Usage](#installation-and-usage)
+    * [Using Docker](#using-docker)
     * [As a standalone application](#as-a-standalone-application)
     * [Mounted into a Rails application](#mounted-into-a-rails-application)
     * [Specifying the path to the documents](#specifying-the-path-to-the-documents)
@@ -13,6 +14,22 @@ Sinatra application that provides a preview of how the OAS documents will be ren
 
 
 ## Installation and Usage
+
+### Using Docker
+
+You can run using Docker and it will serve the current directory (this will usually be the api-specification repo):
+
+```bash
+docker run --rm -p 4567:4567 -v `pwd`:/definitions -e 'OAS_PATH=/definitions' nexmodev/nexmo-oas-renderer:latest
+```
+
+Alternatively, add the following to your `~/.bashrc` file and you'll be able to run `nexmo-oas-renderer`
+
+```
+function nexmo-oas-renderer() {
+  docker run --rm -p 4567:4567 -v `pwd`:/definitions -e 'OAS_PATH=/definitions' mheap/nexmo-oas-renderer:latest
+}
+```
 
 ### As a standalone application
 
