@@ -27,7 +27,7 @@ Alternatively, add the following to your `~/.bashrc` file and you'll be able to 
 
 ```
 function nexmo-oas-renderer() {
-  docker run --rm -p 4567:4567 -v `pwd`:/definitions -e 'OAS_PATH=/definitions' mheap/nexmo-oas-renderer:latest
+  docker run --rm -p 4567:4567 -v `pwd`:/definitions -e 'OAS_PATH=/definitions' nexmodev/nexmo-oas-renderer:latest
 }
 ```
 
