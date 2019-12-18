@@ -20,7 +20,7 @@ Sinatra application that provides a preview of how the OAS documents will be ren
 You can run using Docker and it will serve the current directory (this will usually be the api-specification repo):
 
 ```bash
-docker run --rm -p 4567:4567 -v `pwd`:/definitions -e 'OAS_PATH=/definitions' mheap/nexmo-oas-renderer:latest
+docker run --rm -p 4567:4567 -v `pwd`:/definitions -e 'OAS_PATH=/definitions' nexmodev/nexmo-oas-renderer:latest
 ```
 
 Alternatively, add the following to your `~/.bashrc` file and you'll be able to run `nexmo-oas-renderer`
