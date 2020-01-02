@@ -75,10 +75,10 @@
           <td>
             <% if parameter.collection? || parameter.oneOf? %>
               <% if parameter.raw['x-nexmo-developer-collection-description-shown'] %>
-                <%= (parameter.description ? "#{parameter.description}" : '<i>None</i>').render_markdown %>
+                <%= (parameter.description || parameter.schema['description'] || '<i>None</i>').render_markdown %>
               <% end %>
             <% else %>
-              <%= (parameter.description ? "#{parameter.description}" : '<i>None</i>').render_markdown %>
+              <%= (parameter.description || parameter.schema['description'] || '<i>None</i>').render_markdown %>
             <% end %>
 
             <% if parameter.enum %>
