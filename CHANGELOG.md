@@ -1,3 +1,6 @@
+# 0.7.1
+* Use schema's description when there isn't one at the parameter level
+
 # 0.7.0
 * Prevent sinatra from showing error traces, use custom 500 page instead
 * Bump oas_parser to version 0.23.0. Ensures interoperability between JSON and YAML formats by forcing keys to be strings
