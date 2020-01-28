@@ -73,12 +73,10 @@
           else
         %>
           <td>
-            <% if parameter.collection? || parameter.oneOf? %>
-              <% if parameter.raw['x-nexmo-developer-collection-description-shown'] %>
-                <%= (parameter.description || parameter.schema['description'] || '<i>None</i>').render_markdown %>
-              <% end %>
-            <% else %>
+            <% if parameter.raw['x-nexmo-developer-collection-description-shown'] %>
               <%= (parameter.description || parameter.schema['description'] || '<i>None</i>').render_markdown %>
+            <% else %>
+              <%= (parameter.description || parameter.schema['description'])&.render_markdown %>
             <% end %>
 
             <% if parameter.enum %>
@@ -113,11 +111,9 @@
 
           <% unless model %>
             <% if parameter.collection? || parameter.oneOf? %>
-              <% if parameter.raw['x-nexmo-developer-collection-description-shown'] %>
-                <td>
-                  <%= (parameter.example ? "<code><pre>#{parameter.example}</pre></code>" : '')%>
-                </td>
-              <% end %>
+              <td>
+                <%= (parameter.example ? "<code><pre>#{parameter.example}</pre></code>" : '')%>
+              </td>
             <% else %>
               <td>
                 <%= (parameter.example ? "<code>#{parameter.example.to_s.gsub("\n", "<br />")}</code>" : '<i>None</i>')%>
