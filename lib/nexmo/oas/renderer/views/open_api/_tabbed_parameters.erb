@@ -45,6 +45,9 @@
         %>
 
         <%= erb :'open_api/_parameters', locals: { parameters: panel['parameters'], callback: callback } %>
+        <% if body.raw['x-show-example-request'] %>
+          <%= erb :'open_api/_request_json', locals: { parameters: panel['parameters'] } %>
+        <% end %>
       <% end %>
       </div>
     <% end %>
