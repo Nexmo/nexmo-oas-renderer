@@ -30,7 +30,7 @@ module Nexmo
           end
 
           def definition_errors
-            @definition_errors ||= MarkdownPipeline.new.call(
+            @definition_errors ||= Nexmo::Markdown::Renderer.new.call(
               File.read("#{API.oas_path}/../../errors/#{@definition_name}.md")
             ) if errors?
           end

@@ -3,9 +3,9 @@ require 'active_support'
 require 'active_support/core_ext/array/conversions'
 require 'active_support/core_ext/string/output_safety'
 require 'active_model'
+require 'nexmo_markdown_renderer'
 
 require_relative'./decorators/response_parser_decorator'
-require_relative'./pipelines/markdown_pipeline'
 require_relative'./presenters/api_specification'
 require_relative'./presenters/open_api_specification'
 require_relative'./presenters/navigation'
@@ -14,8 +14,6 @@ require_relative'./helpers/render'
 require_relative'./helpers/navigation'
 require_relative'./helpers/summary'
 require_relative'./helpers/url'
-require_relative './services/code_language_api'
-require_relative'./lib/core_ext/string'
 
 require 'dotenv/load'
 
@@ -129,7 +127,7 @@ module Nexmo
             @document = 'verify/templates'
           elsif params[:code_language] == 'ncco'
             @document = 'voice/ncco'
-          elsif CodeLanguage.exists?(params[:code_language])
+          elsif ::Nexmo::Markdown::CodeLanguage.exists?(params[:code_language])
             @document = params[:document]
           else
             @document = "#{params[:document]}/#{params[:code_language]}"

@@ -36,7 +36,7 @@ module Nexmo
           def content
             options = {}
             options.merge(code_language: @code_language) if @code_language
-            @content ||= MarkdownPipeline.new(options).call(document)
+            @content ||= Nexmo::Markdown::Renderer.new(options).call(document)
           end
         end
       end
