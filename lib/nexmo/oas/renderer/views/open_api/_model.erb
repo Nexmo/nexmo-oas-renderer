@@ -2,7 +2,7 @@
   <div class="Vlt-col Vlt-col--2of3 Nxd-api__docs">
     <div>
       <h2 id="<%= group['name'].parameterize %>" class='Vlt-grey-dark'><%= group['name'] %></h2>
-      <p class: "Vlt-grey-darker"><%= group['description'].render_markdown %></p>
+      <p class: "Vlt-grey-darker"><%= group['description']&.render_markdown %></p>
 
       <% if group['schema'] %>
         <% group['schema'].each do |format, schema| %>
