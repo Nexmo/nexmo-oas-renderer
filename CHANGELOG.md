@@ -1,3 +1,10 @@
+# 0.8.0
+* Fix an issue when the description is `nil`
+* Include nexmo-markdown-renderer
+* Remove white box surrounding HTTP responses
+* Allow multi-depth `oneOf` definitions
+* Render endpoint's description as markdown
+
 # 0.7.1
 * Use schema's description when there isn't one at the parameter level
 
