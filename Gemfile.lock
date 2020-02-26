@@ -8,7 +8,7 @@ PATH
       dotenv (~> 2.7)
       neatjson (~> 0.8)
       nexmo_markdown_renderer (>= 0.0.3)
-      oas_parser (~> 0.23)
+      oas_parser (~> 0.24)
       octicons_helper (~> 8.2)
       redcarpet (= 3.4.0)
       rouge (= 2.0.7)
@@ -103,10 +103,11 @@ GEM
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.13.0)
-    mustermann (1.0.3)
-    mustermann-contrib (1.0.3)
+    mustermann (1.1.1)
+      ruby2_keywords (~> 0.0.1)
+    mustermann-contrib (1.1.1)
       hansi (~> 0.2.0)
-      mustermann (= 1.0.3)
+      mustermann (= 1.1.1)
     neatjson (0.9)
     nexmo_markdown_renderer (0.0.3)
       activemodel (~> 6.0)
@@ -119,13 +120,13 @@ GEM
     nio4r (2.5.2)
     nokogiri (1.10.8)
       mini_portile2 (~> 2.4.0)
-    oas_parser (0.23.0)
+    oas_parser (0.24.0)
       activesupport (>= 4.0.0)
       addressable (~> 2.3)
       builder (~> 3.2.3)
       deep_merge (~> 1.2.1)
       hash-deep-merge
-      mustermann-contrib (~> 1.0.3s)
+      mustermann-contrib (~> 1.1.1)
       nokogiri
     octicons (8.5.0)
       nokogiri (>= 1.6.3.1)
@@ -183,6 +184,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.2)
+    ruby2_keywords (0.0.2)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -223,4 +225,4 @@ DEPENDENCIES
   rspec (~> 3.8)
 
 BUNDLED WITH
-   2.0.2
+   2.1.4
