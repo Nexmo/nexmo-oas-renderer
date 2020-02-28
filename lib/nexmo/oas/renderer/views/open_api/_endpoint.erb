@@ -7,7 +7,7 @@
       <% end %>
 
       <div class="Vlt-badge-combined">
-        <code class="Vlt-badge Vlt-badge--large Nxd-method-badge Nxd-method-badge--<%= endpoint.method %>"><%= endpoint.method.upcase %></code>
+        <code class="Vlt-badge Vlt-white Vlt-badge--large Nxd-method-badge Nxd-method-badge--<%= endpoint.method %>"><%= endpoint.method.upcase %></code>
         <code class="Vlt-badge Vlt-badge--large Vlt-badge--grey">
           <% servers = endpoint.path.servers ? endpoint.path.servers : endpoint.definition.servers %>
           <% raise "`servers` parameter not provided at either the path level or document root" unless servers.size.positive? %>
