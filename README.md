@@ -86,7 +86,8 @@ $ cp .env.example .env
 and assign values to the corresponding variables.
 
 #### Note
-The env variable `OAS_PATH` indicates the path to the documents that will be rendered.
+The env variable `OAS_PATH` indicates the path to the OpenAPI documents that will be rendered.
+The env variable `API_PATH` indicates the path to other API documents that will be rendered.
 
 ## Contributing
 We ❤️ contributions from everyone! [Bug reports](https://github.com/Nexmo/nexmo-oas-renderer/issues), [bug fixes](https://github.com/Nexmo/nexmo-oas-renderer/pulls) and feedback on the library is always appreciated. Look at the [Contributor Guidelines](https://github.com/Nexmo/nexmo-oas-renderer/blob/master/CONTRIBUTING.md) for more information and please follow the [GitHub Flow](https://guides.github.com/introduction/flow/index.html).

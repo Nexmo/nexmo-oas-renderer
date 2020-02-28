@@ -1,3 +1,6 @@
+# 0.8.1
+* Fix an issue where API docs were not being found
+
 # 0.8.0
 * Fix an issue when the description is `nil`
 * Include nexmo-markdown-renderer
