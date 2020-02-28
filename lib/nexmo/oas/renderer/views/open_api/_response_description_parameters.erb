@@ -88,7 +88,7 @@
                   </div>
                 </div>
                 <div class="Vlt-tabs js-format">
-                  <div class="Vlt-tabs__header" role="tablist" aria-label="Responses">
+                  <div class="Vlt-tabs__header Vlt-tabs__header--bordered" role="tablist" aria-label="Responses">
                     <% schemas.each_with_index do |schema, index| %>
                       <div
                         class="Vlt-tabs__link <%= index == 0 ? 'Vlt-tabs__link_active' : '' %> <%= schema['x-tab-id'] ? "tab-sync" : '' %>"
@@ -105,7 +105,7 @@
 
               <% schemas.each_with_index do |value, index| %>
                 <div class="Vlt-tabs__panel <%= index == 0 ? 'Vlt-tabs__panel_active' : '' %>">
-                  <div class="Vlt-table Vlt-table--data Vlt-table--bordered">
+                  <div class="Vlt-table Vlt-table--bordered">
                     <table>
                       <thead>
                       <tr>

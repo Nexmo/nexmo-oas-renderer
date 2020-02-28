@@ -1,3 +1,17 @@
+GIT
+  remote: https://github.com/Nexmo/nexmo-markdown-renderer
+  revision: cc1f3d965a4579da54141bc1a13caa1a54e4e859
+  branch: update-volta
+  specs:
+    nexmo_markdown_renderer (0.0.3)
+      activemodel (~> 6.0)
+      banzai (~> 0.1.2)
+      i18n (~> 1.7)
+      nokogiri (~> 1.10)
+      octicons_helper (~> 8.2)
+      redcarpet (~> 3.4)
+      rouge (~> 2.0.7)
+
 PATH
   remote: .
   specs:
@@ -109,14 +123,6 @@ GEM
       hansi (~> 0.2.0)
       mustermann (= 1.1.1)
     neatjson (0.9)
-    nexmo_markdown_renderer (0.0.3)
-      activemodel (~> 6.0)
-      banzai (~> 0.1.2)
-      i18n (~> 1.7)
-      nokogiri (~> 1.10)
-      octicons_helper (~> 8.2)
-      redcarpet (~> 3.4)
-      rouge (~> 2.0.7)
     nio4r (2.5.2)
     nokogiri (1.10.8)
       mini_portile2 (~> 2.4.0)
@@ -220,6 +226,7 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 2.0)
   nexmo-oas-renderer!
+  nexmo_markdown_renderer!
   rails (~> 6.0.0)
   rake (~> 13.0)
   rspec (~> 3.8)

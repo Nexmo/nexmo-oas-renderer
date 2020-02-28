@@ -4,3 +4,4 @@ source "https://rubygems.org"
 gemspec
 
 gem 'rails', '~> 6.0.0'
+gem 'nexmo_markdown_renderer', git: 'https://github.com/Nexmo/nexmo-markdown-renderer', branch: 'update-volta'
