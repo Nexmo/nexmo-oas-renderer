@@ -14,7 +14,7 @@ module Nexmo
           end
 
           def document_path
-            "_api/#{@document_name}.md"
+            "#{API.api_path}/#{@document_name}.md"
           end
 
           def document

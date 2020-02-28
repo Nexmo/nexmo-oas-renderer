@@ -31,6 +31,7 @@ module Nexmo
 
         set :mustermann_opts, { type: :rails }
         set :oas_path, (ENV['OAS_PATH'] || './')
+        set :api_path, (ENV['API_PATH'] || './')
         set :bind, '0.0.0.0'
 
         helpers do
