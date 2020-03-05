@@ -82,7 +82,7 @@ body {
     top: 30px;
     position: sticky;
     display: block;
-    overflow: auto; }
+    overflow: scroll; }
   .Nxd-api__code {
     background: #e7ebee;
     border-bottom: 1px solid #f8fafc;

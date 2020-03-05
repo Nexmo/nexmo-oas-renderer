@@ -23,7 +23,7 @@
           <% raise "Missing `operationId` on #{endpoint.path.path} path" unless endpoint.operationId %>
           <li>
             <a href="#<%= endpoint.operationId %>" class="Vlt-sidemenu__link">
-              <svg class="Vlt-green"><use xlink:href="/assets/symbol/volta-icons.svg#Vlt-icon-code" /></svg>
+              <svg class="Vlt-grey-darker"><use xlink:href="/assets/symbol/volta-icons.svg#Vlt-icon-code" /></svg>
 
               <span class="Vlt-sidemenu__label">
                 <%= normalize_summary_title(endpoint.summary, endpoint.operationId) %>
