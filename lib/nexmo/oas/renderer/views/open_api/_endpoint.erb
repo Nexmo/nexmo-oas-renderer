@@ -107,7 +107,7 @@
         <div class="Vlt-accordion">
           <button tabindex="0" class="Vlt-accordion__trigger <%= expand_response ? 'Vlt-accordion__trigger_active' : '' %>">
             <h5 class="Vlt-title--nomargin">HTTP response
-              <span class="Vlt-badge Vlt-badge--<%= response.code[0] == '2' ? 'green' : response.code[0] == '3' ? 'yellow' : 'red'  %>"><%= response.code %></span>
+              <span class="Vlt-badge Vlt-badge--<%= response.code[0] == '2' ? 'green' : response.code[0] == '3' ? 'yellow' : 'red'  %> Vlt-badge--small"><%= response.code %></span>
             </h5>
           </button>
 
