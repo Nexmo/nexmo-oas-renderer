@@ -125,7 +125,7 @@
 
           <% if response.code == '204' || response.formats.empty? %>
             <% content = response.description ? response.description : 'No content' %>
-            <pre class="Vlt-prism--dark language-json"><code><%= content %></code></pre>
+            <pre class="Vlt-prism--dark language-json Vlt-prism--copy-disabled"><code><%= content %></code></pre>
           <% end %>
           </div>
         </div>
