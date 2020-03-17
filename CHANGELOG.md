@@ -1,3 +1,6 @@
+# 0.9.0
+* Use volta2 styles
+
 # 0.8.0
 * Fix an issue when the description is `nil`
 * Include nexmo-markdown-renderer
