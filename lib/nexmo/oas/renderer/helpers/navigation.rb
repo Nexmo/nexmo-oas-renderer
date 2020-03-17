@@ -43,7 +43,7 @@ module Nexmo
 
               nodes << <<~HEREDOC
                 <li>
-                <a class="Vlt-sidemenu__link" href="##{heading.attributes['id']}" data-scrollspy-id="#{heading['data-id']}">
+                <a class="Vlt-sidemenu__link Vlt-grey-darker" href="##{heading.attributes['id']}" data-scrollspy-id="#{heading['data-id']}">
                   #{heading.text}
                 </a>
               HEREDOC

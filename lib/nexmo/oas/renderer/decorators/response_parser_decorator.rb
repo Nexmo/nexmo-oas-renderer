@@ -44,7 +44,7 @@ module Nexmo
           end
 
           output = <<~HEREDOC
-      <pre class="highlight json"><code>#{highlighted_response}</code></pre>
+      <pre class="language-#{lexer && lexer.tag || 'json'} Vlt-prism--dark Vlt-prism--copy-disabled"><code>#{highlighted_response}</code></pre>
           HEREDOC
 
           output

@@ -25,7 +25,7 @@
 %>
 
 <div class="Vlt-tabs js-format" data-format="<%= format %>">
-  <div class="Vlt-tabs__header" role="tablist" aria-label="Responses">
+  <div class="Vlt-tabs__header Vlt-tabs__header--bordered" role="tablist" aria-label="Responses">
     <% panels.each do |panel| %>
       <div data-tab-link="<%= panel['x-tab-id'] %>" class="Vlt-tabs__link <%= panel['active'] ? 'Vlt-tabs__link_active' : '' %>">
         <%= panel['description'] %>

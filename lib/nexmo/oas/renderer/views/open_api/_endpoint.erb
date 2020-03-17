@@ -7,8 +7,8 @@
       <% end %>
 
       <div class="Vlt-badge-combined">
-        <code class="Vlt-badge Vlt-badge--large Nxd-method-badge Nxd-method-badge--<%= endpoint.method %>"><%= endpoint.method.upcase %></code>
-        <code class="Vlt-badge Vlt-badge--large Vlt-badge--grey">
+        <code class="Vlt-badge Vlt-white Vlt-badge--large Nxd-method-badge Nxd-method-badge--<%= endpoint.method %>"><%= endpoint.method.upcase %></code>
+        <code class="Vlt-badge Vlt-badge--large Vlt-bg-grey-lighter Vlt-black">
           <% servers = endpoint.path.servers ? endpoint.path.servers : endpoint.definition.servers %>
           <% raise "`servers` parameter not provided at either the path level or document root" unless servers.size.positive? %>
           <span><%= servers[0]['url'] %></span><%= endpoint.path.path.gsub(/\{(.+?)\}/, '<span class="api-path-parameter">:\1</span>') %>
@@ -24,7 +24,7 @@
           <p>You can use <em>either</em> JWT or Basic authentication, but not both at the same time.</p>
         <% end %>
 
-        <div class="Vlt-table Vlt-table--data Vlt-table--bordered">
+        <div class="Vlt-table Vlt-table--bordered">
           <table>
             <thead>
               <tr>
@@ -107,7 +107,7 @@
         <div class="Vlt-accordion">
           <button tabindex="0" class="Vlt-accordion__trigger <%= expand_response ? 'Vlt-accordion__trigger_active' : '' %>">
             <h5 class="Vlt-title--nomargin">HTTP response
-              <span class="Vlt-badge Vlt-badge--<%= response.code[0] == '2' ? 'green' : response.code[0] == '3' ? 'yellow' : 'red'  %>"><%= response.code %></span>
+              <span class="Vlt-badge Vlt-badge--<%= response.code[0] == '2' ? 'green' : response.code[0] == '3' ? 'yellow' : 'red'  %> Vlt-badge--small"><%= response.code %></span>
             </h5>
           </button>
 
@@ -125,7 +125,7 @@
 
           <% if response.code == '204' || response.formats.empty? %>
             <% content = response.description ? response.description : 'No content' %>
-            <pre class="highlight"><code><%= content %></code></pre>
+            <pre class="Vlt-prism--dark language-json Vlt-prism--copy-disabled"><code><%= content %></code></pre>
           <% end %>
           </div>
         </div>

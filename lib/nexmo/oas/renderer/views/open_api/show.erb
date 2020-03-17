@@ -6,14 +6,18 @@
     <div id="overview" class="Vlt-grid">
       <div class="Vlt-col Vlt-col--2of3 Nxd-api__docs">
         <div>
-          <h1>
-            <%= definition.info['title'] %>
+          <div class="Nxd-api__title">
+            <h1>
+              <%= definition.info['title'] %>
+            </h1>
             <% if definition.info['x-label'] %>
-              <span class="Vlt-badge Vlt-badge--<%= definition.info['x-label'].parameterize %>">
-                <%= definition.info['x-label'] %>
-              </span>
+              <div>
+                <span class="Vlt-badge Vlt-badge--<%= definition.info['x-label'].parameterize %>">
+                  <%= definition.info['x-label'] %>
+                </span>
+              </div>
             <% end %>
-          </h1>
+          </div>
 
           <% if definition.info['description'] %>
             <p><%= definition.info['description'].render_markdown %></p>
@@ -27,7 +31,7 @@
               </a>
             </div>
             <div class="Vlt-col Vlt-right">
-              <a href="https://github.com/Nexmo/api-specification/blob/master/definitions/<%= @specification.definition_name %>.yml" class='Vlt-btn Vlt-btn--tertiary Vlt-btn--app Vlt-right'>
+              <a href="https://github.com/Nexmo/api-specification/blob/master/definitions/<%= @specification.definition_name %>.yml" class='Vlt-btn Vlt-btn--tertiary Vlt-btn--app Vlt-right Vlt-bg-grey-lighter'>
                 <svg className="Vlt-icon Vlt-black">
                   <use xlink:href="/assets/symbol/volta-icons.svg#Vlt-icon-github" />
                 </svg>

@@ -72,12 +72,6 @@ body {
 .table-no-line td {
   border-bottom: none !important; }
 
-.Vlt-table .Vlt-table table thead th {
-  background-color: #f8fafc;
-  border-bottom-color: #c4cdd5;
-  border-top-color: #e7ebee;
-  color: #4e5a64; }
-
 .Nxd-api {
   padding-top: 0;
   padding-right: 16px; }
@@ -88,7 +82,7 @@ body {
     top: 30px;
     position: sticky;
     display: block;
-    overflow: auto; }
+    overflow: scroll; }
   .Nxd-api__code {
     background: #e7ebee;
     border-bottom: 1px solid #f8fafc;
