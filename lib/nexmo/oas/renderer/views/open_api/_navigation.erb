@@ -48,6 +48,17 @@
           <% end %>
         <% end %>
 
+        <% definition.webhooks.each do |webhook| %>
+          <% webhook.endpoints.each do |endpoint| %>
+            <li>
+              <a href="#<%= webhook.name %>" class="Vlt-sidemenu__link">
+                <svg class="Vlt-grey-darker"><use xlink:href="/assets/symbol/volta-icons.svg#Vlt-icon-mind-map" /></svg>
+                <span class="Vlt-sidemenu__label"><%= endpoint.summary %></span>
+              </a>
+            </li>
+          <% end %>
+        <% end %>
+
         <% if definition.raw['x-webhooks'] %>
           <% definition.raw['x-webhooks'].each do |name, definition| %>
             <% callback = OasParser::Callback.new(self, name, definition) %>
