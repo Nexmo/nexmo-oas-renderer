@@ -27,13 +27,12 @@ module Nexmo
         if defined?(NexmoDeveloper::Application)
           view_paths = [views, NexmoDeveloper::Application.root.join("app", "views")]
           set :views, view_paths
-
-          set :github_path, Proc.new { load_business_yaml }
         end
 
         set :mustermann_opts, { type: :rails }
         set :oas_path, (ENV['OAS_PATH'] || './')
         set :bind, '0.0.0.0'
+        set :github_path, Proc.new { load_business_yaml }
 
         helpers do
           include Helpers::Render
