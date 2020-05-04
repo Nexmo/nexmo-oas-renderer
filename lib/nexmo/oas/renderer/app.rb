@@ -27,6 +27,8 @@ module Nexmo
         if defined?(NexmoDeveloper::Application)
           view_paths = [views, NexmoDeveloper::Application.root.join("app", "views")]
           set :views, view_paths
+
+          set :github_path, Proc.new { load_business_yaml }
         end
 
         set :mustermann_opts, { type: :rails }
@@ -56,6 +58,14 @@ module Nexmo
           else
             {}
           end
+        end
+
+        def self.load_business_yaml
+          raise "Application requires a 'config/business_info.yml' file to be defined inside the documentation path." unless File.exist?("#{Rails.configuration.docs_base_path}/config/business_info.yml")
+
+          config = YAML.load_file("#{Rails.configuration.docs_base_path}/config/business_info.yml")
+
+          "https://www.github.com/#{config['oas_repo']}/blob/master/definitions"
         end
 
         def check_redirect!
