@@ -63,9 +63,10 @@ module Nexmo
         def self.load_business_yaml
           raise "Application requires a 'config/business_info.yml' file to be defined inside the documentation path." unless File.exist?("#{Rails.configuration.docs_base_path}/config/business_info.yml")
 
-          config = YAML.load_file("#{Rails.configuration.docs_base_path}/config/business_info.yml")
-
-          "https://www.github.com/#{config['oas_repo']}/blob/master/definitions"
+          @url ||= begin
+            config = YAML.load_file("#{Rails.configuration.docs_base_path}/config/business_info.yml")
+            "https://www.github.com/#{config['oas_repo']}/blob/master/definitions"
+          end
         end
 
         def check_redirect!
