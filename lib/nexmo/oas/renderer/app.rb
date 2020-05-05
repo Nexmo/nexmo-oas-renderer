@@ -32,6 +32,7 @@ module Nexmo
         set :mustermann_opts, { type: :rails }
         set :oas_path, (ENV['OAS_PATH'] || './')
         set :bind, '0.0.0.0'
+        set :github_path, Proc.new { load_business_yaml }
 
         helpers do
           include Helpers::Render
@@ -55,6 +56,19 @@ module Nexmo
             { definition: extensions.first, version: extensions.second, format: extensions.last }
           else
             {}
+          end
+        end
+
+        def self.load_business_yaml
+          if defined?(NexmoDeveloper::Application) && !File.exist?("#{Rails.configuration.docs_base_path}/config/business_info.yml")
+            raise "Application requires a 'config/business_info.yml' file to be defined inside the documentation path."
+          elsif defined?(NexmoDeveloper::Application) && File.exist?("#{Rails.configuration.docs_base_path}/config/business_info.yml")
+            @url ||= begin
+              config = YAML.load_file("#{Rails.configuration.docs_base_path}/config/business_info.yml")
+              "https://www.github.com/#{config['oas_repo']}/blob/master/definitions"
+            end
+          else
+            "https://www.github.com/nexmo/api-specification/blob/master/definitions"
           end
         end
 

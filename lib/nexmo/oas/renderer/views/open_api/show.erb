@@ -31,7 +31,7 @@
               </a>
             </div>
             <div class="Vlt-col Vlt-right">
-              <a href="https://github.com/Nexmo/api-specification/blob/master/definitions/<%= @specification.definition_name %>.yml" class='Vlt-btn Vlt-btn--tertiary Vlt-btn--app Vlt-right Vlt-bg-grey-lighter'>
+              <a href="<%=  Nexmo::OAS::Renderer::API.github_path %>/<%= @specification.definition_name %>.yml" class='Vlt-btn Vlt-btn--tertiary Vlt-btn--app Vlt-right Vlt-bg-grey-lighter'>
                 <svg className="Vlt-icon Vlt-black">
                   <use xlink:href="/assets/symbol/volta-icons.svg#Vlt-icon-github" />
                 </svg>
