@@ -1,3 +1,6 @@
+# 0.11.0
+* Add ability to customize OAS github's repo
+
 # 0.9.0
 * Use volta2 styles
 
