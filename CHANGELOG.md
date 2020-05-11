@@ -1,3 +1,6 @@
+# 0.11.1
+* Bump nexmo-markdown-renderer to v0.3
+
 # 0.11.0
 * Add ability to customize OAS github's repo
 
