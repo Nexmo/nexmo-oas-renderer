@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    nexmo-oas-renderer (0.11.0)
+    nexmo-oas-renderer (0.11.1)
       activemodel (~> 6.0)
       activesupport (~> 6.0)
       banzai (~> 0.1.2)
