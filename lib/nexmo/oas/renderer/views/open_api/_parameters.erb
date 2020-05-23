@@ -20,6 +20,7 @@
     </thead>
     <tbody>
       <% parameters.each do |parameter| %>
+      <% next if parameter.name == "_links" %>
         <tr class="<% if parameter.collection? %> Vlt-table__row--noline <% end %>">
           <td class="Vlt-table__cell--nowrap">
             <b><%= parameter.name %></b><br>
@@ -141,6 +142,7 @@
             should_render_row = false
             should_render_row = should_render_row || parameter.subproperties_are_one_of_many?
             should_render_row = should_render_row || (parameter.properties && parameter.object? && parameter.properties.size.positive?)
+            should_render_row = should_render_row || (parameter.array? && parameter.items['properties'])
           %>
           <% if parameter.collection? && should_render_row %>
 
@@ -157,6 +159,20 @@
                 <% else %>
                   <% if parameter.properties && parameter.object? && parameter.properties.size.positive? %>
                     <%= erb :'open_api/_parameters', locals: { parameters: parameter.properties, model: model, format: format, callback: callback } %>
+                  <% end %>
+                  <% if parameter.array?
+                    items = parameter.items
+                    # Merge allOf entries
+                    if items['allOf']
+                      items = items['allOf'].reduce { |a,b| a.deep_merge(b) }
+                    end
+                    # Cast back to properties
+                    next unless items['properties']
+                    items['properties'] = items['properties'].map do |name, definition|
+                      OasParser::Property.new(nil, items, name, definition)
+                    end
+                    %>
+                    <%= erb :'open_api/_parameters', locals: { parameters: items['properties'], model: model, format: format, callback: callback } %>
                   <% end %>
                 <% end %>
               </td>
