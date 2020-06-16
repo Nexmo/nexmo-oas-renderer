@@ -65,7 +65,7 @@ module Nexmo
           elsif defined?(NexmoDeveloper::Application) && File.exist?("#{Rails.configuration.docs_base_path}/config/business_info.yml")
             @url ||= begin
               config = YAML.load_file("#{Rails.configuration.docs_base_path}/config/business_info.yml")
-              "https://www.github.com/#{config['oas_repo']}/blob/master/definitions"
+              config['oas_url']
             end
           else
             "https://www.github.com/nexmo/api-specification/blob/master/definitions"
