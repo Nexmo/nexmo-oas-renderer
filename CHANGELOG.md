@@ -1,3 +1,12 @@
+# 0.11.3
+* Change oas url constructor to be entire config parameter and not only partial
+* Bump websocket-extensions, fixes CVE-2020-7663
+* Bump rails, fixes CVE-2020-8165, CVE-2020-8164, CVE-2020-8162
+
+# 0.11.2
+* Add instructions for docker on windows #68
+* Add nested array rendering support
+
 # 0.11.1
 * Bump nexmo-markdown-renderer to v0.3
 
