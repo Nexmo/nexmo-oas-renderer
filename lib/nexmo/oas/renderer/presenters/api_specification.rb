@@ -11,11 +11,19 @@ module Nexmo
           end
 
           def side_navigation
-            "api/#{@document_name}"
+            if defined?(NexmoDeveloper::Application)
+              "#{Rails.configuration.docs_base_path}/api/#{@document_name}"
+            else
+              "api/#{@document_name}"
+            end
           end
 
           def document_path
-            "_api/#{@document_name}.md"
+            if defined?(NexmoDeveloper::Application)
+              "#{Rails.configuration.docs_base_path}/_api/#{@document_name}.md"
+            else
+              "_api/#{@document_name}.md"
+            end
           end
 
           def document
