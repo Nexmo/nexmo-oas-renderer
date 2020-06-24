@@ -1,7 +1,7 @@
-<% tabs = Nexmo::OAS::Renderer::Presenters::ResponseTabs.new(format, response, content, endpoint) %>
+<% tabs = Nexmo::OAS::Renderer::Presenters::ResponseTabs.new(format, response, content, endpoint, theme_light: @theme_light) %>
 
 <div class='Vlt-tabs js-format' data-format='<%= tabs.format %>'>
-  <div class='Vlt-tabs__header Vlt-tabs__header--bordered' role='tablist' aria-label='Responses'>
+  <div class='Vlt-tabs__header' role='tablist' aria-label='Responses'>
     <% tabs.tab_links.each do |link| %>
       <div role='tab' class='<%= link.css_classes %>' <% if link.data_tab_link %>data-tab-link="<%= link.data_tab_link %>"<% end %>>
         <%= link.content %>

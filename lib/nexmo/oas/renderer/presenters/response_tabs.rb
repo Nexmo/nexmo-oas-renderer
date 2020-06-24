@@ -8,11 +8,12 @@ module Nexmo
         class ResponseTabs
           attr_reader :format
 
-          def initialize(format, response, content, endpoint)
+          def initialize(format, response, content, endpoint, theme_light: nil)
             @format   = format
             @response = response
             @content  = content
             @endpoint = endpoint
+            @theme_light = theme_light
           end
 
           def tab_links
@@ -33,7 +34,8 @@ module Nexmo
                 index: index,
                 format: @format,
                 content: @content,
-                endpoint: @endpoint
+                endpoint: @endpoint,
+                theme_light: @theme_light
               )
             end
           end

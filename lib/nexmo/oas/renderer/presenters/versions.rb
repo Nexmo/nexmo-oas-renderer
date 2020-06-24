@@ -22,14 +22,13 @@ module Nexmo
           def available_versions
             @available_versions ||= begin
                                       matches = definitions.select do |definition|
-                                        definition.starts_with?(base_name) && !definition.include?("#{base_name}/")
+                                        definition.match(/^#{base_name}(\.v\d+)?$/) && !definition.include?("#{base_name}/")
                                       end
 
                                       matches.map do |definition|
-                                        name = definition.chomp('.yml')
-                                        m = /\.v(\d+)/.match(name)
-                                        next { 'version' => '1', 'name' => name } unless m
-                                        { 'version' => m[1], 'name' => name }
+                                        m = /\.v(\d+)/.match(definition)
+                                        next { 'version' => '1', 'name' => definition } unless m
+                                        { 'version' => m[1], 'name' => definition }
 
                                       end.sort_by { |v| v['version'] }
                                     end

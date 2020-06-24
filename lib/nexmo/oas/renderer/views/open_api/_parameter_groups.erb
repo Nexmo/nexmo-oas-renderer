@@ -33,17 +33,14 @@
       # We probably want real allOf support in OasParser, but that's more time than I have right now
       allOf = endpoint.request_body.content[format]['schema']['allOf']
       if allOf
-        params = allOf.reduce { |a,b| a.deep_merge(b) }
-        params = params['properties'].map do |name, definition|
-          OasParser::Property.new(nil, params, name, definition)
-        end
+        params = endpoint.request_body.handle_all_of(allOf)
       else
         params = endpoint.request_body.properties_for_format(format)
       end
       if params
     %>
 
-      <%= erb :'open_api/_parameters', locals: { parameters: params, callback: callback } %>
+      <%= erb :'open_api/_parameters', locals: { endpoint:endpoint, parameters: params, callback: callback } %>
     <% end %>
   <% else %>
 

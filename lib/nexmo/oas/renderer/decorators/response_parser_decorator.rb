@@ -28,26 +28,25 @@ module Nexmo
             next "#{indentation}#{opening_tag}\n#{indentation_plus_one}#{content}\n#{indentation}#{closing_tag}"
           end
 
-          xml_string
+          xml_string.gsub("<", "&lt;")
         end
 
-        def html(format = 'application/json', xml_options: nil)
-          formatter = Rouge::Formatters::HTML.new
-
+        def html(format = 'application/json', xml_options: nil, theme_light: nil)
           case format
           when 'application/json'
-            lexer = Rouge::Lexer.find('json')
-            highlighted_response = formatter.format(lexer.lex(formatted_json))
+            language = 'json'
+            response = formatted_json
           when 'text/xml', 'application/xml'
-            lexer = Rouge::Lexer.find('xml')
-            highlighted_response = formatter.format(lexer.lex(formatted_xml(xml_options)))
+            language = 'xml'
+            response = formatted_xml(xml_options)
           end
 
           output = <<~HEREDOC
-      <pre class="language-#{lexer && lexer.tag || 'json'} Vlt-prism--dark Vlt-prism--copy-disabled"><code>#{highlighted_response}</code></pre>
+      <pre class="pre-wrap language-#{language}  #{theme_light ? 'Vlt-prism--dark' : ''} Vlt-prism--copy-disabled"><code>#{response}</code></pre>
           HEREDOC
 
           output
+
         end
       end
     end

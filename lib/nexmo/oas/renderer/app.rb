@@ -9,6 +9,7 @@ require_relative'./decorators/response_parser_decorator'
 require_relative'./presenters/api_specification'
 require_relative'./presenters/open_api_specification'
 require_relative'./presenters/navigation'
+require_relative'./presenters/request_body_raw'
 require_relative'./presenters/response_tabs'
 require_relative'./helpers/render'
 require_relative'./helpers/navigation'
@@ -109,8 +110,30 @@ module Nexmo
           @code_language = params[:code_language]
         end
 
+        def set_theme
+          persistedTheme = nil
+
+          if defined?(NexmoDeveloper::Application)
+            if params[:theme]
+              session[:persistedTheme] = params[:theme]
+            end
+            persistedTheme = session[:persistedTheme]
+          end
+
+          @theme = params[:theme] || persistedTheme
+
+          @theme = 'light' unless ['light', 'dark'].include?(@theme)
+
+          @theme_light = @theme == 'light'
+
+          alternate_theme = @theme == 'light' ? 'dark' : 'light'
+          @theme_link = "#{request.path_info}?theme=#{alternate_theme}"
+          @theme_link = "/api#{@theme_link}" if defined?(NexmoDeveloper::Application)
+        end
+
         before do
           set_code_language
+          set_theme
         end
 
         get '(/api)/*definition' do
@@ -129,7 +152,7 @@ module Nexmo
             send_file @specification.definition.path, disposition: :attachment
           else
             if defined?(NexmoDeveloper::Application)
-              erb :'open_api/show', layout: :'layouts/page-full.html'
+              erb :'open_api/show', layout: :'layouts/open-api.html'
             else
               erb :'open_api/show', layout: :'layouts/open_api'
             end

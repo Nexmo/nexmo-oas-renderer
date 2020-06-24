@@ -1,131 +1,26 @@
 <% definition = @specification.definition %>
-<%= erb :'open_api/_navigation', locals: { definition: definition } %>
 
-<div class="Vlt-main Vlt-main--light Nxd-main" tabindex="2">
-  <div class="Vlt-card Vlt-article Nxd-api">
-    <div id="overview" class="Vlt-grid">
-      <div class="Vlt-col Vlt-col--2of3 Nxd-api__docs">
-        <div>
-          <div class="Nxd-api__title">
-            <h1>
-              <%= definition.info['title'] %>
-            </h1>
-            <% if definition.info['x-label'] %>
-              <div>
-                <span class="Vlt-badge Vlt-badge--<%= definition.info['x-label'].parameterize %>">
-                  <%= definition.info['x-label'] %>
-                </span>
-              </div>
-            <% end %>
-          </div>
+<div class="theme-<%= @theme %>">
+  <div class="oas-wrapper Vlt-article">
+    <%= erb :'open_api/_navigation', locals: { definition: definition } %>
+    <div class="oas-left-panel full-background sm-hidden">&nbsp;</div>
+    <div class="oas-right-panel full-background sm-hidden">&nbsp;</div>
 
-          <% if definition.info['description'] %>
-            <p><%= definition.info['description'].render_markdown %></p>
-          <% end %>
-
-          <div class="Vlt-grid">
-            <div class="Vlt-col">
-              <a href=<%= url("#{request.url}.#{definition.format}", params: request.params) %> class='Vlt-btn Vlt-btn--secondary Vlt-btn--app'>
-                <svg><use xlink:href="/assets/symbol/volta-icons.svg#Vlt-icon-download" /></svg>
-                Download OpenAPI 3 Definition
-              </a>
-            </div>
-            <div class="Vlt-col Vlt-right">
-              <a href="<%=  Nexmo::OAS::Renderer::API.github_path %>/<%= @specification.definition_name %>.yml" class='Vlt-btn Vlt-btn--tertiary Vlt-btn--app Vlt-right Vlt-bg-grey-lighter'>
-                <svg className="Vlt-icon Vlt-black">
-                  <use xlink:href="/assets/symbol/volta-icons.svg#Vlt-icon-github" />
-                </svg>
-                Improve this specification
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="Vlt-col Vlt-col--1of3 Nxd-api__code Nxd-api__code--install">
-
-        <% if @specification.formats.size > 1 %>
-          <div class="Nxd-api__code__header">
-            <div class="Vlt-native-dropdown">
-              <select class="js-format-selector">
-                <% @specification.formats.each do |value, name| %>
-                  <option value="<%= value %>"><%= name %></option>
-                <% end %>
-              </select>
-            </div>
-          </div>
-        <% end %>
-
-        <% if @specification.available_versions && @specification.available_versions.count > 1 %>
-          <div class="Vlt-callout Vlt-callout--shoutout Nxd-version">
-            <i></i>
-            <div class="Vlt-callout__content">
-              <h4>There are multiple versions of this API available</h4>
-              <p>
-                <% @specification.available_versions.each do |v| %>
-                  <a href="/api/<%= v['name'] %>" <%= v['version'] == @specification.current_version ? 'class=active':'' %>>Version <%= v['version'] %></a> <%= '|' unless v == @specification.available_versions.last %>
-                <% end %>
-              </p>
-            </div>
-          </div>
-        <% end %>
-      </div>
-    </div>
+    <%= erb :'open_api/_header', locals: { definition: definition } %>
 
     <% @specification.groups.each do |name, endpoints| %>
       <% if name %>
         <% group = definition.raw['tags'].select { |tag| tag['name'].capitalize == name.capitalize }.first %>
-        <%= erb :'open_api/_model', locals: { group: group } %>
+        <%= erb :'open_api/_model', locals: { group: group, endpoints: endpoints } %>
       <% end %>
 
       <% endpoints.each do |endpoint| %>
-        <%= erb :'open_api/_endpoint', locals: { endpoint: endpoint } %>
+        <%= erb :'open_api/_endpoint', locals: { definition: definition, endpoint: endpoint } %>
+        <%= erb :'open_api/_callbacks', locals: { endpoint: endpoint } %>
       <% end %>
     <% end %>
 
-    <% if @specification.definition.raw['x-webhooks'] || definition.webhooks.size.positive? %>
-    <div class="Vlt-grid">
-      <div class="Vlt-col Vlt-col--2of3 Nxd-api__docs">
-        <div>
-          <h2>Webhooks</h2>
-          <p>
-            Webhooks are an extension of an API, but instead of your code requesting data, the API sends data to you. The data arrives in a web request to your application.
-          </p>
-          <p>To learn more about webhooks, see our <a href="/concepts/guides/webhooks">webhooks documentation</a></p>
+    <%= erb :'open_api/_webhooks', locals: { definition: definition } %>
 
-          <p>This API may send any of the webhooks documented below to the URL that you have configured. You must repond with a `200` or `204` HTTP response, or the requests will be retried</p>
-          <br />
-        </div>
-      </div>
-
-      <div class="Vlt-col Vlt-col--1of3 Nxd-api__code">
-      </div>
-    </div>
-    <% end %>
-
-    <% if @specification.definition.raw['x-webhooks'] %>
-      <% @specification.definition.raw['x-webhooks'].each do |name, definition| %>
-        <%= erb :'open_api/_callback', locals: { callback: OasParser::Callback.new(self, name, definition), webhook: true } %>
-      <% end %>
-    <% end %>
-
-    <% definition.webhooks.each do |webhook| %>
-      <% webhook.endpoints.each do |endpoint| %>
-        <%= erb :'open_api/_callback_endpoint', locals: { webhook: webhook, endpoint: endpoint } %>
-      <% end %>
-    <% end %>
-
-    <% if @specification.definition_errors %>
-      <div class="Vlt-grid" id="errors">
-        <div class="Vlt-col Vlt-col--2of3 Nxd-api__docs">
-          <div>
-            <%= @specification.definition_errors %>
-          </div>
-        </div>
-        <div class="Vlt-col Vlt-col--1of3 Nxd-api__code">
-          <h5>Example response</h5>
-          <%= Nexmo::OAS::Renderer::ResponseParserDecorator.new(definition.raw['components']['schemas']['Error']).html %>
-        </div>
-      </div>
-    <% end %>
   </div>
 </div>

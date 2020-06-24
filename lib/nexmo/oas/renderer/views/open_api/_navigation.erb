@@ -1,92 +1,68 @@
-<div id="Vlt-sidenav" class="Vlt-sidenav">
-  <div class="Vlt-sidenav__scroll">
-    <ul class="Vlt-sidemenu Vlt-sidemenu--rounded navigation--documentation">
-      <li>
-        <h5 class="Vlt-sidemenu__title Vlt-sidemenu__title--border"><%= definition.info['title'] %></h5>
-      </li>
-      <li>
-        <a class="Vlt-sidemenu__link" href="#overview">Overview</a>
-      </li>
+<header class="oas-navbar oas-navbar-full">
+  <% if @specification.groups.size == 1 %>
+    <a href="#top" class="Vlt-btn Vlt-btn--tertiary group-link">Available Operations</a>
+  <% end %>
 
-      <% @specification.groups.each do |name, endpoints| %>
-        <% if name %>
-          <%
-            group = definition.raw['tags'].select { |tag| tag['name'].capitalize == name.capitalize }.first
-            raise "Could not find 'tags' entry for #{name.capitalize}" unless group
-           %>
-          <li>
-            <h5 class="Vlt-sidemenu__title Vlt-sidemenu__title--border"><%= group['name'] %></h5>
-          </li>
+
+  <% @specification.groups.each do |name, endpoints| %>
+    <% next unless name %>
+    <a href="#<%= name.parameterize %>" class="Vlt-btn Vlt-btn--tertiary group-link"><%= name %></a>
+  <% end %>
+
+  <% if @specification.definition.raw['x-webhooks'] || definition.webhooks.size.positive? %>
+    <a href="#webhooks" class="Vlt-btn Vlt-btn--tertiary group-link">Webhooks</a>
+  <% end %>
+
+
+  <% if @specification.formats.size > 1 %>
+    <div class="Vlt-native-dropdown">
+      <select class="js-format-selector">
+        <% @specification.formats.each do |value, name| %>
+          <option value="<%= value %>"><%= name %> Responses</option>
         <% end %>
+      </select>
+    </div>
+  <% end %>
+</header>
 
-        <% endpoints.each do |endpoint| %>
-          <% raise "Missing `operationId` on #{endpoint.path.path} path" unless endpoint.operationId %>
-          <li>
-            <a href="#<%= endpoint.operationId %>" class="Vlt-sidemenu__link">
-              <svg class="Vlt-grey-darker"><use xlink:href="/assets/symbol/volta-icons.svg#Vlt-icon-code" /></svg>
-
-              <span class="Vlt-sidemenu__label">
-                <%= normalize_summary_title(endpoint.summary, endpoint.operationId) %>
-              </span>
-              <span class="Vlt-badge Vlt-badge--margin-left Nxd-method-badge Nxd-method-badge--<%= endpoint.method %> Vlt-white Vlt-badge--small"><%= endpoint.method %></span>
-            </a>
-          </li>
-
-          <% if endpoint.callbacks.any? %>
-            <% endpoint.callbacks.each do |callback| %>
-              <% callback.paths.each do |path| %>
-                <% path.endpoints.each do |endpoint| %>
-                  <li class="Nxd-menu__indent">
-                    <a href="#<%= endpoint.operationId %>" class="Vlt-sidemenu__link">
-                      <svg class="Vlt-grey-darker"><use xlink:href="/assets/symbol/volta-icons.svg#Vlt-icon-toggle" /></svg>
-                      <span class="Vlt-sidemenu__label"><%= endpoint.summary %></span>
-                    </a>
-                  </li>
-                <% end %>
-              <% end %>
+<header class="oas-navbar oas-navbar-small">
+  <div id="oas-nav-accordion" style="width: 100%;">
+    <span role="link" class="oas-trigger">
+      <% if @specification.formats.size > 1 %>
+        <div class="Vlt-native-dropdown">
+          <select class="js-format-selector">
+            <% @specification.formats.each do |value, name| %>
+              <option value="<%= value %>"><%= name %> Responses</option>
             <% end %>
-          <% end %>
-        <% end %>
+          </select>
+        </div>
+      <% end %>
+    </span>
 
-        <% definition.webhooks.each do |webhook| %>
-          <% webhook.endpoints.each do |endpoint| %>
-            <li>
-              <a href="#<%= webhook.name %>" class="Vlt-sidemenu__link">
-                <svg class="Vlt-grey-darker"><use xlink:href="/assets/symbol/volta-icons.svg#Vlt-icon-mind-map" /></svg>
-                <span class="Vlt-sidemenu__label"><%= endpoint.summary %></span>
-              </a>
-            </li>
-          <% end %>
-        <% end %>
+    <div class="oas-trigger-content">
+      <% if @specification.groups.size == 1 %>
+      <a href="#top" class="Vlt-btn Vlt-btn--tertiary group-link">Available Operations</a>
+      <% end %>
 
-        <% if definition.raw['x-webhooks'] %>
-          <% definition.raw['x-webhooks'].each do |name, definition| %>
-            <% callback = OasParser::Callback.new(self, name, definition) %>
+      <br />
+      <br />
 
-            <% callback.paths.each do |path| %>
-              <% path.endpoints.each do |endpoint| %>
-                <li>
-                  <a href="#<%= name %>" class="Vlt-sidemenu__link">
-                    <svg class="Vlt-grey-darker"><use xlink:href="/assets/symbol/volta-icons.svg#Vlt-icon-mind-map" /></svg>
-                    <span class="Vlt-sidemenu__label"><%= endpoint.summary %></span>
-                  </a>
-                </li>
-              <% end %>
-            <% end %>
-          <% end %>
-        <% end %>
+      <% has_webhooks = @specification.definition.raw['x-webhooks'] || definition.webhooks.size.positive? %>
+      <% if @specification.groups.size > 1 || has_webhooks %>
+        <h4>Endpoints</h4>
 
-        <% if name %>
-          </li>
+        <% @specification.groups.each do |name, endpoints| %>
+          <% next unless name %>
+          <a href="#<%= name.parameterize %>" class="Vlt-btn Vlt-btn--tertiary group-link"><%= name %></a>
         <% end %>
       <% end %>
 
-      <% if @specification.definition_errors %>
-        <li>
-          <a class="Vlt-sidemenu__link" href="#errors">Errors</a>
-        </li>
+      <% if has_webhooks %>
+        <a href="#webhooks" class="Vlt-btn Vlt-btn--tertiary group-link">Webhooks</a>
       <% end %>
-      </li>
-    </ul>
+
+    </div>
   </div>
-</div>
+</header>
+
+<span id="top"></span>
