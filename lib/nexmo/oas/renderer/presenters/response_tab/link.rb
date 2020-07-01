@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Nexmo
   module OAS
     module Renderer
@@ -19,6 +21,7 @@ module Nexmo
 
             def data_tab_link
               return nil unless @schema['x-tab-id']
+
               @schema['x-tab-id']
             end
 

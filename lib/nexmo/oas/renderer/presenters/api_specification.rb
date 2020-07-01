@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 module Nexmo
   module OAS
     module Renderer
       module Presenters
         class ApiSpecification
-
           def initialize(document_name:, code_language: nil)
             @document_name = document_name
             @code_language = code_language

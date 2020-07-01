@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Nexmo
   module OAS
     module Renderer
@@ -10,16 +12,16 @@ module Nexmo
           end
 
           def to_format(format)
-            return to_urlencoded if format == "application/x-www-form-urlencoded"
-            return to_json
+            return to_urlencoded if format == 'application/x-www-form-urlencoded'
+
+            to_json
           end
 
           def to_urlencoded
-
-            example = ""
+            example = ''
             body = URI.encode_www_form(generate_request)
             if @endpoint
-              servers = @endpoint.path.servers ? @endpoint.path.servers : @endpoint.definition.servers
+              servers = @endpoint.path.servers || @endpoint.definition.servers
               path = @endpoint.path.path.gsub(/\{(.+?)\}/, ':\1')
               uri = URI("#{servers[0]['url']}#{path}")
               example += "#{@endpoint.method.upcase} #{uri.path} HTTP/1.1\n"
@@ -32,7 +34,7 @@ module Nexmo
             example
           end
 
-          def to_json
+          def to_json(*_args)
             JSON.pretty_generate(generate_request)
           end
 
@@ -47,18 +49,12 @@ module Nexmo
               parameter_name = name(parameter)
               param = parameter
 
-
               # This is all required to handle an edge case where parameter.name is an OasParser::Property
               # Which happens when you use a oneOf inside items in a property.
               # I believe this is a bug, but it's a BC break in the parser
 
-              it = nil
-              required = []
               if parameter_name.instance_of?(OasParser::Property)
                 parameter_name = parameter.owner.name
-                it = parameter.schema['items']
-                required = parameter.name.schema['required']
-
                 param = OasParser::Parameter.new(parameter_name, parameter.schema)
               end
 
@@ -66,15 +62,17 @@ module Nexmo
                 output[parameter_name] = param.raw['example']
               elsif param.raw['items'] && param.raw['items']['oneOf']
                 param = param.raw['items']['oneOf'][0]
-                output[parameter_name] = [generate_request(properties(param).map {|p| p.name})]
-              elsif collection?(param) && hasProperties?(param)
+                output[parameter_name] = [generate_request(properties(param).map(&:name))]
+              elsif collection?(param) && properties?(param)
                 nested_output = generate_request(properties(param))
                 next unless nested_output.keys.length.positive?
+
                 nested_output = [nested_output] if param.array?
                 output[parameter_name] = nested_output
               else
                 ex = example(param)
                 next unless ex
+
                 if ex.is_a?(String)
                   # Remove line breaks
                   ex = ex.gsub('<br />', ' ')
@@ -86,73 +84,55 @@ module Nexmo
           end
 
           def items(parameter)
-            if !parameter.respond_to?(:items)
-              return parameter['items']
-            end
+            return parameter['items'] unless parameter.respond_to?(:items)
 
             parameter.items
           end
 
-
           def example(parameter)
-            if !parameter.respond_to?(:example)
-              return parameter['example']
-            end
+            return parameter['example'] unless parameter.respond_to?(:example)
 
             parameter.example
           end
 
           def name(parameter)
-            if !parameter.respond_to?(:name)
-              return parameter['name']
-            end
+            return parameter['name'] unless parameter.respond_to?(:name)
 
             parameter.name
           end
 
           def properties(parameter)
-            if !parameter.respond_to?(:properties)
-              return parameter['properties']
-            end
+            return parameter['properties'] unless parameter.respond_to?(:properties)
+
             parameter.properties
           end
 
           def array?(parameter)
-            if !parameter.respond_to?(:array?)
-              return parameter['items']
-            end
+            return parameter['items'] unless parameter.respond_to?(:array?)
 
             parameter.array?
           end
 
           def collection?(parameter)
-            if !parameter.respond_to?(:collection?)
-              return parameter['properties']
-            end
+            return parameter['properties'] unless parameter.respond_to?(:collection?)
 
             parameter.collection?
           end
 
-          def hasProperties?(parameter)
-            if !parameter.respond_to?(:collection?)
-              return parameter['properties']
-            end
+          def properties?(parameter)
+            return parameter['properties'] unless parameter.respond_to?(:collection?)
 
             parameter.properties.size.positive?
           end
 
-          def optional?(parameter, allowList)
-            return false if allowList && allowList.include?(name(parameter))
+          def optional?(parameter, allow_list)
+            return false if allow_list&.include?(name(parameter))
 
-            if !parameter.respond_to?(:required)
-              return false
-            end
+            return false unless parameter.respond_to?(:required)
 
-            if !parameter.schema
-              return false
-            end
+            return false unless parameter.schema
 
-            return !parameter.required
+            !parameter.required
           end
         end
       end

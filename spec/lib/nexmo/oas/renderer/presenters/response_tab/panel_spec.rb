@@ -40,7 +40,7 @@ RSpec.describe Nexmo::OAS::Renderer::Presenters::ResponseTab::Panel do
       it 'returns the parsed response' do
         decorator = instance_double(Nexmo::OAS::Renderer::ResponseParserDecorator)
         expect(Nexmo::OAS::Renderer::ResponseParserDecorator).to receive(:new).with(schema).and_return(decorator)
-        expect(decorator).to receive(:html).with(format, :theme_light=>nil, xml_options: schema['xml'])
+        expect(decorator).to receive(:html).with(format, theme_light: nil, xml_options: schema['xml'])
 
         subject.content
       end
@@ -51,9 +51,9 @@ RSpec.describe Nexmo::OAS::Renderer::Presenters::ResponseTab::Panel do
 
       it 'returns the response fields' do
         expect(subject.content).to eq([
-          :'open_api/_response_fields',
-          locals: { schema: schema, index: index, format: format, endpoint: endpoint }
-        ])
+                                        :'open_api/_response_fields',
+                                        locals: { schema: schema, index: index, format: format, endpoint: endpoint },
+                                      ])
       end
     end
   end

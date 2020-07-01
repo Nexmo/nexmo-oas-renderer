@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 module Nexmo
   module OAS
     module Renderer
       module Helpers
         module Navigation
-
           HEADING_TAG_DEPTHS = {
             'h0' => 0,
             'h1' => 1,
@@ -58,7 +59,6 @@ module Nexmo
           def build_document(content)
             Nokogiri::HTML::DocumentFragment.parse(content)
           end
-
         end
       end
     end

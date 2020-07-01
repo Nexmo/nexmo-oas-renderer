@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'sinatra/base'
 require 'active_support'
 require 'active_support/core_ext/array/conversions'
@@ -5,16 +7,16 @@ require 'active_support/core_ext/string/output_safety'
 require 'active_model'
 require 'nexmo_markdown_renderer'
 
-require_relative'./decorators/response_parser_decorator'
-require_relative'./presenters/api_specification'
-require_relative'./presenters/open_api_specification'
-require_relative'./presenters/navigation'
-require_relative'./presenters/request_body_raw'
-require_relative'./presenters/response_tabs'
-require_relative'./helpers/render'
-require_relative'./helpers/navigation'
-require_relative'./helpers/summary'
-require_relative'./helpers/url'
+require_relative './decorators/response_parser_decorator'
+require_relative './presenters/api_specification'
+require_relative './presenters/open_api_specification'
+require_relative './presenters/navigation'
+require_relative './presenters/request_body_raw'
+require_relative './presenters/response_tabs'
+require_relative './helpers/render'
+require_relative './helpers/navigation'
+require_relative './helpers/summary'
+require_relative './helpers/url'
 
 require 'dotenv/load'
 
@@ -22,18 +24,17 @@ module Nexmo
   module OAS
     module Renderer
       class API < Sinatra::Base
-
         Tilt.register Tilt::ERBTemplate, 'html.erb'
 
         if defined?(NexmoDeveloper::Application)
-          view_paths = [views, NexmoDeveloper::Application.root.join("app", "views")]
+          view_paths = [views, NexmoDeveloper::Application.root.join('app', 'views')]
           set :views, view_paths
         end
 
         set :mustermann_opts, { type: :rails }
         set :oas_path, (ENV['OAS_PATH'] || './')
         set :bind, '0.0.0.0'
-        set :github_path, Proc.new { load_business_yaml }
+        set :github_path, (proc { load_business_yaml })
 
         helpers do
           include Helpers::Render
@@ -46,9 +47,9 @@ module Nexmo
           extensions = extension.split('.')
           case extensions.size
           when 1
-            { definition: extensions.first}
+            { definition: extensions.first }
           when 2
-            if extensions.second.match? /v\d+/
+            if extensions.second.match?(/v\d+/)
               { definition: extensions.first, version: extensions.second }
             else
               { definition: extensions.first, format: extensions.second }
@@ -61,29 +62,29 @@ module Nexmo
         end
 
         def self.load_business_yaml
-          if defined?(NexmoDeveloper::Application) && !File.exist?("#{Rails.configuration.docs_base_path}/config/business_info.yml")
-            raise "Application requires a 'config/business_info.yml' file to be defined inside the documentation path."
-          elsif defined?(NexmoDeveloper::Application) && File.exist?("#{Rails.configuration.docs_base_path}/config/business_info.yml")
+          raise "Application requires a 'config/business_info.yml' file to be defined inside the documentation path." if defined?(NexmoDeveloper::Application) && !File.exist?("#{Rails.configuration.docs_base_path}/config/business_info.yml")
+
+          if defined?(NexmoDeveloper::Application) && File.exist?("#{Rails.configuration.docs_base_path}/config/business_info.yml")
             @url ||= begin
               config = YAML.load_file("#{Rails.configuration.docs_base_path}/config/business_info.yml")
               config['oas_url']
             end
           else
-            "https://www.github.com/nexmo/api-specification/blob/master/definitions"
+            'https://www.github.com/nexmo/api-specification/blob/master/definitions'
           end
         end
 
         def check_redirect!
-          if defined?(NexmoDeveloper::Application)
-            redirect_path = Redirector.find(request)
-            redirect(redirect_path) if redirect_path
-          end
+          return unless defined?(NexmoDeveloper::Application)
+
+          redirect_path = Redirector.find(request)
+          redirect(redirect_path) if redirect_path
         end
 
         def check_oas_constraints!(definition)
-          if defined?(NexmoDeveloper::Application)
-            pass unless OpenApiConstraint.match?(definition)
-          end
+          return unless defined?(NexmoDeveloper::Application)
+
+          pass unless OpenApiConstraint.match?(definition)
         end
 
         error Errno::ENOENT do
@@ -97,32 +98,33 @@ module Nexmo
 
         unless defined?(NexmoDeveloper::Application)
           get '/' do
-            prefix = "#{API.oas_path}"
+            prefix = API.oas_path.to_s
             @definitions = Dir.glob("#{prefix}/**/*.yml").map do |d|
               d.gsub("#{prefix}/", '').gsub('.yml', '')
-            end.sort.reject { |d| d.include? 'common/' }
+            end
+
+            @definitions = @definitions.sort.reject { |d| d.include? 'common/' }
             erb :'api/index', layout: false
           end
         end
 
         def set_code_language
           return if params[:code_language] == 'templates'
+
           @code_language = params[:code_language]
         end
 
         def set_theme
-          persistedTheme = nil
+          persisted_theme = nil
 
           if defined?(NexmoDeveloper::Application)
-            if params[:theme]
-              session[:persistedTheme] = params[:theme]
-            end
-            persistedTheme = session[:persistedTheme]
+            session[:persisted_theme] = params[:theme] if params[:theme]
+            persisted_theme = session[:persisted_theme]
           end
 
-          @theme = params[:theme] || persistedTheme
+          @theme = params[:theme] || persisted_theme
 
-          @theme = 'light' unless ['light', 'dark'].include?(@theme)
+          @theme = 'light' unless %w[light dark].include?(@theme)
 
           @theme_light = @theme == 'light'
 
@@ -145,30 +147,30 @@ module Nexmo
 
           @specification = Presenters::OpenApiSpecification.new(
             definition_name: definition,
-            expand_responses: params.fetch(:expandResponses, nil),
+            expand_responses: params.fetch(:expandResponses, nil)
           )
 
-          if ['yml', 'json'].include?(parameters[:format])
-            send_file @specification.definition.path, disposition: :attachment
+          if %w[yml json].include?(parameters[:format])
+            next send_file @specification.definition.path, disposition: :attachment
+          end
+
+          if defined?(NexmoDeveloper::Application)
+            erb :'open_api/show', layout: :'layouts/open-api.html'
           else
-            if defined?(NexmoDeveloper::Application)
-              erb :'open_api/show', layout: :'layouts/open-api.html'
-            else
-              erb :'open_api/show', layout: :'layouts/open_api'
-            end
+            erb :'open_api/show', layout: :'layouts/open_api'
           end
         end
 
         def set_document
-          if params[:code_language] == 'templates'
-            @document = 'verify/templates'
-          elsif params[:code_language] == 'ncco'
-            @document = 'voice/ncco'
-          elsif ::Nexmo::Markdown::CodeLanguage.exists?(params[:code_language])
-            @document = params[:document]
-          else
-            @document = "#{params[:document]}/#{params[:code_language]}"
-          end
+          @document = if params[:code_language] == 'templates'
+                        'verify/templates'
+                      elsif params[:code_language] == 'ncco'
+                        'voice/ncco'
+                      elsif ::Nexmo::Markdown::CodeLanguage.exists?(params[:code_language])
+                        params[:document]
+                      else
+                        "#{params[:document]}/#{params[:code_language]}"
+                      end
         end
 
         get '(/api)/*document(/:code_language)' do
@@ -181,7 +183,7 @@ module Nexmo
 
           @navigation = Presenters::Navigation.new(
             content: @specification.content,
-            title: @specification.side_navigation_title,
+            title: @specification.side_navigation_title
           )
 
           if defined?(NexmoDeveloper::Application)

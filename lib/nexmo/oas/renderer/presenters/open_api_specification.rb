@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'forwardable'
 require_relative './endpoint'
 require_relative './response_format'
@@ -9,7 +11,6 @@ module Nexmo
   module OAS
     module Renderer
       module Presenters
-
         class OpenApiSpecification
           extend Forwardable
 
@@ -30,9 +31,11 @@ module Nexmo
           end
 
           def definition_errors
+            return unless errors?
+
             @definition_errors ||= Nexmo::Markdown::Renderer.new.call(
               File.read("#{API.oas_path}/../../errors/#{@definition_name}.md")
-            ) if errors?
+            )
           end
 
           def definition

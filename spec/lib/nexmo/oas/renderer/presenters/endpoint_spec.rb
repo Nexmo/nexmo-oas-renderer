@@ -8,8 +8,8 @@ RSpec.describe Nexmo::OAS::Renderer::Presenters::Endpoint do
   describe '#formats' do
     it 'extract the formats from the endpoint\'s responses' do
       expect(described_class.new(endpoint).formats).to match_array([
-        'application/json', 'application/xml', 'text/xml', 'text/html'
-      ])
+                                                                     'application/json', 'application/xml', 'text/xml', 'text/html'
+                                                                   ])
     end
   end
 end

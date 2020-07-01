@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 module Nexmo
   module OAS
     module Renderer
       module Presenters
-
         class Versions
           def initialize(definition_name)
             @definition_name = definition_name
@@ -25,24 +26,25 @@ module Nexmo
                                         definition.match(/^#{base_name}(\.v\d+)?$/) && !definition.include?("#{base_name}/")
                                       end
 
-                                      matches.map do |definition|
+                                      matches = matches.map do |definition|
                                         m = /\.v(\d+)/.match(definition)
                                         next { 'version' => '1', 'name' => definition } unless m
-                                        { 'version' => m[1], 'name' => definition }
 
-                                      end.sort_by { |v| v['version'] }
+                                        { 'version' => m[1], 'name' => definition }
+                                      end
+
+                                      matches.sort_by { |v| v['version'] }
                                     end
           end
 
           def definitions
             @definitions ||= begin
                                Dir.glob("#{API.oas_path}/**/*.yml").map do |file|
-                                 definition = file.sub("#{API.oas_path}/", '').chomp('.yml')
+                                 file.sub("#{API.oas_path}/", '').chomp('.yml')
                                end
                              end
           end
         end
-
       end
     end
   end

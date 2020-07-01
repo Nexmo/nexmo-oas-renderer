@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative './response_tab/link'
 require_relative './response_tab/panel'
 

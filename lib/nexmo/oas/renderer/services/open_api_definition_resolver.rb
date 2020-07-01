@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative './oas_parser'
 
 module Nexmo
@@ -15,7 +17,7 @@ module Nexmo
         end
 
         def self.paths(name)
-          ['json', 'yaml', 'yml'].map do |format|
+          %w[json yaml yml].map do |format|
             path(name, format)
           end
         end
