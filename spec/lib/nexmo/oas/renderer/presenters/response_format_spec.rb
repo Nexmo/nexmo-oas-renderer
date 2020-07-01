@@ -7,7 +7,7 @@ RSpec.describe Nexmo::OAS::Renderer::Presenters::ResponseFormat do
     it 'returns a hash with the different values' do
       expect(described_class.to_dropdown(formats)).to match(
         'application/json' => 'JSON',
-        'application/xml'  => 'XML',
+        'application/xml' => 'XML'
       )
     end
   end
@@ -21,8 +21,8 @@ RSpec.describe Nexmo::OAS::Renderer::Presenters::ResponseFormat do
 
     it 'extract the different formats from the responses' do
       expect(described_class.new(responses).extract).to match_array([
-        'application/json', 'application/xml', 'text/xml', 'text/html'
-      ])
+                                                                      'application/json', 'application/xml', 'text/xml', 'text/html'
+                                                                    ])
     end
   end
 end

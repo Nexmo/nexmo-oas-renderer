@@ -1,139 +1,54 @@
 <div class="Vlt-grid">
-  <div class="Vlt-col Vlt-col--2of3 Nxd-api__docs">
-    <div>
-      <h3 id='<%= endpoint.operationId %>'><%= endpoint.summary %></h3>
-      <% if endpoint.description %>
-        <p><%= endpoint.description.render_markdown %></p>
-      <% end %>
+  <div class="Vlt-col oas-left-panel" style="padding-bottom: 36px;">
 
-      <div class="Vlt-badge-combined">
-        <code class="Vlt-badge Vlt-white Vlt-badge--large Nxd-method-badge Nxd-method-badge--<%= endpoint.method %>"><%= endpoint.method.upcase %></code>
-        <code class="Vlt-badge Vlt-badge--large Vlt-bg-grey-lighter Vlt-black">
-          <% servers = endpoint.path.servers ? endpoint.path.servers : endpoint.definition.servers %>
-          <% raise "`servers` parameter not provided at either the path level or document root" unless servers.size.positive? %>
-          <span><%= servers[0]['url'] %></span><%= endpoint.path.path.gsub(/\{(.+?)\}/, '<span class="api-path-parameter">:\1</span>') %>
-        </code>
-      </div>
+    <h3 id='<%= endpoint.operationId %>'><%= endpoint.summary %></h3>
+    <% if endpoint.description %>
+      <p><%= endpoint.description.render_markdown %></p>
+    <% end %>
 
-      <% if endpoint.jwt? || endpoint.basic_auth? || endpoint.oauth? %>
-        <h4>Authentication</h4>
+    <% servers = endpoint.path.servers ? endpoint.path.servers : endpoint.definition.servers %>
+    <% raise "`servers` parameter not provided at either the path level or document root" unless servers.size.positive? %>
 
-        <% if endpoint.jwt? && endpoint.basic_auth? %>
-          <p>This API supports both JWT and Basic authentication. Basic authentication is easier to get started with, but does not support advanced features such as ACLs.</p>
-
-          <p>You can use <em>either</em> JWT or Basic authentication, but not both at the same time.</p>
-        <% end %>
-
-        <div class="Vlt-table Vlt-table--bordered">
-          <table>
-            <thead>
-              <tr>
-                <th>Key</th>
-                <th>Description</th>
-                <th>Example</th>
-                <th>Default</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% if endpoint.oauth? %>
-                <tr>
-                  <td>
-                    <b>Authorization</b>
-                  </td>
-                  <td>
-                    <b>Your OAuth token.</b><br>
-                    <small><a href="/vonage-business-cloud/vbc-apis/getting-started/authentication">Read more about OAuth tokens</a></small>
-                  </td>
-                  <td><code>Bearer &lt;access_token&gt;</code></td>
-                  <td>
-                    <em>None</em>
-                  </td>
-                </tr>
-              <% end %>
-
-              <% if endpoint.jwt? %>
-                <tr>
-                  <td>
-                    <b>Authorization</b>
-                  </td>
-                  <td>
-                    <b>Your JSON web token.</b><br>
-                    <small><a href="/concepts/guides/authentication#json-web-tokens-jwt">Read more about JWTs</a></small>
-                  </td>
-                  <td><code>Bearer &lt;JWT&gt;</code></td>
-                  <td>
-                    <em>None</em>
-                  </td>
-                </tr>
-              <% end %>
-
-              <% if endpoint.basic_auth? %>
-                <tr>
-                  <td>
-                    <b>Authorization</b>
-                  </td>
-                  <td>
-                    <b>Base64 encoded API key and secret joined by a colon.</b><br>
-                    <small><a href="/concepts/guides/authentication#header-based-api-key-and-secret-authentication">Read more</a></small>
-                  </td>
-                  <td><code>Basic &lt;base64&gt;</code></td>
-                  <td>
-                    <i>None</i>
-                  </td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
-      <% end %>
-
-      <%= erb :'open_api/_parameter_groups', locals: { endpoint: endpoint } %>
-      <%= erb :'open_api/_response_descriptions', locals: { endpoint: endpoint, auto_expand_responses: @auto_expand_responses } %>
-
+    <%
+      path = endpoint.path.path.gsub(/\{(.+?)\}/, ':\1')
+      uri = URI("#{servers[0]['url']}#{path}")
+    %>
+    <div class="oas-path-full Vlt-badge-combined">
+      <code class="Vlt-badge Vlt-badge--large Nxd-method-badge Nxd-method-badge--<%= endpoint.method %>"><%= endpoint.method.upcase %></code>
+      <code class="Vlt-badge Vlt-badge--large Vlt-bg-grey-lighter Vlt-black">
+        <span><%= uri.scheme %>://<%= uri.host %></span><%= uri.path.gsub(/:([^\/]+)/, '<span class="api-path-parameter">:\1</span>') %>
+      </code>
     </div>
+
+    <div class="oas-path-small Vlt-badge-combined" style="margin-bottom: 8px;">
+      <code class="Vlt-badge Vlt-badge--large">Host</code>
+      <code class="Vlt-badge Vlt-badge--large Vlt-bg-grey-lighter Vlt-black">
+        <%= uri.scheme %>://<%= uri.host %>
+      </code>
+    </div>
+
+    <div class="oas-path-small Vlt-badge-combined">
+      <code class="Vlt-badge Vlt-badge--large Nxd-method-badge Nxd-method-badge--<%= endpoint.method %>"><%= endpoint.method.upcase %></code>
+      <code class="Vlt-badge Vlt-badge--large Vlt-bg-grey-lighter Vlt-black">
+        <%= uri.path.gsub(/:([^\/]+)/, '<span class="api-path-parameter">:\1</span>') %>
+      </code>
+    </div>
+
+    <%= erb :'open_api/_auth', locals: { endpoint: endpoint } %>
+
+    <%= erb :'open_api/_parameter_groups', locals: { endpoint: endpoint } %>
+
+    <%= erb :'open_api/_response_descriptions', locals: { endpoint: endpoint, auto_expand_responses: @auto_expand_responses } %>
+
   </div>
 
-  <div class="Vlt-col Vlt-col--1of3 Nxd-api__code">
-    <%= erb :'open_api/_code_examples', locals: { endpoint: endpoint } %>
+  <div class="Vlt-col oas-right-panel">
 
-    <div class='Nxd-api__responses'>
-      <% endpoint.responses.each do |response| %>
-        <%
-          id = SecureRandom.hex
-          expand_response = response.code[0] == '2' && response.raw['x-expand-response'] != false
-          expand_response = true if response.raw['x-expand-response']
-        %>
+    <%= erb :'open_api/_requests', locals: { endpoint: endpoint } %>
 
-        <div class="Vlt-accordion">
-          <button tabindex="0" class="Vlt-accordion__trigger <%= expand_response ? 'Vlt-accordion__trigger_active' : '' %>">
-            <h5 class="Vlt-title--nomargin">HTTP response
-              <span class="Vlt-badge Vlt-badge--<%= response.code[0] == '2' ? 'green' : response.code[0] == '3' ? 'yellow' : 'red'  %> Vlt-badge--small"><%= response.code %></span>
-            </h5>
-          </button>
+    <%= erb :'open_api/_responses', locals: { endpoint: endpoint } %>
 
-          <div class="Vlt-accordion__content <%= expand_response ? 'Vlt-accordion__content_open' : '' %>">
-            <% response.formats.each_with_index do |format, index| %>
-              <div class="js-format" data-format="<%= format %>">
-                <% if response.exhibits_one_of_multiple_schemas?(format) %>
-                  <%= erb :'open_api/_response_tabs', locals: { format: format, endpoint: endpoint, response: response, content: :responses } %>
-                <% else %>
-                  <% schema = response.schema(format) %>
-                  <%= Nexmo::OAS::Renderer::ResponseParserDecorator.new(schema).html(format, xml_options: schema['xml']) %>
-                <% end %>
-              </div>
-            <% end %>
 
-          <% if response.code == '204' || response.formats.empty? %>
-            <% content = response.description ? response.description : 'No content' %>
-            <pre class="Vlt-prism--dark language-json Vlt-prism--copy-disabled"><code><%= content %></code></pre>
-          <% end %>
-          </div>
-        </div>
-      <% end %>
-    </div>
+
   </div>
 </div>
-
-<% endpoint.callbacks.each do |callback| %>
-  <%= erb :'open_api/_callback', locals: { callback: callback, webhook: false } %>
-<% end %>

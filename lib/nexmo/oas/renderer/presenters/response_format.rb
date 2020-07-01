@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Nexmo
   module OAS
     module Renderer
@@ -7,7 +9,7 @@ module Nexmo
             'application/json' => 'JSON',
             'application/xml' => 'XML',
             'text/xml' => 'XML',
-          }
+          }.freeze
 
           def self.to_dropdown(formats)
             MAPPINGS.slice(*formats)
@@ -18,7 +20,7 @@ module Nexmo
           end
 
           def extract
-            @formats ||= @responses.flat_map(&:formats).uniq
+            @extract ||= @responses.flat_map(&:formats).uniq
           end
         end
       end

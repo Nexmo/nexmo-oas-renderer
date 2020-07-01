@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 module Nexmo
   module OAS
     module Renderer
       module Helpers
         module Render
-
           def find_template(views, name, engine, &block)
             Array(views).each do |v|
               super(v, name, engine, &block)

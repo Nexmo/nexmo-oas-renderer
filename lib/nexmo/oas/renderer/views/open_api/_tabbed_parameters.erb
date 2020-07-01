@@ -1,6 +1,17 @@
 <%
   # Handle any cases where the top level of the oneOf is an allOf
-  schemas = schema.map { |s| body.handle_all_of(s) }
+  schemas = schema.map do |s|
+    if s['allOf']
+      newSchema = body.handle_all_of(s)
+      s.each do |k,v|
+        newSchema[k] = v
+      end
+
+      next newSchema
+    end
+    s
+  end
+
 
   panels = []
 
@@ -18,16 +29,16 @@
       'description' => schema['title'] || schema['description'],
       'parameters' => schema['properties'],
       'oneOf' => schema['oneOf'],
-      'x-tab-id' => schema['x-tab-id'],
+      'x-tab-id' => schema['x-tab-id'] || schema['title'].parameterize,
       'active' => index == 0
     })
   end
 %>
 
 <div class="Vlt-tabs js-format" data-format="<%= format %>">
-  <div class="Vlt-tabs__header Vlt-tabs__header--bordered" role="tablist" aria-label="Responses">
+  <div class="Vlt-tabs__header" role="tablist" aria-label="Responses">
     <% panels.each do |panel| %>
-      <div data-tab-link="<%= panel['x-tab-id'] %>" class="Vlt-tabs__link <%= panel['active'] ? 'Vlt-tabs__link_active' : '' %>">
+      <div role="tab" data-tab-link="<%= panel['x-tab-id'] %>" class="Vlt-tabs__link <%= panel['active'] ? 'Vlt-tabs__link_active' : '' %>">
         <%= panel['description'] %>
       </div>
     <% end %>

@@ -2,185 +2,114 @@
   model = false if model.nil?
   callback = false if callback.nil?
   format = nil if format.nil?
+
+  unless defined?(parent)
+    parent = ""
+  else
+    parent = "#{parent}."
+  end
+
+  isOneOf = false unless defined?(isOneOf)
 %>
 
-<div class="Vlt-table Vlt-section Vlt-table--bordered">
-  <table>
-    <thead>
-      <tr>
-        <th>Key</th>
-        <th>Description</th>
-        <% unless model %>
-          <th>Example</th>
-          <% unless callback %>
-            <th>Default</th>
-          <% end %>
-        <% end %>
-      </tr>
-    </thead>
-    <tbody>
-      <% parameters.each do |parameter| %>
-      <% next if parameter.name == "_links" %>
-        <tr class="<% if parameter.collection? %> Vlt-table__row--noline <% end %>">
-          <td class="Vlt-table__cell--nowrap">
-            <b><%= parameter.name %></b><br>
-            <small>
-              <% if parameter.required %>
-                <span class="flag flag--strong">Required</span>
-              <% end %>
+<% parameters.each do |parameter| %>
 
-              <% if @specification.formats.any? %>
-                <% if @specification.formats.include?('text/xml') %>
-                  <span class="js-format" data-format="text/xml">
-                    <% if parameter.is_xml_attribute? %>
-                      | <span class="flag">Attribute</span>
-                    <% end %>
-
-                    <% if parameter.is_xml_text? %>
-                      | <span class="flag">Value</span>
-                    <% end %>
-                  </span>
-                <% end %>
-              <% end %>
-
-              <i>
-                <% if parameter.required and parameter.type %>|<% end %> <%= parameter.type %>
-                <% if parameter.format %>
-                  | (<%= parameter.format %>)
-                <% end %>
-                <% if parameter.array? %>
-                  <br>
-                  <% if parameter.items && parameter.items['type'] %>
-                    of <%= (parameter.items['type']) %>s
-                  <% end %>
-                <% end %>
-              </i>
-            </small>
-          </td>
-
-        <%
-          # If it's a oneOf we show a list rather than description/example/default
-          if parameter.oneOf?
-        %>
-          <td colspan="3">
-            <h4>Any one of the following:</h4>
-            <% parameter.properties.each do |property| %>
-              <h5><%= property['description'] %></h5>
-              <%= erb :'open_api/_parameters', locals: { parameters: property['properties'], model: model, format: format, callback: callback } %>
-            <% end %>
-          </td>
-        <%
-          # Otherwise we show the remaining 3 columns
-          else
-        %>
-          <td>
-            <% if parameter.collection? || parameter.oneOf? %>
-              <% if parameter.raw['x-nexmo-developer-collection-description-shown'] %>
-                <%= (parameter.description || parameter.schema['description'] || '<i>None</i>').render_markdown %>
-              <% end %>
-            <% else %>
-              <%= (parameter.description || parameter.schema['description'] || '<i>None</i>').render_markdown %>
-            <% end %>
-
-            <% if parameter.enum %>
-              <br>
-              <small class="Vlt-grey-dark">
-                <%= (callback || model) ? "One of:" : "Must be one of:" %>
-                <%= parameter_values(parameter.enum) %>
-              </small>
-            <% end %>
-
-            <% if parameter.raw['x-possible-values'] %>
-              <br>
-              <small class="Vlt-grey-dark">
-                Will be one of:
-                <%= parameter_values(parameter.raw['x-possible-values']) %>
-              </small>
-            <% end %>
-
-            <% if parameter.minimum || parameter.maximum %>
-              <br>
-              <small class="Vlt-grey-dark">
-                <% if parameter.minimum && parameter.maximum %>
-                  Must be between <%= "<code>#{parameter.minimum}</code>"%> and <%= "<code>#{parameter.maximum}</code>"%>
-                <% elsif parameter.minimum %>
-                  Must be at least <%= "<code>#{parameter.minimum}</code>"%>
-                <% else %>
-                  Must be at most <%= "<code>#{parameter.maximum}</code>"%>
-                <% end %>
-              </small>
-            <% end %>
-          </td>
-
-          <% unless model %>
-            <% if parameter.collection? || parameter.oneOf? %>
-              <% if parameter.raw['x-nexmo-developer-collection-description-shown'] %>
-                <td>
-                  <%= (parameter.example ? "<code><pre>#{parameter.example}</pre></code>" : '')%>
-                </td>
-              <% end %>
-            <% else %>
-              <td>
-                <%= (parameter.example ? "<code>#{parameter.example.to_s.gsub("\n", "<br />")}</code>" : '<i>None</i>')%>
-              </td>
-            <% end %>
-          <% end %>
-
-          <% unless model || callback %>
-            <td>
-              <% if parameter.raw['x-default-is-meta'] %>
-                <i><%= (parameter.default.nil? ? 'None' : parameter.default) %></i>
-              <% else %>
-                <% unless parameter.type == 'object' %>
-                  <%= (parameter.default.nil? ? '<i>None</i>' : "<code>#{parameter.default}</code>")%>
-                <% end %>
-              <% end %>
-            </td>
-          <% end %>
-
-          <%
-            should_render_row = false
-            should_render_row = should_render_row || parameter.subproperties_are_one_of_many?
-            should_render_row = should_render_row || (parameter.properties && parameter.object? && parameter.properties.size.positive?)
-            should_render_row = should_render_row || (parameter.array? && parameter.items['properties'])
-          %>
-          <% if parameter.collection? && should_render_row %>
-
-            <tr class="Vlt-table__row--nohighlight">
-              <td colspan="4">
-                <% if parameter.subproperties_are_one_of_many? %>
-                  <div style="margin-left: 20px;">
-                    <h4>Any one of the following:</h4>
-                    <% parameter.properties.each do |property| %>
-                      <h5><%= property['description'] %></h5>
-                      <%= erb :'open_api/_parameters', locals: { parameters: property['properties'], model: model, format: format, callback: callback } %>
-                    <% end %>
-                  </div>
-                <% else %>
-                  <% if parameter.properties && parameter.object? && parameter.properties.size.positive? %>
-                    <%= erb :'open_api/_parameters', locals: { parameters: parameter.properties, model: model, format: format, callback: callback } %>
-                  <% end %>
-                  <% if parameter.array?
-                    items = parameter.items
-                    # Merge allOf entries
-                    if items['allOf']
-                      items = items['allOf'].reduce { |a,b| a.deep_merge(b) }
-                    end
-                    # Cast back to properties
-                    next unless items['properties']
-                    items['properties'] = items['properties'].map do |name, definition|
-                      OasParser::Property.new(nil, items, name, definition)
-                    end
-                    %>
-                    <%= erb :'open_api/_parameters', locals: { parameters: items['properties'], model: model, format: format, callback: callback } %>
-                  <% end %>
-                <% end %>
-              </td>
-            </tr>
-          <% end %>
-        <% end %>
-        </tr>
+  <div class="oas-grid">
+    <div class="oas-parameter-name <%= !parent.blank? ? 'oas-parameter-name-nested' : '' %>">
+      <% if parent.blank? %>
+          <b><%= parameter.name %></b>
+      <% else %>
+        <div class="Vlt-tooltip Vlt-tooltip--top" title="<%= parent %><%= parameter.name %>">
+          <b><%= parameter.name %></b>
+        </div>
       <% end %>
-    </tbody>
-  </table>
-</div>
+
+      <% if @specification.formats.any? %>
+        <% if @specification.formats.include?('text/xml') %>
+          <span class="js-format" data-format="text/xml">
+            <% if parameter.is_xml_attribute? %>
+              | <span class="xml-flag">Attribute</span>
+            <% end %>
+
+            <% if parameter.is_xml_text? %>
+              | <span class="xml-flag">Value</span>
+            <% end %>
+          </span>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="oas-parameter-description">
+
+      <div class="oas-parameter-meta">
+        <em>
+          <%= parameter.type %>
+          <% if parameter.format %>
+            (<%= parameter.format %>)
+          <% end %>
+
+          <% if parameter.array? %>
+            <% if parameter.items && parameter.items['type'] %>
+              of <%= (parameter.items['type']) %>s
+            <% end %>
+          <% end %>
+        </em>
+
+        <% if parameter.required and parameter.type %>|<% end %>
+        <% if parameter.required %>
+          <span class="constraint">Required</span>
+        <% end %>
+
+        <% if parameter.minimum %>
+          | <span class="constraint">Min:</span> <%= parameter.minimum %>
+        <% end %>
+        <% if parameter.maximum %>
+          | <span class="constraint">Max:</span> <%= parameter.maximum %>
+        <% end %>
+      </div>
+
+      <%= (parameter.description || parameter.schema['description'] || '').render_markdown %>
+
+      <% if parameter.enum %>
+        <small class="Vlt-grey-dark">
+          <%= (callback || model) ? "One of:" : "Must be one of:" %>
+          <%= parameter_values(parameter.enum) %>
+        </small>
+      <% end %>
+
+
+  </div>
+
+    <% if parameter.array? &&  parameter.items && parameter.items['oneOf'] %>
+
+      <%
+        # Handle specific case - an array that contains a oneOf
+        params = parameter.items['oneOf'].map do |p|
+          p['format'] = parameter.format
+          OasParser::Parameter.new(self, p)
+        end
+
+      %>
+      <div class="oas-parameter-nested">
+        <%= erb :'open_api/_tabbed_single_parameter', locals: { parent: "#{parameter.name}[]", parameters: params, format: format, callback: callback } %>
+      </div>
+
+    <% end %>
+
+    <% if parameter.array? && parameter.items && !parameter.items['oneOf'] %>
+      <%
+        # mheap: We only want to recurse if there are example properties in the array definition
+        if parameter.items['type'] && parameter.items['type'] == 'object' && parameter.items['properties']
+      %>
+        <div class="oas-parameter-nested">
+          <%= erb :'open_api/_parameters', locals: { parent: "#{parent}#{parameter.name}[]", parameters: parameter.properties, model: model, format: format, callback: callback } %>
+        </div>
+      <% end %>
+    <% end  %>
+    <% if parameter.properties && parameter.object? && parameter.properties.size.positive? %>
+      <div class="oas-parameter-nested">
+        <%= erb :'open_api/_parameters', locals: { parent: "#{parent}#{parameter.name}", parameters: parameter.properties, model: model, format: format, callback: callback } %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+

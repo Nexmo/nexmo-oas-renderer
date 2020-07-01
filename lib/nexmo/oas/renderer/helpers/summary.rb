@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Nexmo
   module OAS
     module Renderer
@@ -17,9 +19,10 @@ module Nexmo
             operation_id = operation_id.gsub(/(_|-)/, ' ').titleize
 
             # Some terms need to be capitalised all the time
-            uppercase_array = ['SMS', 'DTMF']
+            uppercase_array = %w[SMS DTMF]
             operation_id.split(' ').map do |c|
               next c.upcase if uppercase_array.include?(c.upcase)
+
               c
             end.join(' ')
           end

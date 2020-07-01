@@ -1,10 +1,6 @@
 @import "./variables";
-@import "./nexmo";
 @import "./mediaqueries";
 
 @import "./api";
-@import "./core";
-@import "./navigation";
-@import "./syntax";
-@import "./typography";
-@import "./volta-templates";
+@import "./themes/light";
+@import "./themes/dark";

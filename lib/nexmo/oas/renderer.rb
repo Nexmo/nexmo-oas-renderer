@@ -1,9 +1,9 @@
-require "nexmo/oas/renderer/version"
-require "nexmo/oas/renderer/app"
+# frozen_string_literal: true
 
-if defined?(NexmoDeveloper::Application)
-  require "nexmo/oas/engine"
-end
+require 'nexmo/oas/renderer/version'
+require 'nexmo/oas/renderer/app'
+
+require 'nexmo/oas/engine' if defined?(NexmoDeveloper::Application)
 
 module Nexmo
   module OAS
