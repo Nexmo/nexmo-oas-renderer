@@ -9,7 +9,11 @@
 <div id="response-tabs-<%= endpoint.operationId.parameterize %>" style="margin-bottom: 64px;">
   <% endpoint.responses.each_with_index do |response, index| %>
     <div class="Vlt-js-tabs__panel <%= index === 0 ? 'Vlt-js-tabs__panel_active' : '' %>">
+
+      <% missing = @specification.formats.keys %>
+
       <% response.formats.each do |format| %>
+        <% missing.delete(format) %>
         <div class="js-format" data-format="<%= format %>">
           <% if response.exhibits_one_of_multiple_schemas?(format) %>
             <%= erb :'open_api/_response_tabs', locals: { format: format, endpoint: endpoint, response: response, content: :responses } %>
@@ -25,7 +29,18 @@
         </div>
       <% end %>
 
-      <% if response.code == '204' || response.formats.empty? %>
+      <% missing.each do |format| %>
+        <div class="js-format Nxd-api__response" data-format="<%= format %>">
+          <div class="Vlt-callout Vlt-callout--warning">
+            <i></i>
+            <div class="Vlt-callout__content">
+              <p>This endpoint does not support <code><%= format %></code></p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <% if response.code == '204' %>
         <% content = response.description ? response.description : 'No content' %>
         <pre class="language-json Vlt-prism--copy-disabled <%= @theme_light ? 'Vlt-prism--dark' : '' %>"><code><%= content %></code></pre>
       <% end %>
