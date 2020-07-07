@@ -39,6 +39,20 @@
       </div>
     </div>
 
+
+    <% if @specification.groups.size > 1 %>
+      <h4>Jump to:</h4>
+      <div style="margin-bottom: 30px; padding: 8px;">
+      <% @specification.groups.each do |name, endpoints| %>
+        <% if name %>
+          <% group = definition.raw['tags'].detect { |tag| tag['name'].capitalize == name.capitalize } %>
+          <p><a href="#<%= group['name'].parameterize %>"><%= group['name'] %> &raquo;</a></p>
+          <p class="Vlt-grey-darker"><%= group['description']&.render_markdown %></p>
+        <% end %>
+      <% end %>
+      </div>
+    <% end %>
+
     <%
       # If there's only one group, everything is untagged
       if @specification.groups.size === 1
