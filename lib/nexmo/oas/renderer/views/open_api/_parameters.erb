@@ -59,11 +59,11 @@
           <span class="constraint">Required</span>
         <% end %>
 
-        <% if parameter.minimum %>
-          | <span class="constraint">Min:</span> <%= parameter.minimum %>
+        <% if parameter.minimum || parameter.raw['minLength'] || parameter.raw['minItems'] %>
+          | <span class="constraint">Min:</span> <%= parameter.minimum || parameter.raw['minLength'] || parameter.raw['minItems'] %>
         <% end %>
-        <% if parameter.maximum %>
-          | <span class="constraint">Max:</span> <%= parameter.maximum %>
+        <% if parameter.maximum || parameter.raw['maxLength'] || parameter.raw['maxItems'] %>
+          | <span class="constraint">Max:</span> <%= parameter.maximum || parameter.raw['maxLength'] || parameter.raw['maxItems'] %>
         <% end %>
       </div>
 
