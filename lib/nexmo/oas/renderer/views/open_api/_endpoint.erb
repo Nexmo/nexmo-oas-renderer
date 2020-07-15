@@ -10,7 +10,7 @@
     <% raise "`servers` parameter not provided at either the path level or document root" unless servers.size.positive? %>
 
     <%
-      path = endpoint.path.path.gsub(/\{(.+?)\}/, ':\1')
+      path = endpoint.path.path.gsub(/\{(.+?)\}/, ':\1').chomp("/")
       uri = URI("#{servers[0]['url']}#{path}")
     %>
     <div class="oas-path-full Vlt-badge-combined">
