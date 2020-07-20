@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    nexmo-oas-renderer (2.0.1)
+    nexmo-oas-renderer (2.1.0)
       activemodel (~> 6.0)
       activesupport (~> 6.0)
       banzai (~> 0.1.2)
@@ -82,7 +82,7 @@ GEM
     crass (1.0.6)
     deep_merge (1.2.1)
     diff-lcs (1.4.2)
-    dotenv (2.7.5)
+    dotenv (2.7.6)
     erubi (1.9.0)
     ffi (1.13.1)
     globalid (0.4.2)
