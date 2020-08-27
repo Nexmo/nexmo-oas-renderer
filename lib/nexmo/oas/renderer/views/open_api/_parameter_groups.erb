@@ -29,14 +29,7 @@
   <% unless endpoint.request_body.exhibits_one_of_multiple_schemas?(format) %>
 
     <%
-      # @mheap: This is hacky handling for allOf, but it works for now
-      # We probably want real allOf support in OasParser, but that's more time than I have right now
-      allOf = endpoint.request_body.content[format]['schema']['allOf']
-      if allOf
-        params = endpoint.request_body.handle_all_of(allOf)
-      else
-        params = endpoint.request_body.properties_for_format(format)
-      end
+      params = endpoint.request_body.properties_for_format(format)
       if params
     %>
 
