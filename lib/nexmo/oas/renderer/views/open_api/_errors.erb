@@ -10,18 +10,18 @@
             <div class="Vlt-col oas-right-panel"></div>
         </div>
         <div class="Vlt-grid">
-            <div class="Vlt-col Vlt-table Vlt-table--bordered oas-left-panel">
+            <div class="Vlt-col Vlt-table oas-left-panel">
                 <table>
                     <thead>
                         <tr>
-                            <th>Title</th>
+                            <th>Code</th>
                             <th>Details</th>
                         </tr>
                     </thead>
                     <tbody>
                     <% definition.raw['x-errors'].each do |name, body| %>
                         <tr>
-                            <td><b><%= name %></b></td>
+                          <td><a href="/api-errors/<%= @specification.definition_name %>#<%= name %>"><b><%= name %></b></a></td>
                             <td><%= body['description'].render_markdown %> </td>
                         </tr>
                     <% end %>
