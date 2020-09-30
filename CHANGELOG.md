@@ -1,3 +1,6 @@
+# 2.2.0
+* Add error list to API reference
+
 # 0.11.3
 * Change oas url constructor to be entire config parameter and not only partial
 * Bump websocket-extensions, fixes CVE-2020-7663
