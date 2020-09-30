@@ -13,6 +13,9 @@
     <a href="#webhooks" class="Vlt-btn Vlt-btn--tertiary group-link">Webhooks</a>
   <% end %>
 
+  <% if definition.raw['x-errors'] %>
+    <a href="#errors" class="Vlt-btn Vlt-btn--tertiary group-link">Errors</a>
+  <% end %>
 
   <% if @specification.formats.size > 1 %>
     <div class="Vlt-native-dropdown">
@@ -42,6 +45,10 @@
     <div class="oas-trigger-content">
       <% if @specification.groups.size == 1 %>
       <a href="#top" class="Vlt-btn Vlt-btn--tertiary group-link">Available Operations</a>
+      <% end %>
+
+      <% if definition.raw['x-errors'] %>
+        <a href="#errors" class="Vlt-btn Vlt-btn--tertiary group-link">Errors</a>
       <% end %>
 
       <br />
