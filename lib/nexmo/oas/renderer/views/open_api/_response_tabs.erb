@@ -1,18 +1,16 @@
-<% tabs = Nexmo::OAS::Renderer::Presenters::ResponseTabs.new(format, response, content, endpoint, theme_light: @theme_light) %>
+<%
+  tabs = Nexmo::OAS::Renderer::Presenters::ResponseTabs.new(format, response, content, endpoint, theme_light: @theme_light)
 
-<div class='Vlt-tabs js-format' data-format='<%= tabs.format %>'>
-  <div class='Vlt-tabs__header' role='tablist' aria-label='Responses'>
-    <% tabs.tab_links.each do |link| %>
-      <div role='tab' class='<%= link.css_classes %>' <% if link.data_tab_link %>data-tab-link="<%= link.data_tab_link %>"<% end %>>
-        <%= link.content %>
-      </div>
-    <% end %>
-  </div>
-  <div class='Vlt-tabs__content'>
-    <% tabs.tab_panels.each do |panel| %>
-      <div class='<%= panel.css_classes %>'>
-        <%= erb *panel.content %>
-      </div>
-    <% end %>
-  </div>
-</div>
+  switcher = Nexmo::OAS::Renderer::Presenters::ContentSwitcher.new(label: "Response Example", format: format, force_type: tabs.switcher, theme_light: @theme_light)
+
+  tabs.tab_links.each_with_index do |v,k|
+     switcher.add_content(
+       title: v.content,
+       content: (erb *tabs.tab_panels[k].content),
+       tab_id: v.data_tab_link,
+       active: k == 0
+     )
+  end
+%>
+
+<%= erb *switcher.render %>

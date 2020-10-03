@@ -8,7 +8,7 @@ module Nexmo
     module Renderer
       module Presenters
         class ResponseTabs
-          attr_reader :format
+          attr_reader :format, :switcher
 
           def initialize(format, response, content, endpoint, theme_light: nil)
             @format   = format
@@ -16,6 +16,7 @@ module Nexmo
             @content  = content
             @endpoint = endpoint
             @theme_light = theme_light
+            @switcher ||= @response.schema(@format)['x-switcher']
           end
 
           def tab_links
