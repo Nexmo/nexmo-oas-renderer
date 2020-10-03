@@ -9,6 +9,7 @@ RSpec.describe Nexmo::OAS::Renderer::Presenters::ResponseTabs do
   let(:endpoint) { instance_double(OasParser::Endpoint) }
 
   before do
+    expect(response).to receive(:schema).with(format).and_return({})
     expect(response).to receive(:split_schemas).with(format).and_return([{}, {}])
   end
 

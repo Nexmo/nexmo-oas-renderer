@@ -39,9 +39,10 @@
 
     <%
       # This can likely be better done as a presenter, but it works for now
-      schema = endpoint.request_body.content[format]['schema']['oneOf']
+      request = endpoint.request_body.content[format]['schema']
+      schema = request['oneOf']
       %>
-      <%= erb :'open_api/_tabbed_parameters', locals: { body: endpoint.request_body, schema: schema, format: format, callback: callback } %>
+      <%= erb :'open_api/_tabbed_parameters', locals: { body: endpoint.request_body, request: request, schema: schema, format: format, callback: callback } %>
     <%
     end
   end
