@@ -65,6 +65,12 @@
         <% if parameter.maximum || parameter.raw['maxLength'] %>
           | <span class="constraint">Max:</span> <%= parameter.maximum || parameter.raw['maxLength'] %>
         <% end %>
+        <% if parameter.raw['deprecated'] %>             
+          | <span class="constraint">DEPRECATED</span> <span>: This field has been deprecated. </span>          
+        <% end %>
+        <% if parameter.raw['x-replace-with']%>            
+            <span> <%= 'Please use ' + '<code>'+ parameter.raw['x-replace-with'] + '</code>' + ' instead.' %> </span>
+        <% end %>
       </div>
 
       <%= (parameter.description || parameter.schema['description'] || '').render_markdown %>
