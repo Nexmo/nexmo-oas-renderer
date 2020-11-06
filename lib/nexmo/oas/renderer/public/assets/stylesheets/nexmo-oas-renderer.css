@@ -53,6 +53,7 @@
   .oas-wrapper .oas-parameter-description {
     margin-left: 16px; }
   .oas-wrapper .oas-parameter-meta {
+    padding-bottom: 2px;
     border-bottom: 1px solid #ccc;
     margin-bottom: 4px; }
   .oas-wrapper .oas-parameter-nested {
