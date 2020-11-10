@@ -15,7 +15,7 @@ module Nexmo
             if args.length > 2
               super
             else
-              ApplicationController.renderer.render(*args)
+              ApplicationController.renderer.new(request.env).render(*args)
             end
           end
         end
