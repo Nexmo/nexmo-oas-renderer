@@ -1,4 +1,8 @@
 # Nexmo OAS Renderer
+
+![Build Status](https://github.com/Nexmo/nexmo-oas-renderer/workflows/CI/badge.svg)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE.txt)
+
 Sinatra application that provides a preview of how the OAS documents will be rendered within [Nexmo Developer](https://developer.nexmo.com/).
 
 * [Dependencies](#requirements)
