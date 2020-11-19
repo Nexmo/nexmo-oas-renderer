@@ -58,12 +58,14 @@
         <% if parameter.required %>
           <span class="constraint">Required</span>
         <% end %>
-
         <% if parameter.minimum || parameter.raw['minLength'] %>
           | <span class="constraint">Min:</span> <%= parameter.minimum || parameter.raw['minLength'] %>
         <% end %>
         <% if parameter.maximum || parameter.raw['maxLength'] %>
           | <span class="constraint">Max:</span> <%= parameter.maximum || parameter.raw['maxLength'] %>
+        <% end %>
+        <% if parameter.default || parameter.raw['default'] %>
+          | <span class="constraint">Default:</span> <%= parameter.default || parameter.raw['default'] %>
         <% end %>
         <% if parameter.raw['deprecated'] %>             
           | <span class="constraint">DEPRECATED</span> <span>: This field has been deprecated. </span>          
