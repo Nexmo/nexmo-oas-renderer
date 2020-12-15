@@ -5,7 +5,10 @@ module Nexmo
     module Renderer
       module Presenters
         class ContentSwitcher
-          def initialize(format:, label:, theme_light:, force_type: nil)
+
+          attr_reader :panels
+
+          def initialize(format:, label: nil, theme_light:, force_type: nil)
             @format = format
             @panels = []
             @label = label

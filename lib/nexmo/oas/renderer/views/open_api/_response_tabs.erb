@@ -14,32 +14,3 @@
 %>
 
 <%= erb *switcher.render %>
-
-<%
-  # If there are any examples, show them
-  examples = response.raw['content'][format]['examples']
-  if content == :responses && format == "application/json" && examples
-    example_switcher = Nexmo::OAS::Renderer::Presenters::ContentSwitcher.new(label: "Response Example", format: format, force_type: 'dropdown', theme_light: @theme_light)
-
-    examples.each_with_index do |v,k|
-      response = JSON.neat_generate(v[1], {
-                      wrap: true,
-                      after_colon: 1,
-                  })
-
-      content = <<~HEREDOC
-        <pre class="pre-wrap language-json #{@theme_light ? 'Vlt-prism--dark' : ''} Vlt-prism--copy-disabled"><code>#{response}</code></pre>
-      HEREDOC
-
-
-      example_switcher.add_content(
-        title: v[0].titleize,
-        content: content,
-        tab_id: v[0],
-        active: k == 0
-      )
-    end
-  end
-%>
-
-<%= erb *example_switcher.render if example_switcher %>
