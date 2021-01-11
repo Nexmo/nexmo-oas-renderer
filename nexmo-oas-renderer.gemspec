@@ -39,7 +39,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'nexmo_markdown_renderer', '~> 0.3'
   spec.add_runtime_dependency 'oas_parser', '~> 0.25.1'
   spec.add_runtime_dependency 'octicons_helper', '~> 8.2'
-  spec.add_runtime_dependency 'redcarpet', '3.4.0'
+  spec.add_runtime_dependency 'redcarpet', '3.5.1'
   spec.add_runtime_dependency 'sass', '~> 3.1'
   spec.add_runtime_dependency 'shotgun', '~> 0.9'
   spec.add_runtime_dependency 'sinatra', '~> 2.0'
