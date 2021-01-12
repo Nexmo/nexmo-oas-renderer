@@ -5,7 +5,6 @@ module Nexmo
     module Renderer
       module Presenters
         class ContentSwitcher
-
           attr_reader :panels
 
           def initialize(format:, label: nil, theme_light:, force_type: nil)
