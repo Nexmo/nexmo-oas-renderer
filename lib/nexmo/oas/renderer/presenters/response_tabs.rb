@@ -46,7 +46,7 @@ module Nexmo
 
           def examples_for_schema(schema)
             # If there are any examples, show them
-            examples = @response.raw['content'][@format]['examples']
+            examples = @response.raw.dig('content', @format, 'examples')
             if @content == :responses && @format == "application/json" && examples
               example_switcher = Nexmo::OAS::Renderer::Presenters::ContentSwitcher.new(format: format, force_type: 'dropdown', theme_light: @theme_light)
 
