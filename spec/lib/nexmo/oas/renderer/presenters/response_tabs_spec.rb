@@ -25,6 +25,7 @@ RSpec.describe Nexmo::OAS::Renderer::Presenters::ResponseTabs do
 
   describe '#tab_panels' do
     it 'returns instances of ResponseTab::Panel' do
+      expect(response).to receive(:raw).and_return({}).twice
       expect(subject.tab_panels).to all(
         be_an_instance_of(Nexmo::OAS::Renderer::Presenters::ResponseTab::Panel)
       )

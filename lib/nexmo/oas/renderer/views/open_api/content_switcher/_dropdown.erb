@@ -1,5 +1,7 @@
 <div class="Vlt-dropdown Vlt-dropdown--full-width">
-  <div class="Vlt-dropdown__trigger Vlt-dropdown__trigger--btn"><button class="Vlt-btn Vlt-btn--<%= (theme_light ? "secondary" : "tertiary") %>"><%= label %>: <span class="Vlt-dropdown__selection"><%= panels[0]['title'] %></span></button></div>
+  <div class="Vlt-dropdown__trigger Vlt-dropdown__trigger--btn"><button class="Vlt-btn Vlt-btn--<%= (theme_light ? "secondary" : "tertiary") %>">
+    <%= label ? "#{label}: " : ""%><span class="Vlt-dropdown__selection"><%= panels[0]['title'] %></span>
+  </button></div>
   <div class="Vlt-dropdown__panel">
     <div data-tab-content="<%= switcher.id %>" class="Vlt-dropdown__panel__content">
       <% panels.each do |panel| %>

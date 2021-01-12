@@ -24,6 +24,10 @@ module Nexmo
             end
 
             def content
+              if @content.is_a?(Nexmo::OAS::Renderer::Presenters::ContentSwitcher)
+                return @content.render
+              end
+
               if @content == :responses
                 Nexmo::OAS::Renderer::ResponseParserDecorator
                   .new(@schema)

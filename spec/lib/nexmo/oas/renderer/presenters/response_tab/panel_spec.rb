@@ -1,5 +1,6 @@
 require 'nexmo/oas/renderer/presenters/response_tab/panel'
 require 'nexmo/oas/renderer/decorators/response_parser_decorator'
+require 'nexmo/oas/renderer/presenters/content_switcher'
 
 RSpec.describe Nexmo::OAS::Renderer::Presenters::ResponseTab::Panel do
   let(:format) { 'application/json' }
