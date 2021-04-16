@@ -34,7 +34,8 @@
 
       <div class="oas-parameter-description">
         <div class="oas-parameter-meta">
-          <%= parameter['type'] %>
+          <% if parameter['nullable'] %>Nullable <% end %><%= parameter['type'] %>
+
           <% if parameter['type'] == 'array' %>
             <% if parameter['items'] && parameter['items']['type'] %>
               of <%= (parameter['items']['type']) %>s
