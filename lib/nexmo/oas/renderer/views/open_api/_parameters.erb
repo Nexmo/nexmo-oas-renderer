@@ -42,6 +42,7 @@
 
       <div class="oas-parameter-meta">
         <em>
+          <% if parameter.nullable? %>Nullable <% end %>
           <%= parameter.type %>
           <% if parameter.format %>
             (<%= parameter.format %>)
