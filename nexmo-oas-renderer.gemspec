@@ -31,8 +31,8 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_runtime_dependency 'activemodel', '~> 6.0'
-  spec.add_runtime_dependency 'activesupport', '~> 6.0'
+  spec.add_runtime_dependency 'activemodel', '~> 6.1'
+  spec.add_runtime_dependency 'activesupport', '~> 6.1'
   spec.add_runtime_dependency 'banzai', '~> 0.1.2'
   spec.add_runtime_dependency 'dotenv', '~> 2.7'
   spec.add_runtime_dependency 'neatjson', '~> 0.8'
